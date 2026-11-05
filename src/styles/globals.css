@@ -1,0 +1,90 @@
+@import "tailwindcss";
+
+@theme inline {
+  /* =========================
+     BRAND COLORS
+  ========================= */
+
+  --color-primary: #55205f;
+  --color-primary-dark: #35143e;
+  --color-primary-light: #784481;
+
+  --color-secondary: #f47735;
+  --color-secondary-dark: #db6025;
+
+  --color-accent: #f6e5f7;
+  --color-accent-light: #fdf5fd;
+
+  /* =========================
+     NEUTRAL COLORS
+  ========================= */
+
+  --color-background: #ffffff;
+  --color-surface: #faf7fa;
+
+  --color-text: #29232d;
+  --color-muted: #777079;
+
+  --color-border: #e9e1e9;
+
+  /* =========================
+     TYPOGRAPHY
+  ========================= */
+
+  --font-heading: var(--font-sora);
+  --font-sans: var(--font-dm-sans);
+}
+
+/* =========================
+   BASE STYLES
+========================= */
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-background font-sans text-text antialiased;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-heading;
+  }
+
+  button,
+  a {
+    @apply transition-colors duration-300;
+  }
+
+  button {
+    cursor: pointer;
+  }
+
+  ::selection {
+    background: #55205f;
+    color: #ffffff;
+  }
+}
+
+
+@layer components {
+  .section-heading {
+    @apply font-heading text-primary font-bold;
+    font-size: clamp(30px, 4vw, 52px);
+    line-height: 1.12;
+    letter-spacing: -0.055em;
+  }
+}
+
+
+.lab-card-visible {
+  animation: spectrum-card-pop 1300ms
+    cubic-bezier(0.22, 1, 0.36, 1)
+    var(--pop-delay) both;
+}

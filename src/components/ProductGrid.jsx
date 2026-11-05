@@ -1,0 +1,95 @@
+"use client";
+
+import { useState } from "react";
+import { ArrowDown, Check } from "lucide-react";
+import { products } from "@/data/products";
+import ProductCard from "./ProductCard";
+import QuickView from "./QuickView";
+
+const PRODUCTS_PER_PAGE = 8;
+
+export default function ProductGrid() {
+  const [quickViewProduct, setQuickViewProduct] = useState(null);
+  const [visibleCount, setVisibleCount] = useState(PRODUCTS_PER_PAGE);
+
+  const activeProducts = products.filter((product) => product.active !== false);
+
+  const visibleProducts = activeProducts.slice(0, visibleCount);
+  const totalProducts = activeProducts.length;
+  const hasMore = visibleCount < totalProducts;
+
+  const loadMore = () => {
+    setVisibleCount((prev) =>
+      Math.min(prev + PRODUCTS_PER_PAGE, totalProducts),
+    );
+  };
+
+  return (
+    <section
+      id="shop"
+      className="bg-white px-4 py-18 sm:px-6 lg:px-8"
+    >
+      <div className="mx-auto max-w-7xl">
+        <div className="mb-10 flex flex-col justify-between gap-5 sm:flex-row sm:items-end">
+          <div>
+            <span className="text-secondary font-sans text-[11px] font-bold tracking-[0.22em] uppercase">
+              Explore The Collection
+            </span>
+            <h2 className="font-heading text-primary mt-3 text-[clamp(34px,4vw,58px)] leading-tight font-bold tracking-[-0.06em]">
+              Precision in Every Vial.
+            </h2>
+            <p className="text-muted text-md mt-2 max-w-xl font-sans leading-relaxed">
+              Discover the Spectrum Biosciences research collection.
+            </p>
+          </div>
+          <span className="border-primary/15 text-primary self-start rounded-full border px-5 py-2.5 font-sans text-[12px] font-semibold">
+            {totalProducts} Products
+          </span>
+        </div>
+
+        <div className="grid grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-3 xl:grid-cols-4">
+          {visibleProducts.map((product) => (
+            <ProductCard
+              key={product.id}
+              product={product}
+              onQuickView={setQuickViewProduct}
+            />
+          ))}
+        </div>
+
+        <div className="mt-12 flex flex-col items-center">
+          {hasMore ? (
+            <button
+              type="button"
+              onClick={loadMore}
+              className="group border-primary bg-primary hover:bg-primary-dark mt-7 inline-flex items-center gap-5 rounded-full border px-7 py-3.5 font-sans text-sm font-semibold text-white transition-all duration-300 hover:shadow-[0_12px_30px_rgba(85,32,95,0.2)]"
+            >
+              Load More Products
+              <span className="flex h-8 w-8 items-center justify-center rounded-full bg-white/15 transition-transform duration-300 group-hover:translate-y-1">
+                <ArrowDown size={18} strokeWidth={1.8} />
+              </span>
+            </button>
+          ) : (
+            <div className="bg-accent-light text-primary mt-7 flex items-center gap-2 rounded-full px-5 py-3 font-sans text-sm font-semibold">
+              <Check size={17} />
+              You've viewed all products
+            </div>
+          )}
+        </div>
+      </div>
+
+      {quickViewProduct && (
+        <QuickView
+          product={quickViewProduct}
+          onClose={() => setQuickViewProduct(null)}
+        />
+      )}
+    </section>
+  );
+}
+
+// <QuickView
+//   product={quickViewProduct}
+//   onClose={() => setQuickViewProduct(null)}
+//   onAddToCart={handleAddToCart}
+// />
