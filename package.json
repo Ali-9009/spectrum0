@@ -19,6 +19,8 @@
     "@lordicon/react": "^2.0.0",
     "@t3-oss/env-nextjs": "^0.12.0",
     "aos": "^2.3.4",
+    "bcryptjs": "^3.0.3",
+    "better-sqlite3": "^13.0.3",
     "framer-motion": "^14.9.1",
     "gsap": "^3.15.1",
     "lucide-react": "^1.68.0",

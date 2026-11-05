@@ -1,6 +1,7 @@
 import CartShell from "@/components/cart/CartShell";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
+import ResearcherGate from "@/components/ResearcherGate";
 import "@/styles/globals.css";
 
 import { Sora, DM_Sans } from "next/font/google";
@@ -32,6 +33,7 @@ export default function RootLayout({ children }) {
           {children}
           <Footer />
         </CartShell>
+         <ResearcherGate />
       </body>
     </html>
   );
