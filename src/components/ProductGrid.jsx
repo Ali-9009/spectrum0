@@ -32,10 +32,11 @@ export default function ProductGrid() {
       <div className="mx-auto max-w-7xl">
         <div className="mb-10 flex flex-col justify-between gap-5 sm:flex-row sm:items-end">
           <div>
-            <span className="text-secondary font-sans text-[11px] font-bold tracking-[0.22em] uppercase">
+            <span className="text-secondary inline-flex items-center gap-2 font-sans text-[11px] font-bold tracking-[0.2em] uppercase">
+              <span className="bg-secondary h-2 w-2 rounded-full" />
               Explore The Collection
             </span>
-            <h2 className="font-heading text-primary mt-3 text-[clamp(34px,4vw,58px)] leading-tight font-bold tracking-[-0.06em]">
+            <h2 className="section-heading mt-2">
               Precision in Every Vial.
             </h2>
             <p className="text-muted text-md mt-2 max-w-xl font-sans leading-relaxed">

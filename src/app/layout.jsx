@@ -1,3 +1,4 @@
+import CartShell from "@/components/cart/CartShell";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import "@/styles/globals.css";
@@ -26,9 +27,11 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" className={`${headingFont.variable} ${bodyFont.variable}`}>
       <body className="antialiased">
-        <Header />
-        {children}
-        <Footer />
+        <CartShell>
+          <Header />
+          {children}
+          <Footer />
+        </CartShell>
       </body>
     </html>
   );

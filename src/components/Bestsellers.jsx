@@ -5,14 +5,29 @@ import Image from "next/image";
 import { ArrowUpRight, ArrowRight, FlaskConical } from "lucide-react";
 import { products } from "@/data/products";
 
-const bestsellers = products
-  .filter((product) => product.active !== false)
-  .filter((product) => /best.?sell/i.test(product.badge || ""));
+function getDisplayProducts(currentProduct) {
+  const availableProducts = products.filter(
+    (product) =>
+      product.active !== false && product.slug !== currentProduct?.slug,
+  );
 
-const displayProducts = bestsellers.length
-  ? bestsellers
-  : products.filter((product) => product.active !== false).slice(0, 8);
+  if (currentProduct) {
+    return availableProducts
+      .sort((a, b) => {
+        const aMatch = a.category === currentProduct.category ? 1 : 0;
+        const bMatch = b.category === currentProduct.category ? 1 : 0;
 
+        return bMatch - aMatch;
+      })
+      .slice(0, 8);
+  }
+
+  const bestsellers = availableProducts.filter((product) =>
+    /best.?sell/i.test(product.badge || ""),
+  );
+
+  return bestsellers.length ? bestsellers : availableProducts.slice(0, 8);
+}
 function BestsellerCard({ product }) {
   const variant = product.variants?.[product.defaultVariant ?? 0];
   const price = variant?.price;
@@ -109,8 +124,12 @@ function BestsellerCard({ product }) {
   );
 }
 
-export default function Bestsellers() {
+export default function Bestsellers({ currentProduct = null }) {
+  const displayProducts = getDisplayProducts(currentProduct);
+
   if (!displayProducts.length) return null;
+
+  const isProductPage = Boolean(currentProduct);
 
   const marqueeProducts =
     displayProducts.length >= 4
@@ -126,18 +145,29 @@ export default function Bestsellers() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
           <div className="max-w-[650px]">
-            <span className="text-secondary mb-4 inline-flex items-center gap-2 font-sans text-[11px] font-bold tracking-[0.17em] uppercase">
+            <span className="text-secondary mb-2 inline-flex items-center gap-2 font-sans text-[11px] font-bold tracking-[0.17em] uppercase">
               <span className="bg-secondary h-2 w-2 rounded-full" />
-              Explore Spectrum
+
+              {isProductPage ? "Continue Exploring" : "Explore Spectrum"}
             </span>
 
             <h2 id="bestsellers-title" className="section-heading">
-              Research <span className="text-secondary">Favorites.</span>
+              {isProductPage ? (
+                <>
+                  Discover More{" "}
+                  <span className="text-secondary">From Spectrum.</span>
+                </>
+              ) : (
+                <>
+                  Research <span className="text-secondary">Favorites.</span>
+                </>
+              )}
             </h2>
 
-            <p className="text-muted text-md mt-4 max-w-[480px] font-sans leading-[1.8]">
-              Explore standout products from the Spectrum collection, presented
-              with a closer look at every detail.
+            <p className="text-muted mt-4 max-w-[480px] font-sans text-[14px] leading-[1.8] sm:text-[15px]">
+              {isProductPage
+                ? "Explore more research compounds from the Spectrum collection and find your next laboratory essential."
+                : "Explore standout products from the Spectrum collection, presented with a closer look at every detail."}
             </p>
           </div>
 

@@ -167,12 +167,12 @@ export default function LabVerification() {
     >
       <div className="mx-auto max-w-7xl">
         <header className="relative z-10 mx-auto max-w-3xl text-center">
-          <span className="border-primary/10 text-primary mb-4 inline-flex items-center gap-2 rounded-full border bg-[#F9F1FA] px-4 py-2 font-sans text-[11px] font-bold tracking-[0.17em] uppercase">
+          <span className="text-secondary inline-flex items-center gap-2 font-sans text-[11px] font-bold tracking-[0.2em] uppercase">
             <span className="bg-secondary h-2 w-2 rounded-full" />
             Laboratory Documentation
           </span>
 
-          <h2 id="verification-title" className="section-heading">
+          <h2 id="verification-title" className="section-heading mt-2">
             Five Checks.
             <br />
             <span className="text-secondary">One Clearer Record.</span>

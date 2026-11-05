@@ -103,7 +103,7 @@ function HeroIntro() {
           <ArrowUpRight size={17} />
         </span>
       </Link>
-      <div className="mt-7 flex items-center gap-3">
+      {/* <div className="mt-7 flex items-center gap-3">
         <div className="flex -space-x-2">
           {["01", "02", "03"].map((item) => (
             <span
@@ -122,7 +122,7 @@ function HeroIntro() {
             Explore the Spectrum collection
           </p>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 }

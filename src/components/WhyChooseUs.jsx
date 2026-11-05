@@ -139,7 +139,7 @@ export default function WhyChooseUs() {
               The Spectrum Difference
             </span>
 
-            <h2 id="why-title" className="section-heading mt-4">
+            <h2 id="why-title" className="section-heading mt-2">
               Why Choose
               <br />
               Spectrum?

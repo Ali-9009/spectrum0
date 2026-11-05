@@ -173,12 +173,13 @@ export default function Faqs() {
 
       <div className="relative mx-auto max-w-7xl">
         <header className="mx-auto max-w-[680px] text-center">
-          <span className="border-primary/10 text-primary mb-4 inline-flex items-center gap-2 rounded-full border bg-white px-4 py-2 font-sans text-[10px] font-bold tracking-[0.18em] uppercase sm:text-[11px]">
+  
+          <span className="text-secondary inline-flex items-center gap-2 font-sans text-[11px] font-bold tracking-[0.2em] uppercase">
             <span className="bg-secondary h-2 w-2 rounded-full" />
             The Answer Lab
           </span>
 
-          <h2 id="faq-title" className="section-heading">
+          <h2 id="faq-title" className="section-heading mt-2">
             Curious Minds.
             <br />
             <span className="text-secondary">Clear Answers.</span>
@@ -190,7 +191,7 @@ export default function Faqs() {
           </p>
         </header>
 
-        <div className="mx-auto mt-10 w-full max-w-5xl sm:mt-12 lg:mt-14">
+        <div className="mx-auto mt-10 w-full max-w-7xl sm:mt-12 lg:mt-14">
           <div className="min-w-0">
             <div className="mb-8 flex flex-wrap justify-center gap-2 sm:gap-3">
               {categories.map((item) => {
@@ -202,7 +203,7 @@ export default function Faqs() {
                     type="button"
                     onClick={() => handleCategoryChange(item)}
                     aria-pressed={selected}
-                    className={`rounded-full border px-4 py-2.5 font-sans text-[11px] font-semibold transition-all duration-300 sm:px-5 sm:text-[12px] ${
+                    className={`rounded-full border px-4 py-2.5 font-sans text-sm font-semibold transition-all duration-300 sm:px-5 ${
                       selected
                         ? "border-primary bg-primary text-white shadow-[0_8px_20px_rgba(85,32,95,0.13)]"
                         : "border-primary/10 text-primary hover:border-primary/30 bg-white hover:bg-[#F6E5F7]"

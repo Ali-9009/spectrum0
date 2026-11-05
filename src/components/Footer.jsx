@@ -78,7 +78,7 @@ export default function Footer() {
   return (
     <footer className="relative overflow-hidden bg-[#FCF6F0] text-[#29232D]">
       <div className="relative mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
-        <div className="border-primary/10 grid gap-10 border-b py-14 sm:grid-cols-2 sm:gap-12 lg:grid-cols-[1.3fr_0.8fr_0.9fr_0.9fr] lg:py-20">
+        <div className="border-primary/10 grid gap-10 border-b py-14 sm:grid-cols-2 sm:gap-12 lg:grid-cols-[1.3fr_0.8fr_0.9fr_0.9fr]">
           <div className="max-w-[320px]">
             <Link href="/" aria-label="Spectrum Biosciences home">
               <Image
@@ -122,7 +122,7 @@ export default function Footer() {
           <FooterColumn title="Information" links={footerLinks.policies} />
         </div>
 
-        <div className="flex flex-col gap-4 py-6 sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex flex-col gap-4 pt-6 sm:flex-row sm:items-center sm:justify-between">
           <p className="font-sans text-[11px] text-[#8B7E8E] sm:text-[12px]">
             © {new Date().getFullYear()} Spectrum Biosciences. All rights
             reserved.
@@ -152,9 +152,9 @@ export default function Footer() {
 
         <div
           aria-hidden="true"
-          className="pointer-events-none overflow-hidden select-none"
+          className="pointer-events-none relative mt-6 w-full overflow-hidden select-none"
         >
-          <span className="font-heading block translate-y-[22%] text-center text-[clamp(70px,16vw,240px)] leading-none font-extrabold tracking-[-0.095em] text-[#E8D8EB]">
+          <span className="font-heading block w-full [mask-image:linear-gradient(to_bottom,black_0%,black_15%,transparent_85%)] text-center text-[clamp(36px,13.5vw,220px)] leading-[0.95] font-extrabold tracking-[-0.095em] whitespace-nowrap text-[#E8D8EB] sm:text-[clamp(60px,14vw,220px)]">
             SPECTRUM
           </span>
         </div>

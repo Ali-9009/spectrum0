@@ -364,7 +364,7 @@ export default function HowItWorks() {
 
       <div className="relative mx-auto max-w-7xl">
         <header className="relative z-10 max-w-[720px]">
-          <span className="text-secondary mb-3 inline-flex items-center gap-2 font-sans text-[11px] font-bold tracking-[0.18em] uppercase">
+          <span className="text-secondary mb-2 inline-flex items-center gap-2 font-sans text-[11px] font-bold tracking-[0.18em] uppercase">
             <span className="bg-secondary h-2 w-2 rounded-full" />
             From Order to Delivery
           </span>

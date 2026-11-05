@@ -5,6 +5,7 @@ import Hero from "@/components/Hero";
 import HowItWorks from "@/components/HowItWorks";
 import LabVerification from "@/components/LabVerification";
 import ProductGrid from "@/components/ProductGrid";
+import USShippingCoverage from "@/components/shipping/USShippingCoverage";
 import WhyChooseUs from "@/components/WhyChooseUs";
 import { ArrowUpRight, Sparkles } from "lucide-react";
 import Image from "next/image";
@@ -77,6 +78,7 @@ export default function HomePage() {
       </section>
 
       <Faqs />
+      <USShippingCoverage />
       <CTASection />
     </main>
   );

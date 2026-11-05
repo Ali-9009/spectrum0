@@ -3,28 +3,74 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowUpRight, Eye, FlaskConical } from "lucide-react";
+
+import {
+  ArrowUpRight,
+  Eye,
+  FlaskConical,
+  ShoppingBag,
+  Check,
+} from "lucide-react";
+
+import { useCart } from "@/context/CartContext";
 
 export default function ProductCard({ product, onQuickView }) {
   const [selectedVariant, setSelectedVariant] = useState(
     product.defaultVariant ?? 0,
   );
 
-  const variant = product.variants[selectedVariant];
+  const [adding, setAdding] = useState(false);
+  const [error, setError] = useState("");
+
+  const { addItem } = useCart();
+
+  const variant = product.variants?.[selectedVariant];
+
+  const inStock =
+    variant?.inStock !== false &&
+    (variant?.stock == null || Number(variant.stock) > 0);
+
+  const hasPrice =
+    variant?.price != null && Number.isFinite(Number(variant.price));
+
+  const canAdd = Boolean(variant && inStock && hasPrice);
 
   const formatPrice = (price) => {
     if (price == null) return null;
+
     return new Intl.NumberFormat("en-US", {
       style: "currency",
       currency: "USD",
-    }).format(price);
+    }).format(Number(price));
+  };
+
+  const handleAddToCart = () => {
+    if (!canAdd || adding) return;
+
+    try {
+      setAdding(true);
+      setError("");
+
+      // Adds one bottle of the selected strength.
+      // CartContext automatically opens CartDrawer.
+      addItem(product, variant, 1);
+    } catch (error) {
+      setError(error.message || "Unable to add to cart.");
+    } finally {
+      setAdding(false);
+    }
   };
 
   return (
     <article className="group hover:border-primary/20 relative flex h-full flex-col overflow-hidden rounded-[24px] border border-[#EEE5EF] bg-white transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_25px_60px_rgba(85,32,95,0.1)]">
-      <div className="relative aspect-4/4 overflow-hidden bg-[#F8EFF9]">
+      {/* PRODUCT IMAGE */}
+
+      <div className="relative aspect-square overflow-hidden bg-[#F8EFF9]">
         <div className="pointer-events-none absolute -top-20 -right-20 h-60 w-60 rounded-full bg-[#E9C6EE]/50 blur-[65px]" />
+
         <div className="pointer-events-none absolute -bottom-20 -left-20 h-60 w-60 rounded-full bg-white/80 blur-[65px]" />
+
+        {/* QUICK VIEW */}
 
         <button
           type="button"
@@ -35,10 +81,12 @@ export default function ProductCard({ product, onQuickView }) {
           <Eye size={20} strokeWidth={1.7} />
         </button>
 
+        {/* IMAGE LINK */}
+
         <Link
           href={`/products/${product.slug}`}
           aria-label={`View ${product.name}`}
-          className="relative flex h-full w-full items-center justify-center p-8"
+          className="relative flex h-full w-full items-center justify-center"
         >
           {product.image ? (
             <Image
@@ -46,7 +94,7 @@ export default function ProductCard({ product, onQuickView }) {
               alt={product.name}
               fill
               sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
-              className="object-cover drop-shadow-[0_20px_18px_rgba(65,20,75,0.15)] transition-transform duration-700 ease-out group-hover:scale-110"
+              className="object-cover transition-transform duration-700 ease-out group-hover:scale-110"
             />
           ) : (
             <div className="flex flex-col items-center gap-4 text-center">
@@ -57,6 +105,7 @@ export default function ProductCard({ product, onQuickView }) {
                   className="text-primary/45"
                 />
               </div>
+
               <span className="text-primary/40 font-sans text-[11px] font-medium tracking-[0.15em] uppercase">
                 Spectrum Biosciences
               </span>
@@ -65,51 +114,87 @@ export default function ProductCard({ product, onQuickView }) {
         </Link>
       </div>
 
+      {/* PRODUCT INFORMATION */}
+
       <div className="flex flex-1 flex-col p-4 sm:p-5">
+        {/* TITLE */}
+
         <Link href={`/products/${product.slug}`} className="group/title">
-          <h3 className="font-heading text-primary group-hover/title:text-primary-light sm:text-md leading-[1.35] font-semibold tracking-[-0.04em] transition-colors">
+          <h3 className="font-heading text-primary group-hover/title:text-secondary text-[16px] leading-[1.35] font-semibold tracking-[-0.04em] transition-colors sm:text-[18px]">
             {product.name}
           </h3>
         </Link>
 
         <div className="mt-auto pt-5">
+          {/* VARIANT SELECTOR */}
+
           <div className="flex flex-wrap gap-2">
-            {product.variants.map((item, index) => (
-              <button
-                key={item.id}
-                type="button"
-                onClick={() => setSelectedVariant(index)}
-                aria-pressed={selectedVariant === index}
-                className={`min-h-9 rounded-full border px-3.5 py-1.5 font-sans text-[12px] font-semibold transition-all duration-300 ${
-                  selectedVariant === index
-                    ? "border-primary bg-primary text-white"
-                    : "text-primary hover:border-primary border-[#E7DCE9] bg-[#FAF7FB]"
-                }`}
-              >
-                {item.label}
-              </button>
-            ))}
+            {product.variants?.map((item, index) => {
+              const selected = selectedVariant === index;
+
+              const unavailable =
+                item.inStock === false ||
+                (item.stock != null && Number(item.stock) < 1);
+
+              return (
+                <button
+                  key={item.id}
+                  type="button"
+                  disabled={unavailable}
+                  onClick={() => {
+                    setSelectedVariant(index);
+                    setError("");
+                  }}
+                  aria-pressed={selected}
+                  className={`min-h-9 rounded-full border px-3.5 py-1.5 font-sans text-[12px] font-semibold transition-all duration-300 ${
+                    selected
+                      ? "border-primary bg-primary text-white"
+                      : "text-primary hover:border-primary border-[#E7DCE9] bg-[#FAF7FB]"
+                  } ${unavailable ? "cursor-not-allowed opacity-40" : ""}`}
+                >
+                  {item.label}
+                </button>
+              );
+            })}
           </div>
+
+          {/* PRICE */}
 
           <div className="mt-5 flex items-center justify-between border-t border-[#F0E8F1] pt-4">
             <div>
               <p className="font-heading text-primary text-[20px] font-bold tracking-tight">
-                {formatPrice(variant.price) ?? "Price pending"}
+                {hasPrice ? formatPrice(variant.price) : "Price pending"}
               </p>
             </div>
-
-            <Link
-              href={`/products/${product.slug}?variant=${encodeURIComponent(variant.id)}`}
-              aria-label={`View ${product.name} ${variant.label}`}
-              className="bg-primary hover:bg-secondary flex h-12 w-12 items-center justify-center rounded-full text-white transition-all duration-300"
-            >
-              <ArrowUpRight
-                size={21}
-                strokeWidth={1.8}
-                className="transition-transform duration-300 group-hover:rotate-45"
-              />
-            </Link>
           </div>
+
+          {/* ADD TO CART */}
+
+          <button
+            type="button"
+            onClick={handleAddToCart}
+            disabled={!canAdd || adding}
+            className="bg-primary mt-4 flex h-10 w-full items-center justify-center gap-1.5 rounded-full px-2 text-sm font-semibold whitespace-nowrap text-white transition-all duration-300 hover:bg-[#35143E] disabled:cursor-not-allowed disabled:opacity-50 sm:h-11"
+          >
+            <span>
+              {!inStock
+                ? "Out of Stock"
+                : !hasPrice
+                  ? "Unavailable"
+                  : adding
+                    ? "Adding..."
+                    : "Add to Cart"}
+            </span>
+            {canAdd && <ArrowUpRight size={15} className="shrink-0" />}
+          </button>
+
+          {/* ERROR MESSAGE */}
+
+          {error && (
+            <p role="alert" className="mt-3 font-sans text-[11px] text-red-600">
+              {error}
+            </p>
+          )}
         </div>
       </div>
     </article>

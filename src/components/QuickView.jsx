@@ -2,7 +2,6 @@
 
 import { useEffect, useId, useState } from "react";
 import Image from "next/image";
-import Link from "next/link";
 import {
   ArrowRight,
   Check,
@@ -12,13 +11,16 @@ import {
   ShoppingBag,
   X,
 } from "lucide-react";
+import { useCart } from "@/context/CartContext";
 import {
   PACK_OPTIONS,
   getPackPrice,
   formatMoney,
 } from "@/data/product-detail-config";
 
-export default function QuickView({ product, onClose, onAddToCart }) {
+export default function QuickView({ product, onClose }) {
+  const { addItem } = useCart();
+  const [cartError, setCartError] = useState("");
   const titleId = useId();
   const [selectedVariant, setSelectedVariant] = useState(
     product.defaultVariant ?? 0,
@@ -40,7 +42,7 @@ export default function QuickView({ product, onClose, onAddToCart }) {
   const stock = Number(variant?.stock ?? Infinity);
   const availablePacks = Math.floor(stock / packSize);
   const inStock = variant?.inStock !== false && availablePacks >= quantity;
-  const canAdd = hasPrice && inStock && typeof onAddToCart === "function";
+  const canAdd = hasPrice && Number.isFinite(unitPrice) && inStock;
 
   useEffect(() => {
     const previousOverflow = document.body.style.overflow;
@@ -64,20 +66,13 @@ export default function QuickView({ product, onClose, onAddToCart }) {
 
   const handleAddToCart = () => {
     if (!canAdd) return;
-
-    onAddToCart({
-      product,
-      variant,
-      packSize,
-      packQuantity: quantity,
-      bottleQuantity: totalBottles,
-      discountPercent: discount,
-      unitPrice,
-      packPrice,
-      totalPrice,
-    });
-
-    onClose();
+    try {
+      setCartError("");
+      addItem(product, variant, quantity, { packSize, discountPercent: discount });
+      onClose();
+    } catch (error) {
+      setCartError(error?.message || "Unable to add product to cart.");
+    }
   };
 
   return (
@@ -315,13 +310,7 @@ export default function QuickView({ product, onClose, onAddToCart }) {
                 >
                   <ShoppingBag size={17} className="shrink-0" />
                   <span>
-                    {!inStock
-                      ? "Out of Stock"
-                      : !hasPrice
-                        ? "Unavailable"
-                        : !onAddToCart
-                          ? "Cart Unavailable"
-                          : "Add to Cart"}
+                    {!inStock ? "Out of Stock" : !hasPrice ? "Unavailable" : "Add to Cart"}
                   </span>
                   <ArrowRight size={16} className="hidden sm:block" />
                 </button>
@@ -332,6 +321,7 @@ export default function QuickView({ product, onClose, onAddToCart }) {
                   </span>
                 </div>
               </div>
+              {cartError && <p role="alert" className="mt-2 text-xs text-red-600">{cartError}</p>}
             </div>
           </div>
         </div>
