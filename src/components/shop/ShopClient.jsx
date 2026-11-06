@@ -99,16 +99,7 @@ export default function ShopClient({ initialSearch = "" }) {
             </div>
 
             <div className="flex items-center justify-between gap-3 sm:justify-end">
-              <button
-                type="button"
-                onClick={() => setFiltersOpen((value) => !value)}
-                aria-expanded={filtersOpen}
-                aria-controls="shop-category-filters"
-                className="text-primary inline-flex h-11 items-center gap-2 rounded-full border border-[#E8DCEA] px-4 text-xs font-semibold lg:hidden"
-              >
-                <SlidersHorizontal size={16} />
-                Categories
-              </button>
+             
 
               <div className="relative">
                 <label htmlFor="shop-sort" className="sr-only">
