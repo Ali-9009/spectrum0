@@ -136,7 +136,7 @@ export default function Bestsellers({ currentProduct = null }) {
     <section
       id="bestsellers"
       aria-labelledby="bestsellers-title"
-      className="relative overflow-hidden px-4 md:py-16 sm:px-6 lg:px-10"
+      className="relative overflow-hidden px-4 sm:px-6 md:py-16 lg:px-10"
     >
       <div className="mx-auto max-w-7xl">
         <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
@@ -148,8 +148,7 @@ export default function Bestsellers({ currentProduct = null }) {
             <h2 id="bestsellers-title" className="section-heading">
               {isProductPage ? (
                 <>
-                  Discover More{" "}
-                  <span className="text-secondary">From Spectrum.</span>
+                  Related <span className="text-secondary">Compounds.</span>
                 </>
               ) : (
                 <>
@@ -157,24 +156,7 @@ export default function Bestsellers({ currentProduct = null }) {
                 </>
               )}
             </h2>
-
-            <p className="text-muted text-md mt-4 max-w-[480px] font-sans">
-              {isProductPage
-                ? "Explore more research compounds from the Spectrum collection and find your next laboratory essential."
-                : "Explore standout products from the Spectrum collection, presented with a closer look at every detail."}
-            </p>
           </div>
-
-          <Link
-            href="/shop"
-            className="group border-primary/15 text-primary hover:border-primary hover:bg-primary inline-flex w-fit items-center gap-3 rounded-full border px-5 py-3 font-sans text-sm font-semibold transition-all duration-300 hover:text-white"
-          >
-            Shop All Products
-            <ArrowUpRight
-              size={18}
-              className="transition-transform duration-300 group-hover:rotate-45"
-            />
-          </Link>
         </div>
       </div>
 

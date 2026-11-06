@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { ChevronDown, Download, ExternalLink, FileText } from "lucide-react";
 import {
   ArrowRight,
   ArrowUpRight,
@@ -65,7 +66,7 @@ function Gallery({ product }) {
   return (
     <>
       <div className="lg:sticky lg:top-[100px]">
-        <div className="relative h-[350px] w-full overflow-hidden rounded-[26px] sm:h-130 lg:h-[480px] xl:h-[510px]">
+        <div className="relative h-[350px] w-full overflow-hidden rounded-[26px] sm:h-130 lg:h-140">
           {current ? (
             <Image
               key={current}
@@ -169,22 +170,21 @@ function Packs({ product, price, selectedPack, setSelectedPack, stock }) {
           </p>
           <h2
             id="packs-title"
-            className="font-heading mt-1 text-[22px] font-bold tracking-tight text-[#29232D]"
+            className="font-heading mt-1 text-[22px] font-semibold tracking-tight text-[#29232D]"
           >
             Bundle & Save
           </h2>
         </div>
-
         <span className="text-secondary rounded-full bg-[#FFF0E5] px-3 py-1.5 text-[11px] font-bold">
           UP TO 15% OFF
         </span>
       </div>
 
-      <div className="flex flex-col gap-3">
+      <div className="grid grid-cols-3 gap-1.5 sm:gap-2">
         {PACK_OPTIONS.map((pack) => {
           const selected = selectedPack === pack.quantity;
           const unavailable = pack.quantity > stock;
-
+          const bottleCount = pack.quantity === 2 ? 2 : 3;
           const total = getPackPrice(
             price,
             pack.quantity,
@@ -198,83 +198,49 @@ function Packs({ product, price, selectedPack, setSelectedPack, stock }) {
               disabled={unavailable}
               aria-pressed={selected}
               onClick={() => setSelectedPack(selected ? null : pack.quantity)}
-              className={`group relative flex w-full items-center gap-3 rounded-2xl border px-3 py-2 text-left transition-all duration-300 sm:gap-4 sm:px-4 ${
+              className={`group flex min-w-0 flex-col items-center justify-center gap-2 rounded-xl border px-2 py-3 text-center transition-all duration-300 disabled:cursor-not-allowed disabled:opacity-40 sm:px-3 ${
                 selected
-                  ? "border-primary bg-[#F8EFF9] shadow-[0_6px_20px_rgba(85,32,95,0.06)]"
-                  : "hover:border-primary/40 border-[#EAE3EB] bg-white hover:bg-[#FCF8FD]"
-              } disabled:cursor-not-allowed disabled:opacity-40`}
+                  ? "border-primary bg-[#F8EFF9]"
+                  : "hover:border-primary/40 border-[#EAE3EB] bg-white"
+              }`}
             >
-              <span
-                className={`flex size-5 shrink-0 items-center justify-center rounded-full border-2 transition-colors ${
-                  selected ? "border-primary" : "border-[#D8CBDC]"
-                }`}
-              >
-                {selected && (
-                  <span className="bg-primary size-2.5 rounded-full" />
-                )}
-              </span>
+              <div className="relative h-[75px] w-[85px] shrink-0 sm:h-[90px] sm:w-[100px]">
+                {Array.from({ length: bottleCount }).map((_, index) => {
+                  const bottleWidth = 38;
+                  const bottleHeight = 75;
+                  const stepX = 17;
+                  const groupWidth = bottleWidth + (bottleCount - 1) * stepX;
 
-              <div className="flex h-[65px] w-[75px] shrink-0 items-center justify-center rounded-xl bg-[#F7F0F8] sm:w-[90px]">
-                <div className="flex items-end justify-center">
-                  {Array.from({
-                    length: Math.min(pack.quantity, 3),
-                  }).map((_, i) => (
+                  return (
                     <div
-                      key={i}
-                      style={{ zIndex: 3 - i }}
-                      className={`relative h-[58px] w-[35px] shrink-0 ${
-                        i > 0 ? "-ml-4" : ""
-                      }`}
+                      key={index}
+                      className="absolute bottom-0"
+                      style={{
+                        width: `${bottleWidth}px`,
+                        height: `${bottleHeight}px`,
+                        left: `calc(50% - ${groupWidth / 2}px + ${index * stepX}px)`,
+                        zIndex: bottleCount - index,
+                      }}
                     >
-                      {product.image ? (
-                        <Image
-                          src={product.image}
-                          alt=""
-                          fill
-                          sizes="35px"
-                          className="object-contain drop-shadow-[0_5px_5px_rgba(45,15,55,0.15)] transition-transform duration-300 group-hover:-translate-y-1"
-                        />
-                      ) : (
-                        <FlaskConical
-                          size={25}
-                          className="text-primary/30 mt-4"
-                        />
-                      )}
+                      <Image
+                        src="/assets/cta-2.png"
+                        alt=""
+                        fill
+                        sizes="38px"
+                        className="object-contain drop-shadow-[0_3px_3px_rgba(45,15,55,0.12)] transition-transform duration-300 group-hover:-translate-y-0.5"
+                      />
                     </div>
-                  ))}
-                </div>
+                  );
+                })}
               </div>
 
-              <div className="min-w-0 flex-1">
-                <h3 className="font-heading text-primary text-[16px] font-semibold sm:text-[18px]">
-                  {pack.label}
-                </h3>
-
-                <p className="mt-1 text-sm text-[#817586]">
-                  {money(total / pack.quantity)} per bottle
+              <div className="flex min-w-0 flex-col items-center gap-1">
+                <p className="font-heading text-primary text-sm leading-tight font-semibold whitespace-nowrap">
+                  {pack.quantity} Vials
                 </p>
-
-                {unavailable && (
-                  <p className="mt-1 text-[11px] font-semibold text-red-500">
-                    Out of stock
-                  </p>
-                )}
-              </div>
-
-              <div className="flex shrink-0 flex-col items-end gap-2">
-                <span
-                  className={`rounded-full px-2.5 py-1 text-[10px] font-bold ${
-                    selected
-                      ? "bg-primary text-white"
-                      : "text-secondary bg-[#FFF0E5]"
-                  }`}
-                >
-                  SAVE {pack.discountPercent}%
-                </span>
-
-                <strong className="font-heading text-[17px] font-semibold text-[#29232D] sm:text-lg">
-                  {money(total)}
-                </strong>
+                <p className="text-xs font-bold whitespace-nowrap text-emerald-600">
+                  {pack.discountPercent}% OFF
+                </p>
               </div>
             </button>
           );
@@ -319,220 +285,62 @@ function Assurance({ product }) {
     {
       icon: Package,
       title: "Packaging",
-      description: "Packaging details are provided with your order.",
+      description: "Securely packed for delivery.",
     },
     {
       icon: Truck,
       title: "Shipping",
-      description: "Delivery rates and options appear at checkout.",
+      description: "Options shown at checkout.",
     },
     {
       icon: FileCheck2,
       title: "Documentation",
       description: product.coa
-        ? "Product certificate available."
-        : "Ask our team about available batch certificates.",
+        ? "Certificate available."
+        : "Available on request.",
       href: product.coa || "/contact",
-      text: product.coa ? "View certificate" : "Contact us",
+      text: product.coa ? "View Certificate" : "Contact Us",
       external: Boolean(product.coa),
     },
     {
       icon: Headphones,
-      title: "Need help?",
-      description: "Contact us with product questions.",
+      title: "Support",
+      description: "Questions? We're here to help.",
       href: "/contact",
-      text: "Contact us",
+      text: "Contact Us",
     },
   ];
-  return (
-    <div className="mt-7 divide-y divide-[#EDE6EE] rounded-[20px] border border-[#EDE6EE] bg-[#FCFAFC] px-5">
-      {rows.map((row) => {
-        const Icon = row.icon;
-        return (
-          <div key={row.title} className="flex gap-3 py-4">
-            <div className="text-primary grid h-12 w-12 shrink-0 place-items-center rounded-xl bg-[#F5E8F7]">
-              <Icon size={22} />
-            </div>
-            <div>
-              <h3 className="text-sm font-semibold text-[#29232D]">
-                {row.title}
-              </h3>
-              <p className="mt-1 text-sm leading-relaxed text-[#756B78]">
-                {row.description}
-              </p>
-              {row.href && (
-                <Link
-                  href={row.href}
-                  target={row.external ? "_blank" : undefined}
-                  rel={row.external ? "noopener noreferrer" : undefined}
-                  className="text-primary hover:text-secondary mt-1 inline-flex items-center gap-1 text-[11px] font-semibold"
-                >
-                  {row.text}
-                  <ArrowUpRight size={12} />
-                </Link>
-              )}
-            </div>
-          </div>
-        );
-      })}
-    </div>
-  );
-}
 
-function Documentation({ product }) {
-  const batches = Array.isArray(product.batches) ? product.batches : [];
   return (
-    <section
-      id="documentation"
-      aria-labelledby="documentation-title"
-      className="scroll-mt-28 border-t border-[#EEE7EF] py-14 sm:py-20"
-    >
-      <p className="text-secondary mb-3 text-[11px] font-bold tracking-widest uppercase">
-        Batch records
-      </p>
-      <h2 id="documentation-title" className="section-heading">
-        Laboratory Documentation
-      </h2>
-      <p className="text-md mt-2 max-w-2xl text-[#756B78]">
-        Review certificates where available, and match the lot number on your
-        vial with the certificate.
-      </p>
-      {batches.length ? (
-        <div className="mt-8 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-          {batches.map((batch, i) => (
+    <section aria-label="Product services" className="mt-8">
+      <div className="grid grid-cols-2 gap-2">
+        {rows.map((row) => {
+          const Icon = row.icon;
+          return (
             <article
-              key={batch.lot || i}
-              className="rounded-2xl border border-[#EDE5EE] bg-[#FCFAFC] p-5"
+              key={row.title}
+              className="flex min-w-0 items-start gap-2.5 rounded-xl border border-[#E9E1E9] bg-[#FAF7FA] p-3"
             >
-              <div className="flex items-center justify-between">
-                <FileCheck2 className="text-primary" />
-                <span className="text-primary rounded-full bg-[#F6E5F7] px-3 py-1 text-xs">
-                  Lot {batch.lot || "—"}
-                </span>
+              <Icon
+                size={20}
+                strokeWidth={1.7}
+                className="text-primary mt-0.5 shrink-0"
+              />
+              <div className="min-w-0">
+                <h3 className="font-heading text-primary text-sm font-semibold">
+                  {row.title}
+                </h3>
+                <p className="text-muted mt-1 text-xs leading-5">
+                  {row.description}
+                </p>
               </div>
-              <h3 className="font-heading mt-5 text-xl font-bold text-[#29232D]">
-                {product.name}
-              </h3>
-              <p className="mt-1 text-xs text-[#756B78]">
-                {batch.laboratory || "Certificate"}
-              </p>
-              <dl className="mt-5 space-y-3">
-                {[
-                  ["Reported purity", batch.purity],
-                  ["Identity", batch.identity],
-                  ["Net content", batch.netContent],
-                  ["Tested", batch.testedAt],
-                ]
-                  .filter(([, value]) => value != null && value !== "")
-                  .map(([key, value]) => (
-                    <div
-                      key={key}
-                      className="flex justify-between gap-3 text-xs"
-                    >
-                      <dt className="text-[#756B78]">{key}</dt>
-                      <dd className="font-semibold text-[#29232D]">{value}</dd>
-                    </div>
-                  ))}
-              </dl>
-              {batch.coaUrl && (
-                <a
-                  href={batch.coaUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="bg-primary mt-5 inline-flex items-center gap-2 rounded-full px-5 py-3 text-xs font-bold text-white"
-                >
-                  View PDF <ArrowUpRight size={15} />
-                </a>
-              )}
             </article>
-          ))}
-        </div>
-      ) : product.coa ? (
-        <a
-          href={product.coa}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="bg-primary mt-7 inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm font-bold text-white"
-        >
-          View Certificate <ArrowUpRight size={16} />
-        </a>
-      ) : (
-        <div className="mt-7 flex flex-wrap items-center justify-between gap-4 rounded-2xl bg-[#F7F0F9] p-6">
-          <div>
-            <h3 className="font-heading text-primary text-lg font-bold">
-              Looking for a batch certificate?
-            </h3>
-            <p className="mt-2 text-sm text-[#756B78]">
-              No certificate is currently linked to this product. Contact us to
-              ask about documentation.
-            </p>
-          </div>
-          <Link
-            href="/contact"
-            className="bg-primary rounded-full px-5 py-3 text-sm font-semibold text-white"
-          >
-            Request information
-          </Link>
-        </div>
-      )}
-      <p className="mt-4 text-xs leading-relaxed text-[#827789]">
-        Reported results apply to the specific documented batch only. Check the
-        original certificate for methods and limits.
-      </p>
-    </section>
-  );
-}
-
-function Information({ product }) {
-  return (
-    <section className="grid gap-8 border-t border-[#EEE7EF] py-14 sm:py-20 lg:grid-cols-[0.8fr_1.2fr] lg:gap-20">
-      <div>
-        <p className="text-secondary mb-3 text-xs font-bold tracking-widest uppercase">
-          The details
-        </p>
-        <h2 className="section-heading">
-          Compound Information<span className="text-secondary">.</span>
-        </h2>
-        <p className="text-primary mt-5 inline-flex items-center gap-2 rounded-full bg-[#F6E5F7] px-4 py-3 text-xs font-bold">
-          <FlaskConical size={17} /> For Research Use Only
-        </p>
-      </div>
-      <div className="space-y-8 text-sm leading-[1.85] text-[#756B78]">
-        <article>
-          <h3 className="font-heading mb-3 text-xl font-bold text-[#29232D]">
-            About {product.name}
-          </h3>
-          <p>
-            {product.longDescription ||
-              product.description ||
-              `${product.name} is listed in the Spectrum Biosciences research collection for laboratory use only.`}
-          </p>
-        </article>
-        <article className="border-t border-[#EEE7EF] pt-7">
-          <h3 className="font-heading mb-3 text-xl font-bold text-[#29232D]">
-            Handling & Storage
-          </h3>
-          <p>
-            Follow product-specific documentation and your laboratory's standard
-            operating procedures. Maintain appropriate storage conditions, safe
-            handling practices, and batch records.
-          </p>
-        </article>
-        <article className="border-t border-[#EEE7EF] pt-7">
-          <h3 className="font-heading mb-3 text-xl font-bold text-[#29232D]">
-            Research Use Disclaimer
-          </h3>
-          <p>
-            For scientific and laboratory research only. Not intended for human
-            consumption, veterinary use, or clinical administration. No dosing
-            or administration instructions are provided.
-          </p>
-        </article>
+          );
+        })}
       </div>
     </section>
   );
 }
-
 const faqs = [
   {
     q: "Is this product intended for human use?",
@@ -552,60 +360,33 @@ const faqs = [
   },
 ];
 
-function FAQs() {
-  const [open, setOpen] = useState(0);
+function ProductAccordion({ title, children, defaultOpen = false }) {
   return (
-    <section className="grid gap-8 border-t border-[#EEE7EF] pt-14 lg:grid-cols-[0.8fr_1.2fr] lg:gap-20">
-      <div>
-        <p className="text-secondary text-xs font-bold tracking-widest uppercase">
-          Need to know
-        </p>
-        <h2 className="section-heading mt-3">
-          Product FAQs<span className="text-secondary">.</span>
-        </h2>
-        <Link
-          href="/contact"
-          className="text-primary mt-5 inline-flex items-center gap-2 text-xs font-bold"
-        >
-          Ask a question <ArrowUpRight size={16} />
-        </Link>
-      </div>
-      <div className="divide-y divide-[#EEE7EF] border-t border-[#EEE7EF]">
-        {faqs.map((faq, i) => (
-          <article key={faq.q} className="py-5">
-            <button
-              type="button"
-              onClick={() => setOpen(open === i ? -1 : i)}
-              aria-expanded={open === i}
-              aria-controls={`product-faq-${i}`}
-              className="font-heading flex w-full items-center justify-between gap-4 text-left text-[16px] font-semibold text-[#29232D] sm:text-lg"
-            >
-              {faq.q}
-              <span
-                className={`grid h-9 w-9 shrink-0 place-items-center rounded-full transition-all ${open === i ? "bg-primary rotate-45 text-white" : "text-primary bg-[#F6E5F7]"}`}
-              >
-                <Plus size={17} />
-              </span>
-            </button>
-            <div
-              id={`product-faq-${i}`}
-              className={`grid transition-[grid-template-rows] duration-300 ${open === i ? "grid-rows-[1fr]" : "grid-rows-[0fr]"}`}
-            >
-              <div className="overflow-hidden">
-                <p className="pt-4 pr-8 text-sm leading-relaxed text-[#756B78]">
-                  {faq.a}
-                </p>
-              </div>
-            </div>
-          </article>
-        ))}
-      </div>
-    </section>
+    <details
+      open={defaultOpen ? true : undefined}
+      className="group border-b border-[#EEE7EF]"
+    >
+      <summary className="flex cursor-pointer list-none items-center justify-between gap-4 py-5 marker:hidden [&::-webkit-details-marker]:hidden">
+        <span className="font-heading text-primary text-[16px] font-semibold sm:text-[17px]">
+          {title}
+        </span>
+
+        <span className="text-primary flex size-9 shrink-0 items-center justify-center rounded-full bg-[#F8EFF9]">
+          <ChevronDown
+            size={18}
+            className="transition-transform duration-300 group-open:rotate-180"
+          />
+        </span>
+      </summary>
+
+      <div className="pb-6 text-sm leading-7 text-[#756B78]">{children}</div>
+    </details>
   );
 }
 
 export default function ProductDetails({ product }) {
   const variants = product.variants || [];
+
   const [variantIndex, setVariantIndex] = useState(product.defaultVariant ?? 0);
   const [selectedPack, setSelectedPack] = useState(null);
   const [quantity, setQuantity] = useState(1);
@@ -622,32 +403,97 @@ export default function ProductDetails({ product }) {
 
   useEffect(() => {
     if (!cartMessage) return;
+
     const id = setTimeout(() => setCartMessage(""), 3500);
+
     return () => clearTimeout(id);
   }, [cartMessage]);
 
   const variant = variants[variantIndex] || variants[0];
+
   const pack = PACK_OPTIONS.find((item) => item.quantity === selectedPack);
+
   const packSize = pack?.quantity ?? 1;
   const discountPercent = pack?.discountPercent ?? 0;
+
   const unitPrice = Number(variant?.price ?? 0);
+
   const hasPrice = variant?.price != null && Number.isFinite(unitPrice);
+
   const packPrice = getPackPrice(unitPrice, packSize, discountPercent);
+
   const totalPrice = Math.round(packPrice * quantity * 100) / 100;
+
   const totalBottles = packSize * quantity;
-  const savings = Math.max(
-    0,
-    Math.round((unitPrice * totalBottles - totalPrice) * 100) / 100,
-  );
+
   const stock =
     variant?.stock == null ? Infinity : Math.max(0, Number(variant.stock));
+
   const maxPacks = Math.min(99, Math.floor(stock / packSize));
+
   const canAdd = hasPrice && variant?.inStock !== false && quantity <= maxPacks;
+
+  // Use product-specific specifications when available.
+  // These fallback values are the specifications you supplied.
+  // Replace them with the correct values for each product.
+  const specifications = {
+    casNumber: product.specifications?.casNumber ?? "137525-51-0",
+
+    molecularWeight: product.specifications?.molecularWeight ?? "1419.5 g/mol",
+
+    molecularFormula:
+      product.specifications?.molecularFormula ?? "C62H98N16O22",
+
+    strengths: product.specifications?.strengths ?? variant?.label ?? "10 MG",
+
+    form: product.specifications?.form ?? "Lyophilised powder",
+
+    container: product.specifications?.container ?? "Sealed glass vial",
+
+    intendedUse:
+      product.specifications?.intendedUse ?? "In-vitro research only",
+  };
+
+  const specificationRows = [
+    {
+      label: "CAS Number",
+      value: specifications.casNumber,
+    },
+    {
+      label: "Molecular Weight",
+      value: specifications.molecularWeight,
+    },
+    {
+      label: "Molecular Formula",
+      value: specifications.molecularFormula,
+    },
+    {
+      label: "Strengths",
+      value: specifications.strengths,
+    },
+    {
+      label: "Form",
+      value: specifications.form,
+    },
+    {
+      label: "Container",
+      value: specifications.container,
+    },
+    {
+      label: "Intended Use",
+      value: specifications.intendedUse,
+    },
+  ];
+
+  // Example:
+  // coaPdf: "/certificates/product-coa.pdf"
+  const certificatePdf = "/assets/certificate.pdf";
 
   const changeVariant = (index) => {
     setVariantIndex(index);
     setQuantity(1);
   };
+
   const changePack = (size) => {
     setSelectedPack(size);
     setQuantity(1);
@@ -660,12 +506,11 @@ export default function ProductDetails({ product }) {
     }
 
     try {
-      // CartContext stores one row per product, strength, and selected pack.
-      // Its addItem() opens CartDrawer automatically.
       addItem(product, variant, quantity, {
         packSize,
         discountPercent,
       });
+
       setCartMessage("");
     } catch (error) {
       setCartMessage(error?.message || "Unable to add product to cart.");
@@ -673,35 +518,61 @@ export default function ProductDetails({ product }) {
   };
 
   return (
-    <main className="min-h-screen">
-      <section className="px-4 pt-8 pb-16 sm:px-6 lg:px-10 lg:pt-12">
-        <div className="mx-auto grid max-w-7xl items-start gap-10 lg:grid-cols-[0.95fr_1.05fr] lg:gap-12 xl:gap-16">
-          <Gallery product={product} />
+    <main className="min-h-screen bg-white pb-24 lg:pb-0">
+      {/* PRODUCT DETAILS */}
+
+      <section className="px-4 pt-8 pb-12 sm:px-6 lg:px-10 lg:pt-12 lg:pb-16">
+        <div className="mx-auto grid max-w-7xl items-start gap-8 lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)] lg:gap-10">
+          {/* LEFT - PRODUCT GALLERY 60% */}
+
+          <div className="min-w-0 self-stretch">
+            <div className="lg:sticky lg:top-24">
+              <Gallery product={product} />
+            </div>
+          </div>
+
+          {/* RIGHT - PRODUCT INFORMATION 40% */}
+
           <div className="min-w-0">
-           
+            {/* CATEGORY */}
+
             <div className="flex flex-wrap items-center gap-2">
-              <span className="text-primary rounded-full bg-[#F6E5F7] px-3 py-1.5 text-[10px] font-bold tracking-widest uppercase">
+              <span className="text-primary rounded-full bg-[#F6E5F7] px-3 py-1.5 text-xs font-semibold tracking-widest uppercase">
                 {product.category || "Research compound"}
               </span>
             </div>
-            <h1 className="font-heading mt-4 text-[clamp(34px,4vw,54px)] leading-tight font-bold tracking-[-0.06em] text-[#29232D]">
+
+            {/* PRODUCT NAME */}
+
+            <h1 className="font-heading mt-4 text-[clamp(30px,3.5vw,48px)] leading-[1.1] font-semibold tracking-[-0.06em] text-[#29232D]">
               {product.name}
             </h1>
-            <p className="max-w-xl text-[13px] leading-[1.8] text-[#756B78] sm:text-sm">
-              {product.description ||
-                `${product.name} is part of the Spectrum Biosciences collection for scientific and laboratory research.`}
-            </p>
-            <div className="text-left">
-              <p className="font-heading text-primary mt-2 text-[32px] font-bold tracking-tight">
+
+            {/* PRICE */}
+
+            <div className="mt-4">
+              <p className="font-heading text-primary text-[32px] font-semibold tracking-tight">
                 {hasPrice ? money(totalPrice) : "Unavailable"}
               </p>
+
+              {discountPercent > 0 && (
+                <span className="mt-1 inline-flex rounded-full bg-[#E8F8F1] px-3 py-1 text-[11px] font-bold text-emerald-700">
+                  Save {discountPercent}% with this bundle
+                </span>
+              )}
             </div>
-            <div className="my-6 h-px bg-[#EEE7EF]" />
+
+            <div className="my-5 h-px bg-[#EEE7EF]" />
+
+            {/* STRENGTHS */}
+
             <Strengths
               variants={variants}
               index={variantIndex}
               setIndex={changeVariant}
             />
+
+            {/* BUNDLES */}
             <Packs
               product={product}
               price={unitPrice}
@@ -709,7 +580,9 @@ export default function ProductDetails({ product }) {
               setSelectedPack={changePack}
               stock={variant?.inStock === false ? 0 : stock}
             />
-            <div className="mt-7 flex w-full min-w-0 items-center gap-2 sm:gap-3">
+
+            {/* QUANTITY + CART */}
+            <div className="mt-6 flex w-full min-w-0 items-center gap-2 sm:gap-3">
               <div className="shrink-0">
                 <Quantity
                   value={quantity}
@@ -722,16 +595,17 @@ export default function ProductDetails({ product }) {
                 type="button"
                 disabled={!canAdd}
                 onClick={handleAddToCart}
-                className="group bg-primary flex h-[52px] min-w-0 flex-1 items-center justify-between gap-2 rounded-full py-1 pr-1 pl-4 text-[12px] font-bold text-white shadow-[0_12px_30px_rgba(85,32,95,0.2)] transition-all hover:bg-[#35143E] disabled:cursor-not-allowed disabled:opacity-50 sm:pl-6 sm:text-sm"
+                className="group bg-primary flex h-[52px] min-w-0 flex-1 items-center justify-between gap-2 rounded-full py-1 pr-1 pl-6 text-sm font-semibold text-white shadow-[0_12px_30px_rgba(85,32,95,0.2)] transition-all hover:bg-[#35143E] disabled:cursor-not-allowed disabled:opacity-50 sm:pl-5 sm:text-sm"
               >
                 <span className="flex min-w-0 items-center gap-2 whitespace-nowrap">
                   <ShoppingBag size={17} className="hidden shrink-0 sm:block" />
+
                   {canAdd ? "Add to Cart" : "Unavailable"}
                 </span>
 
                 <span className="flex shrink-0 items-center gap-2">
                   {hasPrice && (
-                    <span className="hidden whitespace-nowrap md:inline">
+                    <span className="hidden whitespace-nowrap xl:inline">
                       {money(totalPrice)}
                     </span>
                   )}
@@ -742,6 +616,8 @@ export default function ProductDetails({ product }) {
                 </span>
               </button>
             </div>
+
+            {/* CART MESSAGE */}
             {cartMessage && (
               <p
                 role="status"
@@ -750,34 +626,128 @@ export default function ProductDetails({ product }) {
                 {cartMessage}
               </p>
             )}
-            <a
-              href="#documentation"
-              className="text-primary mt-4 flex items-center justify-center gap-2 text-xs font-bold hover:underline"
-            >
-              <FileCheck2 size={16} /> View laboratory documentation{" "}
-              <ArrowUpRight size={14} />
-            </a>
+
+            {/* ASSURANCE */}
             <Assurance product={product} />
-            <p className="mt-5 flex items-center justify-center gap-2 text-xs text-[#827789]">
-              <LockKeyhole size={14} /> Checkout subject to{" "}
-              <Link
-                href="/terms-and-conditions"
-                className="text-primary font-bold underline"
-              >
-                terms of sale
-              </Link>
-            </p>
+
+            {/* ACCORDIONS */}
+            <div className="mt-8 border-t border-[#EEE7EF]">
+              {/* DESCRIPTION */}
+
+              <ProductAccordion title="Product Description" defaultOpen>
+                <p>
+                  {product.description ||
+                    `${product.name} is intended for appropriate scientific and laboratory research.`}
+                </p>
+              </ProductAccordion>
+
+              {/* SPECIFICATIONS */}
+              <ProductAccordion title="Specifications">
+                <div className="overflow-hidden rounded-xl border border-[#EEE7EF]">
+                  <table className="w-full border-collapse text-left">
+                    <tbody>
+                      {specificationRows.map((row, index) => (
+                        <tr
+                          key={row.label}
+                          className={
+                            index % 2 === 0 ? "bg-[#FBF8FC]" : "bg-white"
+                          }
+                        >
+                          <th
+                            scope="row"
+                            className="w-1/2 border-b border-[#EEE7EF] px-4 py-4 text-sm font-medium text-[#756B78] last:border-b-0 sm:px-5"
+                          >
+                            {row.label}
+                          </th>
+                          <td className="text-primary border-b border-[#EEE7EF] px-4 py-4 text-right text-sm font-semibold break-words sm:px-5">
+                            {row.value}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </ProductAccordion>
+
+              {/* RESEARCH USE */}
+              <ProductAccordion title="Research Use">
+                <div className="rounded-xl border border-[#EEE7EF] bg-[#FBF8FC] p-4">
+                  <div className="flex items-start gap-3">
+                    <FileCheck2
+                      size={20}
+                      className="text-primary mt-0.5 shrink-0"
+                    />
+
+                    <div>
+                      <h4 className="font-heading text-primary text-[14px] font-bold">
+                        For Research Use Only
+                      </h4>
+
+                      <p className="mt-2 text-sm text-[#756B78]">
+                        This product is supplied exclusively for appropriate
+                        laboratory and in-vitro research activities.
+                      </p>
+
+                      <p className="mt-2 text-sm text-[#756B78]">
+                        Not intended for human consumption, clinical
+                        administration, veterinary use, or diagnostic or
+                        therapeutic purposes.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </ProductAccordion>
+            </div>
+
+            <div className="mt-6 overflow-hidden rounded-2xl border border-[#E9E1E9] bg-white">
+              <div className="flex items-center gap-3 border-b border-[#E9E1E9] p-4 sm:px-6">
+                <span className="text-primary flex size-11 items-center justify-center rounded-xl bg-[#F6E5F7]">
+                  <FileText size={22} />
+                </span>
+                <div>
+                  <h3 className="font-heading text-primary text-base font-bold sm:text-lg">
+                    Certificate of Analysis
+                  </h3>
+                  <p className="text-muted text-sm">{product.name}</p>
+                </div>
+              </div>
+
+              <div className="bg-[#FAF7FA] p-3 sm:p-6">
+                <div className="mx-auto w-full max-w-[700px] overflow-hidden rounded-lg bg-white shadow-sm">
+                  <div className="relative aspect-5/7 w-full">
+                    <iframe
+                      src={`${certificatePdf}#toolbar=0&navpanes=0&scrollbar=0&view=Fit`}
+                      title={`${product.name} Certificate of Analysis`}
+                      className="absolute inset-0 h-full w-full border-0"
+                      loading="lazy"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex flex-wrap items-center justify-end gap-3 border-t border-[#E9E1E9] p-4 sm:px-6">
+                <a
+                  href={certificatePdf}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-primary inline-flex h-11 items-center justify-center gap-2 rounded-full border border-[#E9E1E9] px-5 text-sm font-semibold transition-colors hover:bg-[#F6E5F7]"
+                >
+                  <ExternalLink size={17} />
+                  View PDF
+                </a>
+                <a
+                  href={certificatePdf}
+                  download
+                  className="bg-primary inline-flex h-11 items-center justify-center gap-2 rounded-full px-5 text-sm font-semibold text-white transition-colors hover:bg-[#35143E]"
+                >
+                  <Download size={17} />
+                  Download PDF
+                </a>
+              </div>
+            </div>
           </div>
         </div>
       </section>
-
-      <div className="px-4 sm:px-6 lg:px-10">
-        <div className="mx-auto max-w-7xl">
-          <Documentation product={product} />
-          <Information product={product} />
-          <FAQs />
-        </div>
-      </div>
 
       <Bestsellers currentProduct={product} />
 
@@ -787,17 +757,21 @@ export default function ProductDetails({ product }) {
             <p className="truncate text-[11px] text-[#756B78]">
               {variant?.label} · {totalBottles} bottles
             </p>
+
             <p className="font-heading text-primary text-xl font-extrabold">
-              {money(totalPrice)}
+              {hasPrice ? money(totalPrice) : "Unavailable"}
             </p>
           </div>
+
           <button
             type="button"
             disabled={!canAdd}
             onClick={handleAddToCart}
-            className="bg-primary flex h-12 items-center gap-2 rounded-full px-5 text-xs font-bold text-white disabled:opacity-50"
+            className="bg-primary flex h-12 items-center gap-2 rounded-full px-4 text-xs font-bold text-white disabled:cursor-not-allowed disabled:opacity-50 sm:px-5"
           >
-            <ShoppingBag size={17} /> Add to Cart <ArrowUpRight size={16} />
+            <ShoppingBag size={17} />
+            Add to Cart
+            <ArrowUpRight size={16} />
           </button>
         </div>
       </div>
