@@ -242,9 +242,9 @@ export default function Hero() {
             <div
               data-aos="fade-up"
               data-aos-delay="150"
-              className="relative z-10 flex flex-col items-end lg:pl-12 xl:pl-16"
+              className="relative z-10 flex w-full min-w-0 flex-col items-center lg:items-end lg:pl-12 xl:pl-16"
             >
-              <div className="w-full max-w-[350px]">
+              <div className="mx-auto w-full max-w-[350px] lg:mx-0">
                 <HeroFeatures />
                 <FeaturedProduct product={featuredProduct} />
               </div>

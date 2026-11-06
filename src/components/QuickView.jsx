@@ -95,9 +95,9 @@ export default function QuickView({ product, onClose }) {
           type="button"
           onClick={onClose}
           aria-label="Close quick view"
-          className="text-primary hover:bg-primary absolute -top-1 -right-1 z-30 flex h-11 w-11 items-center justify-center rounded-full bg-[#F7F3F8] shadow-sm transition-all duration-300 hover:text-white sm:top-3 sm:right-3"
+          className="text-primary hover:bg-primary absolute top-3 right-3 z-30 flex h-10 w-10 items-center justify-center rounded-full bg-[#F7F3F8] shadow-sm transition-all duration-300 hover:text-white sm:top-4 sm:right-4"
         >
-          <X size={21} />
+          <X size={20} />
         </button>
 
         <div className="grid gap-4 md:grid-cols-2 md:gap-5">

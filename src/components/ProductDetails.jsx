@@ -678,20 +678,7 @@ export default function ProductDetails({ product }) {
         <div className="mx-auto grid max-w-7xl items-start gap-10 lg:grid-cols-[0.95fr_1.05fr] lg:gap-12 xl:gap-16">
           <Gallery product={product} />
           <div className="min-w-0">
-            <nav
-              aria-label="Breadcrumb"
-              className="mb-5 flex flex-wrap items-center gap-2 text-xs text-[#827789]"
-            >
-              <Link href="/" className="hover:text-primary">
-                Home
-              </Link>
-              <ChevronRight size={13} />
-              <Link href="/shop" className="hover:text-primary">
-                Shop
-              </Link>
-              <ChevronRight size={13} />
-              <span className="text-primary font-semibold">{product.name}</span>
-            </nav>
+           
             <div className="flex flex-wrap items-center gap-2">
               <span className="text-primary rounded-full bg-[#F6E5F7] px-3 py-1.5 text-[10px] font-bold tracking-widest uppercase">
                 {product.category || "Research compound"}

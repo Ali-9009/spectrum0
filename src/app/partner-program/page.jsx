@@ -392,22 +392,24 @@ export default function PartnerProgramPage() {
               proposed commission tiers, model potential referrals, and learn
               how a responsible research partnership could work.
             </p>
-            <div className="mt-8 flex flex-wrap items-center gap-4">
+            <div className="mt-8 flex w-full items-center gap-2 sm:gap-4">
               <Link
                 href="/contact"
-                className="group bg-primary inline-flex h-13 items-center gap-3 rounded-full px-7 text-base font-semibold text-white transition-colors hover:bg-[#35143E]"
+                className="group bg-primary inline-flex h-11 min-w-0 flex-1 items-center justify-center gap-1.5 rounded-full px-3 text-sm font-semibold whitespace-nowrap text-white transition-colors hover:bg-[#35143E] sm:h-13 sm:flex-none sm:gap-3 sm:px-7 sm:text-base"
               >
-                Apply / Enquire{" "}
+                Apply / Enquire
                 <ArrowUpRight
-                  size={19}
-                  className="transition-transform group-hover:rotate-45"
+                  size={16}
+                  className="shrink-0 transition-transform group-hover:rotate-45 sm:size-[19px]"
                 />
               </Link>
+
               <a
                 href="#earnings"
-                className="text-primary inline-flex h-13 items-center gap-2 rounded-full border border-[#E0CEE4] px-6 text-base font-semibold transition-colors hover:bg-[#F8EFF9]"
+                className="text-primary inline-flex h-11 min-w-0 flex-1 items-center justify-center gap-1.5 rounded-full border border-[#E0CEE4] px-2 text-sm font-semibold whitespace-nowrap transition-colors hover:bg-[#F8EFF9] sm:h-13 sm:flex-none sm:gap-2 sm:px-6 sm:text-base"
               >
-                Estimate Earnings <ArrowRight size={18} />
+                Estimate Earnings
+                <ArrowRight size={16} className="shrink-0 sm:size-[18px]" />
               </a>
             </div>
             <p className="mt-5 text-sm leading-6 text-[#928494]">
