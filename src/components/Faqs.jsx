@@ -135,10 +135,6 @@ function FAQItem({ item, index, open, onToggle }) {
       >
         <div className="min-h-0 overflow-hidden">
           <div className="pr-12 pb-7 pl-7 sm:pr-16 sm:pb-8 sm:pl-10">
-            <span className="text-primary mb-3 inline-block rounded-full bg-[#F6E5F7] px-3 py-1 font-sans text-[10px] font-bold tracking-wider uppercase">
-              {item.category}
-            </span>
-
             <p className="text-muted max-w-[540px] font-sans text-[13px] leading-[1.9] sm:text-[15px]">
               {item.answer}
             </p>
@@ -167,11 +163,11 @@ export default function Faqs() {
     <section
       id="faq"
       aria-labelledby="faq-title"
-      className="relative overflow-hidden px-4 py-12 sm:px-6 lg:px-8"
+      className="relative overflow-hidden px-4 md:py-16 sm:px-6 lg:px-8"
     >
       <div className="pointer-events-none absolute top-1/3 -left-40 h-[450px] w-[450px] rounded-full bg-[#F6E5F7]/40 blur-[110px]" />
 
-      <div className="relative mx-auto max-w-7xl">
+      <div className="relative mx-auto max-w-5xl">
         <header className="mx-auto max-w-[680px] text-center">
           <h2 id="faq-title" className="section-heading mt-2">
             Curious Minds.

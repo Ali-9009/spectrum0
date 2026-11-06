@@ -96,7 +96,7 @@ export default function USShippingCoverage() {
   return (
     <section
       aria-labelledby="shipping-coverage-title"
-      className="w-full overflow-hidden bg-white px-4 py-12 sm:px-6 sm:py-16 lg:px-8"
+      className="w-full overflow-hidden bg-white px-4 py-12 sm:px-6 md:py-16 lg:px-8"
     >
       <div className="mx-auto max-w-7xl">
         <header className="mb-8 flex flex-col justify-between gap-5 sm:flex-row sm:items-end">

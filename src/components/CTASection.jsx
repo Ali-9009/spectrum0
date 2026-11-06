@@ -90,7 +90,7 @@ export default function CTASection() {
   return (
     <section
       aria-labelledby="cta-title"
-      className="relative w-full overflow-hidden bg-[#FCF6F0] px-4 pt-18 sm:px-6 lg:px-10"
+      className="relative w-full overflow-hidden bg-[#FCF6F0] px-4 pt-12 md:pt-16 sm:px-6 lg:px-10"
     >
       <div className="pointer-events-none absolute top-0 left-1/2 h-[500px] w-[700px] -translate-x-1/2 rounded-full bg-[#F6E5F7]/60 blur-[120px]" />
 

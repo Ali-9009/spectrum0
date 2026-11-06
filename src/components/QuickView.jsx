@@ -89,19 +89,19 @@ export default function QuickView({ product, onClose }) {
         role="dialog"
         aria-modal="true"
         aria-labelledby={titleId}
-        className="relative max-h-[95dvh] w-full max-w-260 overflow-y-auto rounded-[26px] bg-white p-3 shadow-2xl sm:p-5 lg:overflow-visible lg:rounded-[30px]"
+        className="relative max-h-[95dvh] w-full max-w-[1040px] overflow-y-auto rounded-[22px] bg-white p-3 shadow-2xl sm:p-4 lg:rounded-[26px]"
       >
         <button
           type="button"
           onClick={onClose}
           aria-label="Close quick view"
-          className="text-primary hover:bg-primary absolute top-3 right-3 z-30 flex h-10 w-10 items-center justify-center rounded-full bg-[#F7F3F8] shadow-sm transition-all duration-300 hover:text-white sm:top-4 sm:right-4"
+          className="text-primary hover:bg-primary absolute top-3 right-3 z-30 flex size-10 items-center justify-center rounded-full bg-[#F7F3F8] shadow-sm transition-all duration-300 hover:text-white sm:top-4 sm:right-4"
         >
           <X size={20} />
         </button>
 
-        <div className="grid gap-4 md:grid-cols-2 md:gap-5">
-          <div className="relative flex min-h-[280px] flex-col overflow-hidden rounded-[22px] border border-[#EEE7F0] bg-[#FBF9FC] sm:min-h-[350px] md:min-h-[480px]">
+        <div className="grid gap-4 md:grid-cols-[40%_minmax(0,1fr)]">
+          <div className="relative flex min-h-[260px] flex-col overflow-hidden rounded-[20px] border border-[#EEE7F0] bg-[#FBF9FC] sm:min-h-[340px] md:min-h-[440px]">
             <div className="relative flex flex-1 items-center justify-center p-5 sm:p-8">
               {product.image ? (
                 <Image
@@ -129,113 +129,72 @@ export default function QuickView({ product, onClose }) {
             </div>
           </div>
 
-          <div className="flex min-w-0 flex-col rounded-[22px] p-4 sm:p-5 md:p-6">
-            <div className="flex items-start justify-between gap-4">
-              <div>
-                <h2
-                  id={titleId}
-                  className="font-heading text-primary mt-1 text-[26px] leading-[1.1] font-bold tracking-[-0.05em] sm:text-[30px]"
-                >
-                  {product.name}
-                </h2>
-                <div className="mt-2 mr-7 flex shrink-0 items-center gap-1.5 sm:mr-4">
-                  <span
-                    className={`h-2 w-2 rounded-full ${
-                      inStock ? "bg-emerald-500" : "bg-red-500"
-                    }`}
-                  />
-                  <span
-                    className={`font-sans text-[11px] font-semibold ${
-                      inStock ? "text-emerald-600" : "text-red-500"
-                    }`}
-                  >
-                    {inStock ? "In stock" : "Out of stock"}
-                  </span>
-                </div>
-              </div>
+          <div className="flex min-w-0 flex-col rounded-[20px] p-3 sm:p-4 md:p-5">
+            <div className="pr-10">
+              <h2
+                id={titleId}
+                className="font-heading text-primary mt-1 text-[25px] leading-[1.1] font-bold tracking-[-0.05em] sm:text-[30px]"
+              >
+                {product.name}
+              </h2>
             </div>
-
-            {product.description && (
-              <p className="text-muted mt-3 font-sans text-sm">
-                {product.description}
-              </p>
-            )}
 
             <div className="my-4 h-px w-full bg-[#F0EAF1]" />
 
             <div className="flex flex-wrap items-center gap-3">
-              <span className="text-muted w-[70px] shrink-0 font-sans text-[10px] font-bold tracking-[0.12em] uppercase">
+              <span className="text-muted w-[70px] shrink-0 font-sans text-xs font-semibold tracking-[0.12em] uppercase">
                 Strength
               </span>
-              <div className="flex flex-wrap gap-2">
-                {product.variants.map((item, index) => (
-                  <button
-                    key={item.id}
-                    type="button"
-                    onClick={() => setSelectedVariant(index)}
-                    aria-pressed={selectedVariant === index}
-                    className={`rounded-xl border px-4 py-2.5 font-sans text-[12px] font-semibold transition-all ${
-                      selectedVariant === index
-                        ? "border-primary bg-primary text-white"
-                        : "text-primary hover:border-primary border-[#E8DFEA] bg-white"
-                    }`}
-                  >
-                    {item.label}
-                  </button>
-                ))}
+
+              <div className="flex flex-wrap items-center gap-2">
+                {product.variants.map((item, index) => {
+                  const selected = selectedVariant === index;
+
+                  return (
+                    <button
+                      key={item.id || index}
+                      type="button"
+                      disabled={item.inStock === false}
+                      onClick={() => setSelectedVariant(index)}
+                      aria-pressed={selected}
+                      className={`inline-flex min-h-9 items-center justify-center rounded-full border px-4 py-1.5 font-sans text-[12px] font-semibold whitespace-nowrap transition-all duration-300 disabled:cursor-not-allowed disabled:opacity-40 sm:text-[13px] ${
+                        selected
+                          ? "border-primary bg-primary text-white"
+                          : "text-primary hover:border-primary border-[#E8DFEA] bg-white hover:bg-[#F8EFF9]"
+                      }`}
+                    >
+                      {item.label}
+                    </button>
+                  );
+                })}
               </div>
             </div>
 
-            <div className="mt-3 flex items-center gap-3">
-              <span className="text-muted w-[70px] shrink-0 font-sans text-[10px] font-bold tracking-[0.12em] uppercase">
-                Quantity
-              </span>
-              <div className="flex h-10 items-center rounded-full border border-[#E8DFEA] px-1">
-                <button
-                  type="button"
-                  onClick={() => setQuantity((q) => Math.max(1, q - 1))}
-                  disabled={quantity <= 1}
-                  aria-label="Decrease quantity"
-                  className="text-primary hover:bg-accent-light flex h-8 w-8 items-center justify-center rounded-full disabled:opacity-30"
-                >
-                  <Minus size={15} />
-                </button>
-                <span className="text-primary w-8 text-center font-sans text-[13px] font-semibold">
-                  {quantity}
-                </span>
-                <button
-                  type="button"
-                  onClick={() =>
-                    setQuantity((q) => Math.min(availablePacks, q + 1))
-                  }
-                  disabled={!inStock || quantity >= availablePacks}
-                  aria-label="Increase quantity"
-                  className="text-primary hover:bg-accent-light flex h-8 w-8 items-center justify-center rounded-full disabled:opacity-30"
-                >
-                  <Plus size={15} />
-                </button>
-              </div>
-            </div>
-
-            <div className="my-5 h-px w-full bg-[#F0EAF1]" />
+            <div className="my-4 h-px w-full bg-[#F0EAF1]" />
 
             <div className="mb-4 flex items-center justify-between gap-3">
-              <h3 className="text-muted font-sans text-[11px] font-bold tracking-[0.14em] uppercase">
+              <h3 className="font-sans text-xs font-semibold tracking-[0.12em] text-[#817586] uppercase">
                 Bundle & Save
               </h3>
+
               <span className="text-secondary rounded-full bg-[#FFF0E5] px-3 py-1.5 font-sans text-[10px] font-bold">
                 Up to 15% OFF
               </span>
             </div>
 
-            <div className="grid grid-cols-3 gap-2">
+            <div className="grid grid-cols-3 gap-1.5 sm:gap-2">
               {PACK_OPTIONS.map((item) => {
                 const selected = selectedPack === item.quantity;
+
                 const price = getPackPrice(
                   unitPrice,
                   item.quantity,
                   item.discountPercent,
                 );
+
+                const bottleCount = item.quantity === 2 ? 2 : 3;
+                const bottleWidth = bottleCount === 2 ? 26 : 23;
+                const stepX = bottleCount === 2 ? 12 : 10;
 
                 return (
                   <button
@@ -245,72 +204,99 @@ export default function QuickView({ product, onClose }) {
                       setSelectedPack(selected ? null : item.quantity)
                     }
                     aria-pressed={selected}
-                    className={`group relative flex min-w-0 flex-col items-center rounded-[14px] border px-2 pt-5 pb-3 transition-all duration-300 ${
+                    disabled={!inStock || item.quantity > availablePacks}
+                    className={`group flex min-w-0 flex-col items-center justify-center gap-2 rounded-xl border px-2 py-3 text-center transition-all duration-300 disabled:cursor-not-allowed disabled:opacity-40 sm:px-3 ${
                       selected
                         ? "border-primary bg-[#F8EFF9]"
                         : "hover:border-primary/40 border-[#EAE3EB] bg-white"
                     }`}
                   >
-                    <span
-                      className={`absolute -top-2 right-2 rounded-md px-2 py-1 font-sans text-[9px] font-bold ${
-                        selected
-                          ? "bg-primary text-white"
-                          : "text-primary bg-[#F3E4F4]"
-                      }`}
-                    >
-                      -{item.discountPercent}%
-                    </span>
+                    {/* BOTTLE IMAGES */}
+                    <div className="relative h-[75px] w-[85px] shrink-0 sm:h-[90px] sm:w-[100px]">
+                      {Array.from({ length: bottleCount }).map((_, index) => {
+                        const bottleWidth = 38;
+                        const bottleHeight = 75;
+                        const stepX = 17;
 
-                    <div className="flex h-14 items-end justify-center">
-                      {Array.from({
-                        length: Math.min(item.quantity, 3),
-                      }).map((_, index) => (
-                        <div
-                          key={index}
-                          className={`relative h-[55px] w-[32px] shrink-0 ${
-                            index > 0 ? "-ml-3" : ""
-                          }`}
-                          style={{ zIndex: 3 - index }}
-                        >
-                          {product.image ? (
+                        const groupWidth =
+                          bottleWidth + (bottleCount - 1) * stepX;
+
+                        return (
+                          <div
+                            key={index}
+                            className="absolute bottom-0"
+                            style={{
+                              width: `${bottleWidth}px`,
+                              height: `${bottleHeight}px`,
+                              left: `calc(50% - ${groupWidth / 2}px + ${index * stepX}px)`,
+                              zIndex: bottleCount - index,
+                            }}
+                          >
                             <Image
-                              src={product.image}
+                              src="/assets/cta-2.png"
                               alt=""
                               fill
-                              sizes="32px"
-                              className="object-contain transition-transform duration-300 group-hover:-translate-y-1"
+                              sizes="38px"
+                              className="object-contain drop-shadow-[0_3px_3px_rgba(45,15,55,0.12)] transition-transform duration-300 group-hover:-translate-y-0.5"
                             />
-                          ) : (
-                            <FlaskConical
-                              size={24}
-                              className="text-primary/30 mt-3"
-                            />
-                          )}
-                        </div>
-                      ))}
+                          </div>
+                        );
+                      })}
                     </div>
 
-                    <p className="font-heading text-primary mt-2 text-[12px] font-bold sm:text-[13px]">
-                      {item.label}
-                    </p>
+                    {/* BUNDLE DETAILS */}
+                    <div className="flex flex-col items-center gap-1">
+                      <p className="font-heading text-primary text-sm leading-tight font-semibold whitespace-nowrap">
+                        {item.quantity} Vials
+                      </p>
 
-                    <p className="text-primary/70 mt-1 font-sans text-[11px] font-semibold">
-                      {hasPrice ? formatMoney(price) : "—"}
-                    </p>
+                      <p className="text-xs font-bold whitespace-nowrap text-emerald-600">
+                        {item.discountPercent}% OFF
+                      </p>
+                    </div>
                   </button>
                 );
               })}
             </div>
 
             <div className="mt-auto pt-5">
-              <div className="flex items-center gap-3">
+              <div className="flex w-full min-w-0 items-center gap-2 sm:gap-3">
+                <div className="flex h-11 shrink-0 items-center rounded-full border border-[#E8DFEA] px-1">
+                  <button
+                    type="button"
+                    onClick={() => setQuantity((q) => Math.max(1, q - 1))}
+                    disabled={quantity <= 1}
+                    aria-label="Decrease quantity"
+                    className="text-primary flex size-8 shrink-0 items-center justify-center rounded-full transition-colors hover:bg-[#F6E5F7] disabled:opacity-30"
+                  >
+                    <Minus size={15} />
+                  </button>
+
+                  <span className="text-primary w-5 text-center font-sans text-[13px] font-semibold sm:w-7">
+                    {quantity}
+                  </span>
+
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setQuantity((q) => Math.min(availablePacks, q + 1))
+                    }
+                    disabled={!inStock || quantity >= availablePacks}
+                    aria-label="Increase quantity"
+                    className="text-primary flex size-8 shrink-0 items-center justify-center rounded-full transition-colors hover:bg-[#F6E5F7] disabled:opacity-30"
+                  >
+                    <Plus size={15} />
+                  </button>
+                </div>
+
                 <button
                   type="button"
                   onClick={handleAddToCart}
                   disabled={!canAdd}
-                  className="group bg-primary hover:bg-primary-dark flex h-12 min-w-0 flex-1 items-center justify-center gap-2 rounded-full px-4 font-sans text-[12px] font-semibold text-white transition-colors disabled:cursor-not-allowed disabled:opacity-50 sm:text-[13px]"
+                  className="group bg-primary flex h-11 min-w-0 flex-1 items-center justify-center gap-1.5 rounded-full px-2 font-sans text-sm font-semibold whitespace-nowrap text-white transition-colors hover:bg-[#35143E] disabled:cursor-not-allowed disabled:opacity-50 sm:gap-2 sm:px-4"
                 >
-                  <ShoppingBag size={17} className="shrink-0" />
+                  <ShoppingBag size={16} className="hidden shrink-0 sm:block" />
+
                   <span>
                     {!inStock
                       ? "Out of Stock"
@@ -318,15 +304,17 @@ export default function QuickView({ product, onClose }) {
                         ? "Unavailable"
                         : "Add to Cart"}
                   </span>
-                  <ArrowRight size={16} className="hidden sm:block" />
+
+                  <ArrowRight size={15} className="hidden shrink-0 md:block" />
                 </button>
 
                 <div className="shrink-0 text-right">
-                  <span className="font-heading text-primary text-[20px] font-bold sm:text-[23px]">
+                  <span className="font-heading text-primary text-[16px] font-bold tracking-tight whitespace-nowrap sm:text-[21px]">
                     {hasPrice ? formatMoney(totalPrice) : "—"}
                   </span>
                 </div>
               </div>
+
               {cartError && (
                 <p role="alert" className="mt-2 text-xs text-red-600">
                   {cartError}

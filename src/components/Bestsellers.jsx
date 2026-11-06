@@ -136,7 +136,7 @@ export default function Bestsellers({ currentProduct = null }) {
     <section
       id="bestsellers"
       aria-labelledby="bestsellers-title"
-      className="relative overflow-hidden px-4 py-18 sm:px-6 lg:px-10"
+      className="relative overflow-hidden px-4 md:py-16 sm:px-6 lg:px-10"
     >
       <div className="mx-auto max-w-7xl">
         <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">

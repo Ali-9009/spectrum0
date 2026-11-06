@@ -21,7 +21,7 @@ export default function HomePage() {
       <HowItWorks />
       <Bestsellers />
 
-      <section className="px-4 py-18 sm:px-6 lg:px-10">
+      <section className="px-4 sm:px-6 lg:px-10">
         <div className="relative mx-auto w-full max-w-7xl overflow-hidden rounded-3xl bg-[#F2E2F5]">
           <div className="relative w-full overflow-hidden">
             <Image

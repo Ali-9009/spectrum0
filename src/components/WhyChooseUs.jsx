@@ -9,6 +9,8 @@ import {
   Droplets,
   Headset,
   FlaskConical,
+  Notepad,
+  NotepadText,
 } from "lucide-react";
 import AOS from "aos";
 import "aos/dist/aos.css";
@@ -29,14 +31,14 @@ const features = [
   {
     number: "03",
     icon: Truck,
-    title: "Fast EU Shipping",
+    title: "Fast US Shipping",
     description: "Quick and reliable delivery across Europe.",
   },
   {
     number: "04",
-    icon: Droplets,
-    title: "Free Bac Water",
-    description: "Complimentary Bac Water with every order.",
+    icon: NotepadText,
+    title: "COA Every Lot",
+    description: "A certificate for each lot.",
   },
   {
     number: "05",
@@ -97,11 +99,11 @@ function FeatureCard({ feature, index }) {
         </div>
 
         <div className="mt-6">
-          <h3 className="font-heading text-primary max-w-[270px] text-[21px] leading-[1.25] font-bold tracking-[-0.045em] sm:text-[23px]">
+          <h3 className="font-heading text-primary max-w-[270px] text-xl leading-[1.25] font-semibold tracking-[-0.045em] sm:text-[23px]">
             {feature.title}
           </h3>
 
-          <p className="text-muted mt-3 max-w-[310px] font-sans text-[13px] leading-[1.8] sm:text-[14px]">
+          <p className="text-muted mt-3 max-w-[310px] font-sans text-sm sm:text-[14px]">
             {feature.description}
           </p>
         </div>
@@ -135,7 +137,7 @@ export default function WhyChooseUs() {
     <section
       id="why"
       aria-labelledby="why-title"
-      className="relative overflow-hidden bg-[#FAF8FB] px-4 py-18 sm:px-6 lg:px-8"
+      className="relative overflow-hidden bg-[#FAF8FB] px-4 py-12 sm:px-6 md:py-16 lg:px-8"
     >
       <div className="mx-auto max-w-7xl">
         <div className="mb-12 flex flex-col justify-between gap-6 lg:mb-8 lg:flex-row lg:items-end">
@@ -162,7 +164,7 @@ export default function WhyChooseUs() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:gap-5">
+        <div className="grid grid-cols-2 gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:gap-5">
           {features.map((feature, index) => (
             <FeatureCard key={feature.number} feature={feature} index={index} />
           ))}

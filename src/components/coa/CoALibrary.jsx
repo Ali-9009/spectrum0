@@ -185,17 +185,10 @@ function CoACard({ product }) {
               <div className="grid lg:grid-cols-[0.9fr_1.1fr]">
                 <div className="border-b border-[#EEE6EF] p-5 sm:p-7 lg:border-r lg:border-b-0">
                   <div className="flex items-center justify-between gap-3 pr-10">
-                    <span className="text-secondary text-[10px] font-bold tracking-[0.15em] uppercase">
+                    <span className="text-secondary text-xs font-semibold tracking-[0.15em] uppercase">
                       {isDemo
                         ? "Sample Laboratory Report"
                         : "Certificate of Analysis"}
-                    </span>
-                    <span className="text-primary rounded-full bg-[#F6E5F7] px-3 py-1.5 text-[10px] font-semibold">
-                      {isDemo
-                        ? "Demo Data"
-                        : available
-                          ? "CoA Available"
-                          : "Pending"}
                     </span>
                   </div>
 
@@ -206,7 +199,7 @@ function CoACard({ product }) {
                     {product.name}
                   </h2>
 
-                  <p className="mt-1 text-xs text-[#817586]">
+                  <p className="mt-1 text-sm text-[#817586]">
                     {variant?.label} · {record.testDate || "Date not published"}
                   </p>
 
@@ -224,7 +217,7 @@ function CoACard({ product }) {
                     </div>
 
                     <div>
-                      <p className="text-[11px] font-medium text-[#8A798E]">
+                      <p className="text-sm font-medium text-[#8A798E]">
                         {isDemo ? "Sample Purity" : "Reported Purity"}
                       </p>
                       <p className="font-heading text-primary mt-2 text-[clamp(30px,3vw,43px)] leading-none font-bold tracking-[-0.06em]">
@@ -232,7 +225,7 @@ function CoACard({ product }) {
                           ? `${Number(record.purity).toFixed(2)}%`
                           : "—"}
                       </p>
-                      <p className="mt-3 text-[11px] leading-5 text-[#817586]">
+                      <p className="mt-3 text-sm leading-5 text-[#817586]">
                         {isDemo
                           ? "Illustrative data. Not verified laboratory results."
                           : "Batch-specific analytical information."}
@@ -248,7 +241,7 @@ function CoACard({ product }) {
                     ].map(([label, value]) => (
                       <div
                         key={label}
-                        className="flex items-center justify-between gap-4 py-3 text-[11px]"
+                        className="flex items-center justify-between gap-4 py-3 text-xs"
                       >
                         <dt className="shrink-0 text-[#8A798E]">{label}</dt>
                         <dd className="text-primary text-right font-semibold break-words">
@@ -261,7 +254,7 @@ function CoACard({ product }) {
                   <Link
                     href={`/products/${product.slug}`}
                     onClick={() => setModalOpen(false)}
-                    className="text-primary mt-5 inline-flex h-11 w-full items-center justify-center gap-2 rounded-full border border-[#E8DCEA] text-[12px] font-semibold transition-colors hover:bg-[#F6E5F7]"
+                    className="text-primary mt-5 inline-flex h-11 w-full items-center justify-center gap-2 rounded-full border border-[#E8DCEA] text-sm font-semibold transition-colors hover:bg-[#F6E5F7]"
                   >
                     View Compound
                     <ArrowUpRight size={16} />
@@ -270,13 +263,13 @@ function CoACard({ product }) {
 
                 <div className="flex flex-col p-5 sm:p-7">
                   <div className="pr-10">
-                    <p className="text-secondary text-[10px] font-bold tracking-[0.15em] uppercase">
+                    <p className="text-secondary text-xs font-semibold tracking-[0.15em] uppercase">
                       Laboratory Analysis
                     </p>
                     <h3 className="font-heading text-primary mt-2 text-[25px] font-bold tracking-[-0.04em]">
                       Analytical Results
                     </h3>
-                    <p className="mt-1 text-xs text-[#817586]">
+                    <p className="mt-1 text-sm text-[#817586]">
                       {product.name} · {variant?.label}
                     </p>
                   </div>
@@ -290,16 +283,16 @@ function CoACard({ product }) {
                             className="flex items-center justify-between gap-4 px-4 py-3.5"
                           >
                             <div className="min-w-0">
-                              <dt className="text-[12px] font-semibold text-[#493D4D]">
+                              <dt className="text-sm font-semibold text-[#493D4D]">
                                 {result.name}
                               </dt>
                               {result.status && (
-                                <p className="mt-1 text-[10px] text-[#938698]">
+                                <p className="mt-1 text-sm text-[#938698]">
                                   {result.status}
                                 </p>
                               )}
                             </div>
-                            <dd className="text-primary max-w-[48%] text-right text-[12px] font-bold break-words">
+                            <dd className="text-primary max-w-[48%] text-right text-sm font-semibold break-words">
                               {result.value || "—"}
                             </dd>
                           </div>
@@ -318,13 +311,13 @@ function CoACard({ product }) {
                         href={record.pdfUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="bg-primary flex h-11 w-full items-center justify-center gap-2 rounded-full px-5 text-[12px] font-semibold text-white transition-colors hover:bg-[#35143E]"
+                        className="bg-primary flex h-11 w-full items-center justify-center gap-2 rounded-full px-5 text-sm font-semibold text-white transition-colors hover:bg-[#35143E]"
                       >
                         Open CoA PDF
                         <ArrowUpRight size={16} />
                       </a>
                     ) : (
-                      <div className="rounded-xl bg-[#F8F0FA] px-4 py-3 text-center text-[11px] text-[#817586]">
+                      <div className="rounded-xl bg-[#F8F0FA] px-4 py-3 text-center text-sm text-[#817586]">
                         {isDemo
                           ? "Sample record — no verified CoA PDF"
                           : "CoA PDF not available"}

@@ -358,10 +358,8 @@ export default function HowItWorks() {
     <section
       id="how-it-works"
       aria-labelledby="how-it-works-title"
-      className="relative overflow-hidden bg-white px-4 py-12 sm:px-6 lg:px-8"
+      className="relative overflow-hidden bg-white px-4 sm:px-6 lg:px-8"
     >
-      <div className="pointer-events-none absolute -top-32 -right-32 h-[350px] w-[350px] rounded-full bg-[#F7EAF9]/60 blur-[90px]" />
-
       <div className="relative mx-auto max-w-7xl">
         <header className="relative z-10 max-w-[720px]">
           <p className="text-secondary mb-4 flex items-center gap-2 font-sans text-xs font-bold tracking-[0.15em] uppercase">

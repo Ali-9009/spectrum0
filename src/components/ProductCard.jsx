@@ -76,9 +76,9 @@ export default function ProductCard({ product, onQuickView }) {
           type="button"
           onClick={() => onQuickView?.(product)}
           aria-label={`Quick view ${product.name}`}
-          className="text-primary hover:bg-primary absolute top-4 right-4 z-20 flex h-11 w-11 items-center justify-center rounded-full border border-white/80 bg-white/90 shadow-sm backdrop-blur-md transition-all duration-300 hover:scale-110 hover:text-white"
+          className="text-primary hover:bg-primary absolute top-2 right-2 z-20 flex h-9 w-9 items-center justify-center rounded-full border border-white/80 bg-white/90 shadow-sm backdrop-blur-md transition-all duration-300 hover:scale-110 hover:text-white sm:top-4 sm:right-4 sm:h-11 sm:w-11"
         >
-          <Eye size={20} strokeWidth={1.7} />
+          <Eye size={17} strokeWidth={1.7} className="sm:h-5 sm:w-5" />
         </button>
 
         {/* IMAGE LINK */}
