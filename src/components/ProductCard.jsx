@@ -125,7 +125,7 @@ export default function ProductCard({ product, onQuickView }) {
           </h3>
         </Link>
 
-        <div className="mt-auto pt-5">
+        <div className="mt-auto pt-4">
           {/* VARIANT SELECTOR */}
 
           <div className="flex flex-wrap gap-2">
@@ -160,7 +160,7 @@ export default function ProductCard({ product, onQuickView }) {
 
           {/* PRICE */}
 
-          <div className="mt-5 flex items-center justify-between border-t border-[#F0E8F1] pt-4">
+          <div className="mt-3 flex items-center justify-between border-t border-[#F0E8F1] pt-3">
             <div>
               <p className="font-heading text-primary text-[20px] font-bold tracking-tight">
                 {hasPrice ? formatPrice(variant.price) : "Price pending"}
@@ -174,7 +174,7 @@ export default function ProductCard({ product, onQuickView }) {
             type="button"
             onClick={handleAddToCart}
             disabled={!canAdd || adding}
-            className="bg-primary mt-4 flex h-10 w-full items-center justify-center gap-1.5 rounded-full px-2 text-sm font-semibold whitespace-nowrap text-white transition-all duration-300 hover:bg-[#35143E] disabled:cursor-not-allowed disabled:opacity-50 sm:h-11"
+            className="bg-primary mt-2 flex h-10 w-full items-center justify-center gap-1.5 rounded-full px-2 text-sm font-semibold whitespace-nowrap text-white transition-all duration-300 hover:bg-[#35143E] disabled:cursor-not-allowed disabled:opacity-50 sm:h-11"
           >
             <span>
               {!inStock

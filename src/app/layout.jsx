@@ -33,7 +33,7 @@ export default function RootLayout({ children }) {
           {children}
           <Footer />
         </CartShell>
-         <ResearcherGate />
+        <ResearcherGate />
       </body>
     </html>
   );
