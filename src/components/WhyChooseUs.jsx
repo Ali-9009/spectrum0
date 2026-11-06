@@ -83,34 +83,40 @@ function FeatureCard({ feature, index }) {
       data-aos-delay={index * 80}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      className="group hover:border-primary/30 relative flex flex-col overflow-hidden rounded-[26px] border border-[#E9DFEB] bg-white p-7 transition-[background-color,border-color,box-shadow,transform] duration-300 ease-out hover:bg-[#FCF6FD] hover:shadow-[0_25px_55px_rgba(85,32,95,0.1)] sm:p-8"
+      className="group relative isolate flex flex-col rounded-[26px] p-[1.5px] transition-transform duration-300 hover:-translate-y-1"
     >
-      <div className="relative z-10 flex items-start justify-between">
-        <div className="text-primary group-hover:border-primary group-hover:bg-primary flex h-14 w-14 items-center justify-center rounded-[18px] border border-[#E7D1EA] bg-[#F7ECF9] shadow-[0_5px_15px_rgba(85,32,95,0.05)] transition-all duration-500 group-hover:rotate-[-8deg] group-hover:text-white">
-          <Icon size={27} strokeWidth={1.6} />
+      <div className="pointer-events-none absolute inset-0 overflow-hidden rounded-[26px]">
+        <div className="absolute inset-[-100%] animate-[spin_5s_linear_infinite] bg-[conic-gradient(from_0deg,transparent_0%,transparent_65%,#55205F_78%,#F47735_86%,#D69CE0_94%,transparent_100%)] motion-reduce:animate-none" />
+      </div>
+
+      <div className="relative z-10 flex h-full flex-col overflow-hidden rounded-[24.5px] bg-white p-7 transition-colors duration-300 group-hover:bg-[#FCF6FD] sm:p-8">
+        <div className="flex items-start justify-between">
+          <div className="text-primary group-hover:border-primary group-hover:bg-primary flex h-14 w-14 items-center justify-center rounded-[18px] border border-[#E7D1EA] bg-[#F7ECF9] shadow-[0_5px_15px_rgba(85,32,95,0.05)] transition-all duration-500 group-hover:rotate-[-8deg] group-hover:text-white">
+            <Icon size={27} strokeWidth={1.6} />
+          </div>
         </div>
+
+        <div className="mt-6">
+          <h3 className="font-heading text-primary max-w-[270px] text-[21px] leading-[1.25] font-bold tracking-[-0.045em] sm:text-[23px]">
+            {feature.title}
+          </h3>
+
+          <p className="text-muted mt-3 max-w-[310px] font-sans text-[13px] leading-[1.8] sm:text-[14px]">
+            {feature.description}
+          </p>
+        </div>
+
+        <Icon
+          size={135}
+          strokeWidth={0.8}
+          aria-hidden="true"
+          className="pointer-events-none absolute -right-9 -bottom-9 rotate-[-18deg] text-[#E8C9ED]/50 transition-all duration-700 group-hover:-translate-x-3 group-hover:-translate-y-3 group-hover:rotate-0 group-hover:text-[#D9A4E2]/70"
+        />
+
+        <span className="bg-primary absolute right-5 bottom-5 flex h-9 w-9 translate-y-3 items-center justify-center rounded-full text-white opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">
+          <ArrowUpRight size={18} />
+        </span>
       </div>
-
-      <div className="relative z-10 mt-6">
-        <h3 className="font-heading text-primary max-w-[270px] text-[21px] leading-[1.25] font-bold tracking-[-0.045em] sm:text-[23px]">
-          {feature.title}
-        </h3>
-
-        <p className="text-muted mt-3 max-w-[310px] font-sans text-[13px] leading-[1.8] sm:text-[14px]">
-          {feature.description}
-        </p>
-      </div>
-
-      <Icon
-        size={135}
-        strokeWidth={0.8}
-        aria-hidden="true"
-        className="pointer-events-none absolute -right-9 -bottom-9 rotate-[-18deg] text-[#E8C9ED]/50 transition-all duration-700 group-hover:-translate-x-3 group-hover:-translate-y-3 group-hover:rotate-0 group-hover:text-[#D9A4E2]/70"
-      />
-
-      <span className="bg-primary absolute right-5 bottom-5 z-10 flex h-9 w-9 translate-y-3 items-center justify-center rounded-full text-white opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">
-        <ArrowUpRight size={18} />
-      </span>
     </article>
   );
 }
@@ -134,10 +140,9 @@ export default function WhyChooseUs() {
       <div className="mx-auto max-w-7xl">
         <div className="mb-12 flex flex-col justify-between gap-6 lg:mb-8 lg:flex-row lg:items-end">
           <div data-aos="fade-up">
-            <span className="text-secondary inline-flex items-center gap-2 font-sans text-[11px] font-bold tracking-[0.2em] uppercase">
-              <span className="bg-secondary h-2 w-2 rounded-full" />
+            <p className="text-secondary mb-4 flex items-center gap-2 font-sans text-xs font-bold tracking-[0.15em] uppercase">
               The Spectrum Difference
-            </span>
+            </p>
 
             <h2 id="why-title" className="section-heading mt-2">
               Why Choose
@@ -149,7 +154,7 @@ export default function WhyChooseUs() {
           <p
             data-aos="fade-up"
             data-aos-delay="100"
-            className="text-muted max-w-[390px] font-sans text-[14px] leading-[1.8] sm:text-[15px]"
+            className="text-muted text-md max-w-[390px] font-sans"
           >
             Discover what sets Spectrum Biosciences apart, from independent
             laboratory testing to reliable service and research-focused

@@ -68,7 +68,10 @@ export default function QuickView({ product, onClose }) {
     if (!canAdd) return;
     try {
       setCartError("");
-      addItem(product, variant, quantity, { packSize, discountPercent: discount });
+      addItem(product, variant, quantity, {
+        packSize,
+        discountPercent: discount,
+      });
       onClose();
     } catch (error) {
       setCartError(error?.message || "Unable to add product to cart.");
@@ -135,26 +138,25 @@ export default function QuickView({ product, onClose }) {
                 >
                   {product.name}
                 </h2>
-              </div>
-
-              <div className="mt-2 mr-7 flex shrink-0 items-center gap-1.5 sm:mr-4">
-                <span
-                  className={`h-2 w-2 rounded-full ${
-                    inStock ? "bg-emerald-500" : "bg-red-500"
-                  }`}
-                />
-                <span
-                  className={`font-sans text-[11px] font-semibold ${
-                    inStock ? "text-emerald-600" : "text-red-500"
-                  }`}
-                >
-                  {inStock ? "In stock" : "Out of stock"}
-                </span>
+                <div className="mt-2 mr-7 flex shrink-0 items-center gap-1.5 sm:mr-4">
+                  <span
+                    className={`h-2 w-2 rounded-full ${
+                      inStock ? "bg-emerald-500" : "bg-red-500"
+                    }`}
+                  />
+                  <span
+                    className={`font-sans text-[11px] font-semibold ${
+                      inStock ? "text-emerald-600" : "text-red-500"
+                    }`}
+                  >
+                    {inStock ? "In stock" : "Out of stock"}
+                  </span>
+                </div>
               </div>
             </div>
 
             {product.description && (
-              <p className="text-muted mt-3 font-sans text-[12px] leading-[1.6]">
+              <p className="text-muted mt-3 font-sans text-sm">
                 {product.description}
               </p>
             )}
@@ -310,7 +312,11 @@ export default function QuickView({ product, onClose }) {
                 >
                   <ShoppingBag size={17} className="shrink-0" />
                   <span>
-                    {!inStock ? "Out of Stock" : !hasPrice ? "Unavailable" : "Add to Cart"}
+                    {!inStock
+                      ? "Out of Stock"
+                      : !hasPrice
+                        ? "Unavailable"
+                        : "Add to Cart"}
                   </span>
                   <ArrowRight size={16} className="hidden sm:block" />
                 </button>
@@ -321,7 +327,11 @@ export default function QuickView({ product, onClose }) {
                   </span>
                 </div>
               </div>
-              {cartError && <p role="alert" className="mt-2 text-xs text-red-600">{cartError}</p>}
+              {cartError && (
+                <p role="alert" className="mt-2 text-xs text-red-600">
+                  {cartError}
+                </p>
+              )}
             </div>
           </div>
         </div>

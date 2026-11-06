@@ -167,25 +167,19 @@ export default function Faqs() {
     <section
       id="faq"
       aria-labelledby="faq-title"
-      className="relative overflow-hidden px-4 py-18 sm:px-6 lg:px-8"
+      className="relative overflow-hidden px-4 py-12 sm:px-6 lg:px-8"
     >
       <div className="pointer-events-none absolute top-1/3 -left-40 h-[450px] w-[450px] rounded-full bg-[#F6E5F7]/40 blur-[110px]" />
 
       <div className="relative mx-auto max-w-7xl">
         <header className="mx-auto max-w-[680px] text-center">
-  
-          <span className="text-secondary inline-flex items-center gap-2 font-sans text-[11px] font-bold tracking-[0.2em] uppercase">
-            <span className="bg-secondary h-2 w-2 rounded-full" />
-            The Answer Lab
-          </span>
-
           <h2 id="faq-title" className="section-heading mt-2">
             Curious Minds.
             <br />
             <span className="text-secondary">Clear Answers.</span>
           </h2>
 
-          <p className="text-muted text-md mx-auto mt-5 max-w-[500px] font-sans leading-[1.8]">
+          <p className="text-muted text-md mx-auto mt-5 max-w-[500px] font-sans">
             Everything you need to know about Spectrum, from ordering and
             shipping to research product information.
           </p>
@@ -255,23 +249,6 @@ export default function Faqs() {
                 <ArrowUpRight
                   size={17}
                   className="transition-transform duration-300 group-hover:rotate-45"
-                />
-              </Link>
-            </div>
-
-            <div className="mt-5 flex items-center justify-between">
-              <span className="text-muted font-sans text-[11px] font-medium">
-                {filteredFAQs.length} questions in this category
-              </span>
-
-              <Link
-                href="/faq"
-                className="group text-primary hover:text-secondary inline-flex items-center gap-2 font-sans text-[12px] font-bold transition-colors"
-              >
-                View All FAQs
-                <ArrowRight
-                  size={16}
-                  className="transition-transform duration-300 group-hover:translate-x-1"
                 />
               </Link>
             </div>

@@ -62,7 +62,7 @@ export default function ProductCard({ product, onQuickView }) {
   };
 
   return (
-    <article className="group hover:border-primary/20 relative flex h-full flex-col overflow-hidden rounded-[24px] border border-[#EEE5EF] bg-white transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_25px_60px_rgba(85,32,95,0.1)]">
+    <article className="group hover:border-primary/20 relative flex h-full flex-col overflow-hidden rounded-2xl border border-[#EEE5EF] bg-white transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_25px_60px_rgba(85,32,95,0.1)]">
       {/* PRODUCT IMAGE */}
 
       <div className="relative aspect-square overflow-hidden bg-[#F8EFF9]">

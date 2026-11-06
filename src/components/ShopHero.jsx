@@ -66,10 +66,9 @@ export default function ShopHero() {
             <span className="text-primary font-semibold">Shop</span>
           </nav>
 
-          <span className="text-secondary mb-4 flex items-center gap-2 font-sans text-xs font-bold tracking-[0.15em] uppercase">
-            <span className="bg-secondary h-[2px] w-7" />
+          <p className="text-secondary mb-4 flex items-center gap-2 font-sans text-xs font-bold tracking-[0.15em] uppercase">
             Spectrum Biosciences
-          </span>
+          </p>
 
           <h1 className="section-heading">
             Explore Our

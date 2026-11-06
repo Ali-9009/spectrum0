@@ -24,7 +24,7 @@ export default function FreeShippingProgress({ compact = false }) {
         </span>
 
         <div className="min-w-0 flex-1">
-          <p className="font-sans text-[12px] leading-[1.6] font-semibold">
+          <p className="font-sans text-xs leading-[1.6] font-semibold">
             {qualifiesForFreeShipping ? (
               "You've unlocked free shipping!"
             ) : (
@@ -56,7 +56,7 @@ export default function FreeShippingProgress({ compact = false }) {
             />
           </div>
 
-          <p className="mt-2 font-sans text-[10px] text-white/60">
+          <p className="mt-2 font-sans text-xs text-white/90">
             Free shipping over{" "}
             {formatCartMoney(CART_SETTINGS.freeShippingThreshold)} · Before
             taxes

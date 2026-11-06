@@ -88,3 +88,75 @@
     cubic-bezier(0.22, 1, 0.36, 1)
     var(--pop-delay) both;
 }
+
+
+
+/* Smooth floating product animation */
+@keyframes product-float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-15px);
+  }
+}
+
+/* Floating with slight rotation */
+@keyframes product-float-rotate {
+  0%, 100% {
+    transform: translateY(0) rotate(-3deg);
+  }
+  50% {
+    transform: translateY(-18px) rotate(3deg);
+  }
+}
+
+/* Gentle floating side to side */
+@keyframes product-sway {
+  0%, 100% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(10px, -12px);
+  }
+}
+
+/* Reusable classes */
+.product-float {
+  animation: product-float 5s ease-in-out infinite;
+}
+
+.product-float-slow {
+  animation: product-float 7s ease-in-out infinite;
+}
+
+.product-float-rotate {
+  animation: product-float-rotate 6s ease-in-out infinite;
+}
+
+.product-sway {
+  animation: product-sway 8s ease-in-out infinite;
+}
+
+/* Optional delay variations */
+.product-delay-1 {
+  animation-delay: -1s;
+}
+
+.product-delay-2 {
+  animation-delay: -2s;
+}
+
+.product-delay-3 {
+  animation-delay: -3s;
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .product-float,
+  .product-float-slow,
+  .product-float-rotate,
+  .product-sway {
+    animation: none;
+  }
+}

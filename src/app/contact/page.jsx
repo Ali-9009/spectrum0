@@ -62,7 +62,8 @@ export default function ContactPage() {
             <ChevronRight size={13} />
             <span className="text-primary font-semibold">Contact</span>
           </nav>
-          <p className="text-secondary mb-3 text-[11px] font-bold tracking-[0.16em] uppercase">
+
+          <p className="text-secondary mb-4 flex items-center gap-2 font-sans text-xs font-bold tracking-[0.15em] uppercase">
             Get in touch
           </p>
           <h1 className="section-heading">

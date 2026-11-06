@@ -46,10 +46,6 @@ function BestsellerCard({ product }) {
 
             <div className="border-primary/[0.07] pointer-events-none absolute h-[130px] w-[130px] rounded-full border sm:h-[165px] sm:w-[165px]" />
 
-            <span className="font-heading text-primary/25 absolute top-4 right-4 z-10 text-[12px] font-bold">
-              SPECTRUM
-            </span>
-
             <div className="absolute inset-0 h-full w-full overflow-hidden">
               {product.image ? (
                 <Image
@@ -101,7 +97,7 @@ function BestsellerCard({ product }) {
                     </span>
 
                     {hasDiscount && (
-                      <span className="text-muted font-sans text-[12px] line-through">
+                      <span className="text-muted font-sans text-sm line-through">
                         ${compareAt.toFixed(2)}
                       </span>
                     )}
@@ -114,7 +110,7 @@ function BestsellerCard({ product }) {
               </div>
             </div>
 
-            <span className="text-primary group-hover:text-secondary font-sans text-[11px] font-semibold transition-colors">
+            <span className="text-primary group-hover:text-secondary font-sans text-sm font-semibold transition-colors">
               View Product
             </span>
           </div>
@@ -140,16 +136,14 @@ export default function Bestsellers({ currentProduct = null }) {
     <section
       id="bestsellers"
       aria-labelledby="bestsellers-title"
-      className="relative mx-auto max-w-7xl overflow-hidden py-18"
+      className="relative overflow-hidden px-4 py-18 sm:px-6 lg:px-10"
     >
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-7xl">
         <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
           <div className="max-w-[650px]">
-            <span className="text-secondary mb-2 inline-flex items-center gap-2 font-sans text-[11px] font-bold tracking-[0.17em] uppercase">
-              <span className="bg-secondary h-2 w-2 rounded-full" />
-
+            <p className="text-secondary mb-4 flex items-center gap-2 font-sans text-xs font-bold tracking-[0.15em] uppercase">
               {isProductPage ? "Continue Exploring" : "Explore Spectrum"}
-            </span>
+            </p>
 
             <h2 id="bestsellers-title" className="section-heading">
               {isProductPage ? (
@@ -164,7 +158,7 @@ export default function Bestsellers({ currentProduct = null }) {
               )}
             </h2>
 
-            <p className="text-muted mt-4 max-w-[480px] font-sans text-[14px] leading-[1.8] sm:text-[15px]">
+            <p className="text-muted text-md mt-4 max-w-[480px] font-sans">
               {isProductPage
                 ? "Explore more research compounds from the Spectrum collection and find your next laboratory essential."
                 : "Explore standout products from the Spectrum collection, presented with a closer look at every detail."}
@@ -184,7 +178,7 @@ export default function Bestsellers({ currentProduct = null }) {
         </div>
       </div>
 
-      <div className="relative mt-10 sm:mt-12">
+      <div className="relative mx-auto mt-10 max-w-7xl sm:mt-12">
         <div className="pointer-events-none absolute inset-y-0 left-0 z-20 hidden w-24 bg-gradient-to-r from-white to-transparent lg:block" />
         <div className="pointer-events-none absolute inset-y-0 right-0 z-20 hidden w-24 bg-gradient-to-l from-white to-transparent lg:block" />
 

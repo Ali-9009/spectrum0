@@ -25,27 +25,18 @@ export default function ProductGrid() {
   };
 
   return (
-    <section
-      id="shop"
-      className="bg-white px-4 py-18 sm:px-6 lg:px-8"
-    >
+    <section id="shop" className="bg-white px-4 py-18 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl">
         <div className="mb-10 flex flex-col justify-between gap-5 sm:flex-row sm:items-end">
           <div>
-            <span className="text-secondary inline-flex items-center gap-2 font-sans text-[11px] font-bold tracking-[0.2em] uppercase">
-              <span className="bg-secondary h-2 w-2 rounded-full" />
+            <p className="text-secondary mb-4 flex items-center gap-2 font-sans text-xs font-bold tracking-[0.15em] uppercase">
               Explore The Collection
-            </span>
-            <h2 className="section-heading mt-2">
-              Precision in Every Vial.
-            </h2>
-            <p className="text-muted text-md mt-2 max-w-xl font-sans leading-relaxed">
+            </p>
+            <h2 className="section-heading mt-2">Precision in Every Vial.</h2>
+            <p className="text-muted text-md mt-2 max-w-xl font-sans">
               Discover the Spectrum Biosciences research collection.
             </p>
           </div>
-          <span className="border-primary/15 text-primary self-start rounded-full border px-5 py-2.5 font-sans text-[12px] font-semibold">
-            {totalProducts} Products
-          </span>
         </div>
 
         <div className="grid grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-3 xl:grid-cols-4">
@@ -88,9 +79,3 @@ export default function ProductGrid() {
     </section>
   );
 }
-
-// <QuickView
-//   product={quickViewProduct}
-//   onClose={() => setQuickViewProduct(null)}
-//   onAddToCart={handleAddToCart}
-// />

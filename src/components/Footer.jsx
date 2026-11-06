@@ -9,15 +9,14 @@ import "remixicon/fonts/remixicon.css";
 const footerLinks = {
   explore: [
     { name: "Shop All", href: "/shop" },
-    { name: "Research Peptides", href: "/collections/peptides" },
-    { name: "About Spectrum", href: "/about" },
-    { name: "Contact Us", href: "/contact" },
+    { name: "COA", href: "/coa" },
+    { name: "Partner Program", href: "/partner-program" },
+    { name: "Track order", href: "/track-order" },
   ],
   support: [
-    { name: "Track Your Order", href: "/track-order" },
-    { name: "Shipping Information", href: "/shipping" },
-    { name: "Frequently Asked Questions", href: "/faq" },
-    { name: "Contact Support", href: "/contact" },
+    { name: "About", href: "/about" },
+    { name: "FAQs", href: "/faqs" },
+    { name: "Contact", href: "/contact" },
   ],
   policies: [
     { name: "Privacy Policy", href: "/privacy-policy" },
@@ -40,7 +39,7 @@ const socials = [
 function FooterColumn({ title, links }) {
   return (
     <nav aria-label={title}>
-      <h3 className="font-heading text-primary mb-5 text-[14px] font-bold">
+      <h3 className="font-heading text-primary text-md mb-5 font-semibold">
         {title}
       </h3>
 
@@ -49,7 +48,7 @@ function FooterColumn({ title, links }) {
           <li key={link.name}>
             <Link
               href={link.href}
-              className="group hover:text-primary inline-flex items-center gap-1.5 font-sans text-[13px] text-[#786E7B] transition-colors duration-300"
+              className="group hover:text-primary inline-flex items-center gap-1.5 font-sans text-sm text-[#786E7B] transition-colors duration-300"
             >
               <span>{link.name}</span>
               <ArrowUpRight
@@ -77,86 +76,88 @@ export default function Footer() {
 
   return (
     <footer className="relative overflow-hidden bg-[#FCF6F0] text-[#29232D]">
-      <div className="relative mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
-        <div className="border-primary/10 grid gap-10 border-b py-14 sm:grid-cols-2 sm:gap-12 lg:grid-cols-[1.3fr_0.8fr_0.9fr_0.9fr]">
-          <div className="max-w-[320px]">
-            <Link href="/" aria-label="Spectrum Biosciences home">
-              <Image
-                src="/assets/spectrum-logo.png"
-                alt="Spectrum Biosciences"
-                width={200}
-                height={70}
-                className="h-[60px] w-auto object-contain"
-              />
-            </Link>
+      <div className="relative px-4 sm:px-6 lg:px-10">
+        <div className="mx-auto max-w-7xl">
+          <div className="border-primary/10 grid gap-10 border-b py-14 sm:grid-cols-2 sm:gap-12 lg:grid-cols-[1.3fr_0.8fr_0.9fr_0.9fr]">
+            <div className="max-w-[320px]">
+              <Link href="/" aria-label="Spectrum Biosciences home">
+                <Image
+                  src="/assets/spectrum-logo.png"
+                  alt="Spectrum Biosciences"
+                  width={200}
+                  height={70}
+                  className="h-[60px] w-auto object-contain"
+                />
+              </Link>
 
-            <p className="mt-5 font-sans text-[13px] leading-[1.9] text-[#786E7B]">
-              Spectrum Biosciences brings together a curated range of
-              research-focused compounds for laboratory applications and
-              scientific exploration.
+              <p className="mt-5 font-sans text-sm text-[#786E7B]">
+                Spectrum Biosciences brings together a curated range of
+                research-focused compounds for laboratory applications and
+                scientific exploration.
+              </p>
+
+              <div className="mt-6 flex items-center gap-2">
+                {socials.map((social) => (
+                  <a
+                    key={social.name}
+                    href={social.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={social.name}
+                    className="border-primary/10 text-primary hover:border-primary hover:bg-primary flex h-10 w-10 items-center justify-center rounded-full border bg-white transition-all duration-300 hover:-translate-y-1 hover:text-white"
+                  >
+                    <i
+                      className={`${social.icon} text-[17px]`}
+                      aria-hidden="true"
+                    />
+                  </a>
+                ))}
+              </div>
+            </div>
+
+            <FooterColumn title="Explore" links={footerLinks.explore} />
+
+            <FooterColumn title="Company" links={footerLinks.support} />
+
+            <FooterColumn title="Policies" links={footerLinks.policies} />
+          </div>
+
+          <div className="flex flex-col gap-4 pt-6 sm:flex-row sm:items-center sm:justify-between">
+            <p className="font-sans text-[11px] text-[#8B7E8E] sm:text-[12px]">
+              © {new Date().getFullYear()} Spectrum Biosciences. All rights
+              reserved.
             </p>
 
-            <div className="mt-6 flex items-center gap-2">
-              {socials.map((social) => (
-                <a
-                  key={social.name}
-                  href={social.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={social.name}
-                  className="border-primary/10 text-primary hover:border-primary hover:bg-primary flex h-10 w-10 items-center justify-center rounded-full border bg-white transition-all duration-300 hover:-translate-y-1 hover:text-white"
-                >
-                  <i
-                    className={`${social.icon} text-[17px]`}
-                    aria-hidden="true"
-                  />
-                </a>
-              ))}
+            <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
+              <Link
+                href="/privacy-policy"
+                className="hover:text-primary font-sans text-[11px] text-[#8B7E8E] transition-colors"
+              >
+                Privacy
+              </Link>
+
+              <Link
+                href="/terms-and-conditions"
+                className="hover:text-primary font-sans text-[11px] text-[#8B7E8E] transition-colors"
+              >
+                Terms
+              </Link>
+
+              <span className="text-primary inline-flex items-center gap-2 font-sans text-[11px] font-semibold">
+                <FlaskConical size={14} className="text-secondary" />
+                Research Use Only
+              </span>
             </div>
           </div>
 
-          <FooterColumn title="Explore" links={footerLinks.explore} />
-
-          <FooterColumn title="Customer Care" links={footerLinks.support} />
-
-          <FooterColumn title="Information" links={footerLinks.policies} />
-        </div>
-
-        <div className="flex flex-col gap-4 pt-6 sm:flex-row sm:items-center sm:justify-between">
-          <p className="font-sans text-[11px] text-[#8B7E8E] sm:text-[12px]">
-            © {new Date().getFullYear()} Spectrum Biosciences. All rights
-            reserved.
-          </p>
-
-          <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
-            <Link
-              href="/privacy-policy"
-              className="hover:text-primary font-sans text-[11px] text-[#8B7E8E] transition-colors"
-            >
-              Privacy
-            </Link>
-
-            <Link
-              href="/terms-and-conditions"
-              className="hover:text-primary font-sans text-[11px] text-[#8B7E8E] transition-colors"
-            >
-              Terms
-            </Link>
-
-            <span className="text-primary inline-flex items-center gap-2 font-sans text-[11px] font-semibold">
-              <FlaskConical size={14} className="text-secondary" />
-              Research Use Only
+          <div
+            aria-hidden="true"
+            className="pointer-events-none relative mt-6 w-full overflow-hidden select-none"
+          >
+            <span className="font-heading block w-full [mask-image:linear-gradient(to_bottom,black_0%,black_15%,transparent_85%)] text-center text-[clamp(36px,13.5vw,220px)] leading-[0.95] font-extrabold tracking-[-0.095em] whitespace-nowrap text-[#E8D8EB] sm:text-[clamp(60px,14vw,220px)]">
+              SPECTRUM
             </span>
           </div>
-        </div>
-
-        <div
-          aria-hidden="true"
-          className="pointer-events-none relative mt-6 w-full overflow-hidden select-none"
-        >
-          <span className="font-heading block w-full [mask-image:linear-gradient(to_bottom,black_0%,black_15%,transparent_85%)] text-center text-[clamp(36px,13.5vw,220px)] leading-[0.95] font-extrabold tracking-[-0.095em] whitespace-nowrap text-[#E8D8EB] sm:text-[clamp(60px,14vw,220px)]">
-            SPECTRUM
-          </span>
         </div>
       </div>
     </footer>

@@ -96,18 +96,13 @@ export default function CTASection() {
 
       <div className="relative mx-auto max-w-7xl">
         <div className="relative z-40 mx-auto max-w-[720px] text-center">
-          <span className="text-secondary inline-flex items-center gap-2 font-sans text-[11px] font-bold tracking-[0.2em] uppercase">
-            <span className="bg-secondary h-2 w-2 rounded-full" />
-            Explore Spectrum
-          </span>
-
           <h2 id="cta-title" className="section-heading">
             Your Next Discovery.
             <br />
             <span className="text-secondary">Starts Here.</span>
           </h2>
 
-          <p className="mx-auto mt-5 max-w-[480px] font-sans text-[13px] leading-[1.8] text-[#625765] sm:text-[15px]">
+          <p className="text-md mx-auto mt-3 max-w-[480px] font-sans text-[#625765]">
             Explore research-focused compounds from Spectrum Biosciences and
             discover the products that fit your laboratory needs.
           </p>

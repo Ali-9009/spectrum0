@@ -14,6 +14,7 @@ import {
   ArrowRight,
   Sparkles,
   FlaskConical,
+  ChevronRight,
 } from "lucide-react";
 
 import { useCart } from "@/context/CartContext";
@@ -73,7 +74,7 @@ function AnnouncementBar() {
                     {item.label}
                   </span>
 
-                  <span className="font-heading text-primary text-[20px] font-extrabold tracking-[-0.055em] whitespace-nowrap sm:text-[25px]">
+                  <span className="font-heading text-primary text-[20px] font-semibold tracking-[-0.055em] whitespace-nowrap sm:text-lg">
                     {item.highlight}
                   </span>
 
@@ -85,7 +86,7 @@ function AnnouncementBar() {
                     href="/shop"
                     tabIndex={copy === 1 ? -1 : undefined}
                     aria-hidden={copy === 1}
-                    className="group bg-primary hover:bg-secondary inline-flex shrink-0 items-center gap-2 rounded-full px-4 py-2 font-sans text-[11px] font-bold text-white transition-all duration-300 sm:px-5 sm:text-[12px]"
+                    className="group bg-primary hover:bg-secondary inline-flex shrink-0 items-center gap-2 rounded-full px-4 py-2 font-sans font-semibold text-white transition-all duration-300 sm:px-5 sm:text-sm"
                   >
                     Shop Now
                     <ArrowUpRight
@@ -166,7 +167,7 @@ function MobileSidebar({ open, onClose, pathname }) {
     >
       <div
         onClick={onClose}
-        className={`absolute inset-0 bg-[#18071D]/65 backdrop-blur-[4px] transition-opacity duration-300 ${
+        className={`absolute inset-0 bg-black/50 transition-opacity duration-300 ${
           open ? "opacity-100" : "opacity-0"
         }`}
       />
@@ -175,18 +176,18 @@ function MobileSidebar({ open, onClose, pathname }) {
         id="mobile-navigation"
         aria-label="Mobile navigation"
         inert={!open}
-        className={`absolute inset-y-0 right-0 flex w-[min(380px,90vw)] flex-col bg-white shadow-2xl transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+        className={`absolute inset-y-0 right-0 flex w-[min(340px,90vw)] flex-col bg-white shadow-xl transition-transform duration-300 ease-in-out ${
           open ? "translate-x-0" : "translate-x-full"
         }`}
       >
-        <div className="border-primary/10 flex items-center justify-between border-b px-6 py-5">
+        <div className="flex items-center justify-between border-b border-[#EEE6EF] px-5 py-4">
           <Link href="/" onClick={onClose} aria-label="Spectrum home">
             <Image
               src="/assets/spectrum-logo.png"
               alt="Spectrum Biosciences"
-              width={170}
-              height={60}
-              className="h-11 w-auto object-contain"
+              width={160}
+              height={55}
+              className="h-10 w-auto object-contain"
             />
           </Link>
 
@@ -194,92 +195,68 @@ function MobileSidebar({ open, onClose, pathname }) {
             type="button"
             onClick={onClose}
             aria-label="Close menu"
-            className="text-primary hover:bg-primary flex h-10 w-10 items-center justify-center rounded-full bg-[#F6E5F7] transition-colors hover:text-white"
+            className="text-primary hover:bg-primary flex size-9 items-center justify-center rounded-full bg-[#F6E5F7] transition-colors hover:text-white"
           >
-            <X size={22} />
+            <X size={20} />
           </button>
         </div>
 
         <nav
           aria-label="Sidebar navigation"
-          className="flex-1 overflow-y-auto px-6 py-8"
+          className="flex-1 overflow-y-auto px-4 py-5"
         >
-          <span className="text-secondary mb-5 block font-sans text-[10px] font-bold tracking-[0.2em] uppercase">
-            Explore Spectrum
-          </span>
+          <p className="mb-3 px-3 text-[11px] font-bold tracking-[0.12em] text-[#9B8C9F] uppercase">
+            Navigation
+          </p>
 
-          {navLinks.map((link, index) => {
-            const active = pathname === link.href;
+          <div className="space-y-1">
+            {navLinks.map((link) => {
+              const active =
+                pathname === link.href ||
+                (link.href !== "/" && pathname.startsWith(`${link.href}/`));
 
-            return (
-              <Link
-                key={link.href}
-                href={link.href}
-                onClick={onClose}
-                aria-current={active ? "page" : undefined}
-                className={`group border-primary/10 font-heading flex items-center justify-between border-b py-5 text-[25px] font-semibold tracking-[-0.05em] transition-colors ${
-                  active
-                    ? "text-secondary"
-                    : "text-primary hover:text-secondary"
-                }`}
-              >
-                <span className="flex items-center gap-4">
-                  <span className="text-primary/35 font-sans text-[11px] tracking-normal">
-                    {String(index + 1).padStart(2, "0")}
-                  </span>
+              return (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  onClick={onClose}
+                  aria-current={active ? "page" : undefined}
+                  className={`flex items-center justify-between rounded-xl px-4 py-3.5 font-sans text-sm font-semibold transition-colors ${
+                    active
+                      ? "text-primary bg-[#F6E5F7]"
+                      : "hover:text-primary text-[#514653] hover:bg-[#FAF5FB]"
+                  }`}
+                >
                   {link.name}
-                </span>
+                  <ChevronRight
+                    size={17}
+                    className={active ? "text-primary" : "text-[#B6A7BA]"}
+                  />
+                </Link>
+              );
+            })}
+          </div>
 
-                <ArrowUpRight
-                  size={20}
-                  className="transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1"
-                />
-              </Link>
-            );
-          })}
-
-          <Link
-            href="/account"
-            onClick={onClose}
-            className="text-primary mt-7 flex items-center gap-3 rounded-2xl bg-[#F6E5F7] px-5 py-4 font-sans text-[14px] font-semibold"
-          >
-            <UserRound size={19} />
-            My Account
-            <ArrowRight size={17} className="ml-auto" />
-          </Link>
-
-          <div className="relative mt-7 overflow-hidden rounded-[22px] bg-[linear-gradient(135deg,#55205F,#872B95)] p-6 text-white">
-            <div className="pointer-events-none absolute -top-12 -right-12 h-44 w-44 rounded-full border border-white/15" />
-
-            <span className="inline-flex items-center gap-2 font-sans text-[10px] font-semibold tracking-wider text-white/70 uppercase">
-              <Sparkles size={14} className="text-[#FFB178]" />
-              Discover Spectrum
-            </span>
-
-            <h3 className="font-heading mt-4 text-[26px] leading-tight font-bold tracking-[-0.05em]">
-              More Research.
-              <br />
-              More Discovery.
-            </h3>
-
-            <p className="mt-3 font-sans text-[12px] leading-relaxed text-white/75">
-              Explore our research-focused collection.
+          <div className="mt-6 border-t border-[#EEE6EF] pt-5">
+            <p className="mb-3 px-3 text-[11px] font-bold tracking-[0.12em] text-[#9B8C9F] uppercase">
+              Account
             </p>
 
             <Link
-              href="/shop"
+              href="/account"
               onClick={onClose}
-              className="text-primary mt-5 inline-flex items-center gap-2 rounded-full bg-white px-5 py-3 font-sans text-[12px] font-bold"
+              className="hover:text-primary flex items-center gap-3 rounded-xl px-4 py-3.5 text-[14px] font-semibold text-[#514653] transition-colors hover:bg-[#FAF5FB]"
             >
-              Explore Collection
-              <ArrowUpRight size={16} />
+              <UserRound size={19} />
+              My Account
+              <ChevronRight size={17} className="ml-auto text-[#B6A7BA]" />
             </Link>
           </div>
         </nav>
 
-        <div className="border-primary/10 border-t px-6 py-5">
-          <p className="text-primary/60 flex items-center gap-2 font-sans text-[11px]">
-            <FlaskConical size={16} />
+        <div className="border-t border-[#EEE6EF] px-5 py-4">
+          <p className="flex items-center gap-2 text-[11px] text-[#8B7E8E]">
+            <FlaskConical size={15} className="text-primary" />
             For laboratory research use only
           </p>
         </div>
@@ -326,8 +303,8 @@ export default function Header() {
         }`}
       >
         <div
-          className={`mx-auto grid max-w-7xl grid-cols-[1fr_auto] items-center gap-4 px-4 transition-[padding] duration-300 ease-in-out sm:px-6 lg:grid-cols-[1fr_auto_1fr] lg:px-0 ${
-            scrolled ? "py-2" : "py-4"
+          className={`mx-auto grid max-w-[1360px] grid-cols-[1fr_auto] items-center gap-4 px-4 transition-[padding] duration-300 ease-in-out sm:px-6 lg:grid-cols-[1fr_auto_1fr] lg:px-10 ${
+            scrolled ? "py-1" : "py-2"
           }`}
         >
           <Link
@@ -361,7 +338,7 @@ export default function Header() {
                   key={link.href}
                   href={link.href}
                   aria-current={active ? "page" : undefined}
-                  className={`group relative font-sans font-medium whitespace-nowrap transition-colors duration-300 text-md ${
+                  className={`group text-md relative font-sans font-medium whitespace-nowrap transition-colors duration-300 ${
                     active
                       ? "text-primary"
                       : "hover:text-primary text-[#514654]"

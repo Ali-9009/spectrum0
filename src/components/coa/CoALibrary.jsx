@@ -90,7 +90,7 @@ function CoACard({ product }) {
 
   return (
     <>
-      <article className="group hover:border-primary/20 flex min-w-0 flex-col overflow-hidden rounded-[22px] border border-[#EAE0EC] bg-white transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_18px_45px_rgba(85,32,95,0.08)]">
+      <article className="group hover:border-primary/20 flex min-w-0 flex-col overflow-hidden rounded-2xl border border-[#EAE0EC] bg-white transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_18px_45px_rgba(85,32,95,0.08)]">
         <div className="relative aspect-square overflow-hidden bg-[#F8F0FA]">
           {product.image ? (
             <Image
@@ -388,118 +388,118 @@ export default function CoALibrary() {
     <main className="min-h-screen bg-white">
       <header className="border-b border-[#EEE6EF] px-4 py-12 sm:px-6 sm:py-16 lg:px-8">
         <div className="mx-auto max-w-7xl">
-          <p className="text-secondary mb-3 text-[11px] font-bold tracking-[0.16em] uppercase">
+          <p className="text-secondary mb-4 flex items-center gap-2 font-sans text-xs font-bold tracking-[0.15em] uppercase">
             Spectrum Biosciences
           </p>
           <h1 className="section-heading">
             Certificates of <span className="text-secondary">Analysis.</span>
           </h1>
-          <p className="mt-2 max-w-2xl text-md text-[#817586]">
+          <p className="text-md mt-2 max-w-2xl text-[#817586]">
             Explore product-strength testing information. Hover over a card to
             view sample data and replace it with verified, batch-specific
             reports when available.
           </p>
         </div>
       </header>
+
       <section
-        className="mx-auto max-w-7xl px-4 py-10 sm:px-6 sm:py-14 lg:px-8"
         aria-label="Certificate of Analysis library"
+        className="relative px-4 py-10 sm:px-6 sm:py-14 lg:px-10"
       >
-        <div className="flex flex-col gap-4 border-b border-[#EEE6EF] pb-6 lg:flex-row lg:items-center lg:justify-between">
-          <div className="relative w-full lg:max-w-[390px]">
-            <Search
-              size={18}
-              className="text-primary/60 absolute top-1/2 left-4 -translate-y-1/2"
-            />
-            <label htmlFor="coa-search" className="sr-only">
-              Search products or batches
-            </label>
-            <input
-              id="coa-search"
-              type="search"
-              value={query}
-              onChange={(event) => setQuery(event.target.value)}
-              placeholder="Search compounds, strengths, or lots..."
-              className="focus:border-primary h-12 w-full rounded-full border border-[#E8DCEA] bg-white pr-11 pl-11 text-sm text-[#29232D] outline-none [&::-webkit-search-cancel-button]:hidden"
-            />
-            {query && (
-              <button
-                type="button"
-                aria-label="Clear search"
-                onClick={() => setQuery("")}
-                className="text-primary absolute top-1/2 right-3 grid size-8 -translate-y-1/2 place-items-center rounded-full hover:bg-[#F6E5F7]"
-              >
-                <X size={15} />
-              </button>
-            )}
-          </div>
-          <div className="flex flex-wrap items-center gap-3">
-            <span className="text-xs text-[#8A798E]">
-              {filtered.length} records
-            </span>
-            <div className="relative">
-              <label htmlFor="coa-category" className="sr-only">
-                Filter category
-              </label>
-              <select
-                id="coa-category"
-                value={category}
-                onChange={(event) => setCategory(event.target.value)}
-                className="text-primary focus:border-primary h-11 max-w-[180px] appearance-none rounded-full border border-[#E8DCEA] bg-white pr-9 pl-4 text-xs font-semibold outline-none"
-              >
-                <option value="all">All categories</option>
-                {categories.map((name) => (
-                  <option key={name} value={name}>
-                    {name}
-                  </option>
-                ))}
-              </select>
-              <ChevronDown
-                size={14}
-                className="text-primary pointer-events-none absolute top-3.5 right-3"
+        <div className="mx-auto max-w-7xl">
+          <div className="flex flex-col gap-4 border-b border-[#EEE6EF] pb-6 lg:flex-row lg:items-center lg:justify-between">
+            <div className="relative w-full lg:max-w-[390px]">
+              <Search
+                size={18}
+                className="text-primary/60 absolute top-1/2 left-4 -translate-y-1/2"
               />
+              <label htmlFor="coa-search" className="sr-only">
+                Search products or batches
+              </label>
+              <input
+                id="coa-search"
+                type="search"
+                value={query}
+                onChange={(event) => setQuery(event.target.value)}
+                placeholder="Search compounds, strengths, or lots..."
+                className="focus:border-primary h-12 w-full rounded-full border border-[#E8DCEA] bg-white pr-11 pl-11 text-sm text-[#29232D] outline-none [&::-webkit-search-cancel-button]:hidden"
+              />
+              {query && (
+                <button
+                  type="button"
+                  aria-label="Clear search"
+                  onClick={() => setQuery("")}
+                  className="text-primary absolute top-1/2 right-3 grid size-8 -translate-y-1/2 place-items-center rounded-full hover:bg-[#F6E5F7]"
+                >
+                  <X size={15} />
+                </button>
+              )}
+            </div>
+            <div className="flex flex-wrap items-center gap-3">
+              <div className="relative">
+                <label htmlFor="coa-category" className="sr-only">
+                  Filter category
+                </label>
+                <select
+                  id="coa-category"
+                  value={category}
+                  onChange={(event) => setCategory(event.target.value)}
+                  className="text-primary focus:border-primary h-11 max-w-[180px] appearance-none rounded-full border border-[#E8DCEA] bg-white pr-9 pl-4 text-xs font-semibold outline-none"
+                >
+                  <option value="all">All categories</option>
+                  {categories.map((name) => (
+                    <option key={name} value={name}>
+                      {name}
+                    </option>
+                  ))}
+                </select>
+                <ChevronDown
+                  size={14}
+                  className="text-primary pointer-events-none absolute top-3.5 right-3"
+                />
+              </div>
             </div>
           </div>
+          {filtered.length ? (
+            <div className="mt-8 grid grid-cols-2 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+              {Array.from(
+                new Map(
+                  filtered.map((item) => [item.product.slug, item.product]),
+                ).values(),
+              ).map((product) => (
+                <CoACard key={product.id} product={product} />
+              ))}
+            </div>
+          ) : (
+            <div className="flex min-h-64 flex-col items-center justify-center text-center">
+              <FileSearch size={33} className="text-primary/30" />
+              <h2 className="font-heading text-primary mt-4 text-xl font-bold">
+                No matching records
+              </h2>
+              <p className="mt-2 text-sm text-[#817586]">
+                Try another compound, strength, or filter.
+              </p>
+              <button
+                type="button"
+                onClick={() => {
+                  setQuery("");
+                  setFilter("all");
+                  setCategory("all");
+                }}
+                className="bg-primary mt-5 rounded-full px-5 py-3 text-xs font-semibold text-white"
+              >
+                Clear filters
+              </button>
+            </div>
+          )}
+          <p className="mt-12 flex items-start gap-2 border-t border-[#EEE6EF] pt-5 text-xs leading-6 text-[#817586]">
+            <FileCheck2 size={17} className="text-primary mt-0.5 shrink-0" />
+            Sample laboratory values are placeholders for UI testing only, not
+            product certificates or evidence of testing. Display verified
+            results and PDFs only after receiving actual batch documentation.
+            Research use only.
+          </p>
         </div>
-        {filtered.length ? (
-          <div className="mt-8 grid grid-cols-2 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {Array.from(
-              new Map(
-                filtered.map((item) => [item.product.slug, item.product]),
-              ).values(),
-            ).map((product) => (
-              <CoACard key={product.id} product={product} />
-            ))}
-          </div>
-        ) : (
-          <div className="flex min-h-64 flex-col items-center justify-center text-center">
-            <FileSearch size={33} className="text-primary/30" />
-            <h2 className="font-heading text-primary mt-4 text-xl font-bold">
-              No matching records
-            </h2>
-            <p className="mt-2 text-sm text-[#817586]">
-              Try another compound, strength, or filter.
-            </p>
-            <button
-              type="button"
-              onClick={() => {
-                setQuery("");
-                setFilter("all");
-                setCategory("all");
-              }}
-              className="bg-primary mt-5 rounded-full px-5 py-3 text-xs font-semibold text-white"
-            >
-              Clear filters
-            </button>
-          </div>
-        )}
-        <p className="mt-12 flex items-start gap-2 border-t border-[#EEE6EF] pt-5 text-xs leading-6 text-[#817586]">
-          <FileCheck2 size={17} className="text-primary mt-0.5 shrink-0" />
-          Sample laboratory values are placeholders for UI testing only, not
-          product certificates or evidence of testing. Display verified results
-          and PDFs only after receiving actual batch documentation. Research use
-          only.
-        </p>
       </section>
     </main>
   );

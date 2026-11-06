@@ -9,7 +9,13 @@ export const metadata = {
 export default async function AccountPage({ params }) {
   const { section = [] } = await params;
   return (
-    <Suspense fallback={<main className="min-h-screen bg-white p-10 text-primary">Loading your account...</main>}>
+    <Suspense
+      fallback={
+        <main className="text-primary min-h-screen bg-white p-10">
+          Loading your account...
+        </main>
+      }
+    >
       <AccountClient section={section[0] || "dashboard"} />
     </Suspense>
   );

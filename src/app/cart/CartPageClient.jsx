@@ -101,7 +101,7 @@ export default function CartPageClient() {
   }, 0);
 
   return (
-    <main className="min-h-screen bg-white">
+    <main className="">
       {/* ==========================================
           PAGE HEADER
       ========================================== */}
@@ -360,7 +360,7 @@ export default function CartPageClient() {
 
                   <Link
                     href={hasItems ? "/checkout" : "/shop"}
-                    className="group bg-primary flex w-full items-center justify-between rounded-full p-2 pl-6 font-sans text-[13px] font-bold text-white shadow-[0_12px_25px_rgba(85,32,95,0.17)] transition-all duration-300 hover:bg-[#35143E] hover:shadow-[0_18px_35px_rgba(85,32,95,0.25)]"
+                    className="group bg-primary flex w-full items-center justify-between rounded-full p-2 pl-6 font-sans text-sm font-semibold text-white shadow-[0_12px_25px_rgba(85,32,95,0.17)] transition-all duration-300 hover:bg-[#35143E] hover:shadow-[0_18px_35px_rgba(85,32,95,0.25)]"
                   >
                     <span className="flex items-center gap-2">
                       <LockKeyhole size={16} />
@@ -375,7 +375,7 @@ export default function CartPageClient() {
 
                   {/* SECURE NOTE */}
 
-                  <p className="flex items-center justify-center gap-2 font-sans text-[10px] text-[#998D9C]">
+                  <p className="flex items-center justify-center gap-2 font-sans text-sm text-[#998D9C]">
                     <LockKeyhole size={12} />
                     Secure checkout · Research use only
                   </p>

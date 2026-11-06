@@ -153,12 +153,12 @@ const featured = suggestedSlugs
 function SectionHeading({ eyebrow, title, description }) {
   return (
     <div className="max-w-2xl">
-      <p className="text-secondary mb-3 text-[11px] font-bold tracking-[0.16em] uppercase">
+      <p className="text-secondary mb-4 flex items-center gap-2 font-sans text-xs font-bold tracking-[0.15em] uppercase">
         {eyebrow}
       </p>
       <h2 className="section-heading">{title}</h2>
       {description && (
-        <p className="mt-3 text-md text-[#756779]">{description}</p>
+        <p className="text-md mt-3 text-[#756779]">{description}</p>
       )}
     </div>
   );

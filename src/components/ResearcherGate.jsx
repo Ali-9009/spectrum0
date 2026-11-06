@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { ArrowRight, ShieldCheck } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 
 const STORAGE_KEY = "spectrum-researcher-verified-v1";
 
@@ -26,24 +27,17 @@ export default function ResearcherGate() {
   }, []);
 
   useEffect(() => {
-    if (phase === "accepted") return;
-
-    const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-
-    return () => {
-      document.body.style.overflow = previousOverflow;
-    };
-  }, [phase]);
-
-  useEffect(() => {
     if (phase !== "waiting" && phase !== "prompt") return;
 
-    const previousOverflow = document.body.style.overflow;
+    const previousBodyOverflow = document.body.style.overflow;
+    const previousHtmlOverflow = document.documentElement.style.overflow;
+
     document.body.style.overflow = "hidden";
+    document.documentElement.style.overflow = "hidden";
 
     return () => {
-      document.body.style.overflow = previousOverflow;
+      document.body.style.overflow = previousBodyOverflow;
+      document.documentElement.style.overflow = previousHtmlOverflow;
     };
   }, [phase]);
 
@@ -75,6 +69,16 @@ export default function ResearcherGate() {
           aria-describedby="verification-description"
           className="w-full max-w-[540px] rounded-[24px] border border-[#EADDEC] bg-white p-6 shadow-[0_30px_90px_rgba(30,10,40,0.25)] sm:p-9"
         >
+          <div className="mb-6 flex justify-center">
+            <Image
+              src="/assets/spectrum-logo.png"
+              alt="Spectrum Biosciences"
+              width={200}
+              height={70}
+              priority
+              className="h-auto w-[170px] object-contain sm:w-[190px]"
+            />
+          </div>
           <h2
             id="verification-title"
             className="font-heading text-primary mt-3 text-[30px] leading-tight font-semibold tracking-[-0.045em] sm:text-[36px]"

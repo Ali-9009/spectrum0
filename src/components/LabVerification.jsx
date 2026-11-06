@@ -1,17 +1,19 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import Image from "next/image";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import {
   Fingerprint,
   Activity,
   Scale,
   ShieldCheck,
   ScanSearch,
-  CheckCheck,
-  ArrowUpRight,
   FileCheck2,
 } from "lucide-react";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const checks = [
   {
@@ -19,87 +21,66 @@ const checks = [
     icon: Fingerprint,
     title: "Identification",
     detail: "HPLC + LC-MS",
-    position: "lg:left-[5%] lg:top-[4%]",
-    rotate: "-7deg",
-    delay: 0,
+    position: "lg:left-[2%] lg:top-[5%]",
   },
   {
     id: "02",
     icon: Activity,
     title: "Purity",
     detail: "Chromatographic analysis",
-    position: "lg:right-[3%] lg:top-[13%]",
-    rotate: "6deg",
-    delay: 120,
+    position: "lg:right-[2%] lg:top-[5%]",
   },
   {
     id: "03",
     icon: Scale,
     title: "Net Content",
     detail: "Measured mass per vial",
-    position: "lg:left-[1%] lg:top-[43%]",
-    rotate: "4deg",
-    delay: 210,
+    position: "lg:left-0 lg:top-[41%]",
   },
   {
     id: "04",
     icon: ShieldCheck,
     title: "Endotoxins",
     detail: "Bacterial endotoxin screen",
-    position: "lg:right-[6%] lg:top-[48%]",
-    rotate: "-5deg",
-    delay: 60,
+    position: "lg:right-0 lg:top-[41%]",
   },
   {
     id: "05",
     icon: ScanSearch,
     title: "Sterility",
-    detail: "PCR screen",
-    position: "lg:left-[9%] lg:top-[77%]",
-    rotate: "-4deg",
-    delay: 160,
+    detail: "Laboratory screening",
+    position: "lg:left-[5%] lg:bottom-[4%]",
   },
   {
     id: "06",
     icon: FileCheck2,
     title: "Lot Traceability",
     detail: "Batch certificate matching",
-    position: "lg:right-[1%] lg:top-[79%]",
-    rotate: "7deg",
-    delay: 90,
+    position: "lg:right-[5%] lg:bottom-[4%]",
   },
 ];
-function VerificationCard({ item, visible }) {
+
+function VerificationCard({ item, index, cardRef }) {
   const Icon = item.icon;
 
   return (
     <div
-      className={`relative min-w-0 lg:absolute lg:w-[235px] xl:w-[265px] ${item.position}`}
-      style={{
-        "--card-rotate": item.rotate,
-        "--pop-delay": `${item.delay}ms`,
-      }}
+      ref={cardRef}
+      className={`relative min-w-0 lg:absolute lg:w-[250px] xl:w-[280px] ${item.position}`}
     >
-      <article
-        className={`lab-pop-card group hover:border-primary/30 relative flex min-w-0 items-center gap-3 rounded-[18px] border border-[#EEE3F0] bg-white/95 p-3.5 shadow-[0_15px_45px_rgba(85,32,95,0.09)] backdrop-blur-xl transition-[border-color,box-shadow] duration-300 hover:shadow-[0_20px_50px_rgba(85,32,95,0.16)] sm:p-4 ${
-          visible ? "lab-card-visible" : "lab-card-hidden"
-        }`}
-      >
-        <div className="text-primary group-hover:bg-primary flex h-11 w-11 shrink-0 items-center justify-center rounded-[14px] bg-[#F4E7F6] transition-colors duration-300 group-hover:text-white sm:h-12 sm:w-12">
-          <Icon size={22} strokeWidth={1.7} />
+      <article className="verification-card group hover:border-primary/30 relative flex min-h-[105px] items-center gap-4 rounded-[18px] border border-[#EEE3F0] bg-white p-4 shadow-[0_12px_35px_rgba(85,32,95,0.07)] transition-[border-color,box-shadow] duration-300 hover:shadow-[0_18px_45px_rgba(85,32,95,0.12)] sm:p-5">
+        <div className="text-primary group-hover:bg-primary flex size-12 shrink-0 items-center justify-center rounded-[14px] bg-[#F4E7F6] transition-colors duration-300 group-hover:text-white">
+          <Icon size={24} strokeWidth={1.7} />
         </div>
 
         <div className="min-w-0">
-          <h3 className="font-heading text-primary text-[14px] font-bold tracking-[-0.035em] sm:text-[16px]">
+          <h3 className="font-heading text-primary mt-1 text-[17px] font-bold tracking-[-0.035em] sm:text-[19px]">
             {item.title}
           </h3>
-
-          <p className="text-muted mt-1 font-sans text-[11px] leading-[1.5] sm:text-[12px]">
+          <p className="mt-1 text-[13px] leading-5 text-[#817586]">
             {item.detail}
           </p>
         </div>
-
-        <div className="bg-secondary absolute right-5 bottom-0 left-5 h-[2px] origin-left scale-x-0 transition-transform duration-500 group-hover:scale-x-100" />
       </article>
     </div>
   );
@@ -107,251 +88,309 @@ function VerificationCard({ item, visible }) {
 
 export default function LabVerification() {
   const sectionRef = useRef(null);
-  const [cardsVisible, setCardsVisible] = useState(false);
-  const animationRef = useRef(null);
+  const stageRef = useRef(null);
+  const productRef = useRef(null);
+  const cardRefs = useRef([]);
+  const pathRefs = useRef([]);
+  const dotRefs = useRef([]);
+  const [connections, setConnections] = useState([]);
+  const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
 
-  useEffect(() => {
-    const target = animationRef.current;
-    if (!target) return;
+  useLayoutEffect(() => {
+    const stage = stageRef.current;
+    const product = productRef.current;
+    if (!stage || !product) return;
 
-    let triggered = false;
+    let frame;
 
-    const handleScroll = () => {
-      if (triggered) return;
+    const updateConnections = () => {
+      cancelAnimationFrame(frame);
 
-      const rect = target.getBoundingClientRect();
-      const triggerPoint = window.innerHeight * 0.65;
-      const bottleCenter = rect.top + rect.height / 2;
+      frame = requestAnimationFrame(() => {
+        const stageRect = stage.getBoundingClientRect();
+        const productRect = product.getBoundingClientRect();
+        const mobile = window.innerWidth < 1024;
 
-      if (bottleCenter <= triggerPoint && bottleCenter >= 0) {
-        triggered = true;
-        setCardsVisible(true);
-        window.removeEventListener("scroll", handleScroll);
-      }
+        const startX =
+          productRect.left + productRect.width / 2 - stageRect.left;
+        const startY = mobile
+          ? productRect.bottom - stageRect.top - 18
+          : productRect.top + productRect.height / 2 - stageRect.top;
+
+        const paths = cardRefs.current.map((card) => {
+          if (!card) return null;
+
+          const rect = card.getBoundingClientRect();
+          const cardCenterX = rect.left + rect.width / 2 - stageRect.left;
+          const cardCenterY = rect.top + rect.height / 2 - stageRect.top;
+
+          const endX = mobile
+            ? cardCenterX
+            : cardCenterX < startX
+              ? rect.right - stageRect.left
+              : rect.left - stageRect.left;
+
+          const endY = mobile ? rect.top - stageRect.top : cardCenterY;
+
+          const dx = endX - startX;
+          const dy = endY - startY;
+
+          const d = mobile
+            ? `M ${startX} ${startY} C ${startX} ${startY + Math.max(45, dy * 0.35)}, ${endX} ${endY - 45}, ${endX} ${endY}`
+            : `M ${startX} ${startY} C ${startX + dx * 0.45} ${startY}, ${endX - dx * 0.3} ${endY}, ${endX} ${endY}`;
+
+          return { d, x: endX, y: endY };
+        });
+
+        setDimensions({
+          width: stageRect.width,
+          height: stageRect.height,
+        });
+        setConnections(paths);
+      });
     };
 
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    handleScroll();
+    updateConnections();
 
-    return () => window.removeEventListener("scroll", handleScroll);
+    const observer = new ResizeObserver(updateConnections);
+    observer.observe(stage);
+    observer.observe(product);
+    cardRefs.current.forEach((card) => {
+      if (card) observer.observe(card);
+    });
+
+    window.addEventListener("resize", updateConnections);
+
+    return () => {
+      cancelAnimationFrame(frame);
+      observer.disconnect();
+      window.removeEventListener("resize", updateConnections);
+    };
   }, []);
 
   useEffect(() => {
-    const section = sectionRef.current;
-    if (!section) return;
+    if (connections.length !== checks.length) return;
+    if (connections.some((connection) => !connection)) return;
 
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setCardsVisible(true);
-          observer.disconnect();
-        }
-      },
-      {
-        threshold: 0.15,
-        rootMargin: "0px 0px -80px 0px",
-      },
-    );
+    const ctx = gsap.context(() => {
+      const elements = checks.map((_, index) => ({
+        card: cardRefs.current[index]?.querySelector(".verification-card"),
+        path: pathRefs.current[index],
+        dot: dotRefs.current[index],
+      }));
 
-    observer.observe(section);
+      if (elements.some(({ card, path, dot }) => !card || !path || !dot)) {
+        return;
+      }
 
-    return () => observer.disconnect();
-  }, []);
+      const reducedMotion = window.matchMedia(
+        "(prefers-reduced-motion: reduce)",
+      ).matches;
+
+      if (reducedMotion) {
+        elements.forEach(({ card, path, dot }) => {
+          gsap.set(card, {
+            autoAlpha: 1,
+            y: 0,
+            scale: 1,
+          });
+
+          gsap.set(path, {
+            strokeDasharray: "none",
+            strokeDashoffset: 0,
+          });
+
+          gsap.set(dot, {
+            autoAlpha: 1,
+          });
+        });
+
+        return;
+      }
+
+      elements.forEach(({ card, path, dot }) => {
+        const length = path.getTotalLength();
+
+        gsap.set(card, {
+          autoAlpha: 0,
+          y: 35,
+          scale: 0.82,
+        });
+
+        gsap.set(path, {
+          strokeDasharray: length,
+          strokeDashoffset: length,
+        });
+
+        gsap.set(dot, {
+          autoAlpha: 0,
+        });
+      });
+
+      const timeline = gsap.timeline({
+        scrollTrigger: {
+          trigger: stageRef.current,
+          start: "top 78%",
+          once: true,
+        },
+      });
+
+      elements.forEach(({ card, path, dot }, index) => {
+        const start = index * 0.28;
+
+        timeline.to(
+          path,
+          {
+            strokeDashoffset: 0,
+            duration: 0.75,
+            ease: "power2.inOut",
+          },
+          start,
+        );
+
+        timeline.to(
+          dot,
+          {
+            autoAlpha: 1,
+            duration: 0.2,
+          },
+          start + 0.55,
+        );
+
+        timeline.to(
+          card,
+          {
+            autoAlpha: 1,
+            y: 0,
+            scale: 1,
+            duration: 0.65,
+            ease: "back.out(1.5)",
+          },
+          start + 0.5,
+        );
+      });
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, [connections]);
 
   return (
     <section
       ref={sectionRef}
       id="lab-verification"
       aria-labelledby="verification-title"
-      className="relative overflow-hidden px-4 py-18 sm:px-6 lg:px-8"
+      className="overflow-hidden bg-white px-4 py-16 sm:px-6 sm:py-20 lg:px-8"
     >
       <div className="mx-auto max-w-7xl">
-        <header className="relative z-10 mx-auto max-w-3xl text-center">
-          <span className="text-secondary inline-flex items-center gap-2 font-sans text-[11px] font-bold tracking-[0.2em] uppercase">
-            <span className="bg-secondary h-2 w-2 rounded-full" />
-            Laboratory Documentation
-          </span>
-
+        <header className="mx-auto max-w-3xl text-center">
           <h2 id="verification-title" className="section-heading mt-2">
-            Five Checks.
+            Six Checks.
             <br />
             <span className="text-secondary">One Clearer Record.</span>
           </h2>
 
-          <p className="text-muted mx-auto mt-5 max-w-lg font-sans text-[14px] leading-[1.8] sm:text-[15px]">
-            Explore the laboratory checks that help document the identity,
-            composition, and quality of research compounds.
+          <p className="text-md mx-auto mt-2 max-w-xl text-[#817586]">
+            Explore the analytical checks that help document research compounds
+            and their batch-specific information.
           </p>
         </header>
 
-        <div className="relative mt-12 lg:mt-10">
-          <div className="border-primary/[0.07] pointer-events-none absolute top-1/2 left-1/2 hidden h-[450px] w-[450px] -translate-x-1/2 -translate-y-1/2 rounded-full border lg:block" />
+        <div
+          ref={stageRef}
+          className="relative mt-10 flex flex-col items-center lg:mt-14 lg:block lg:h-[530px]"
+        >
+          {dimensions.width > 0 && connections.length > 0 && (
+            <svg
+              viewBox={`0 0 ${dimensions.width} ${dimensions.height}`}
+              aria-hidden="true"
+              className="pointer-events-none absolute inset-0 z-0 h-full w-full overflow-visible"
+            >
+              {connections.map((connection, index) => {
+                if (!connection) return null;
 
-          <div className="border-primary/[0.08] pointer-events-none absolute top-1/2 left-1/2 hidden h-[570px] w-[570px] -translate-x-1/2 -translate-y-1/2 rounded-full border border-dashed lg:block" />
-
-          <div className="pointer-events-none absolute top-1/2 left-1/2 hidden h-[330px] w-[330px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#F6E8F8] blur-[80px] lg:block" />
-
-          <div className="relative flex flex-col items-center lg:h-[460px]">
-            <div className="relative z-10 flex w-full flex-col items-center lg:absolute lg:top-1/2 lg:left-1/2 lg:w-[270px] lg:-translate-x-1/2 lg:-translate-y-1/2">
-              <div
-                ref={animationRef}
-                className="relative flex h-[240px] w-[185px] items-center justify-center sm:h-[290px] sm:w-[220px] lg:h-[340px] lg:w-[250px]"
-              >
-                <div className="pointer-events-none absolute inset-0 z-0 flex items-center justify-center">
-                  <div className="absolute h-[260px] w-[320px] sm:h-[330px] sm:w-[450px] lg:h-[400px] lg:w-[580px]">
-                    <Image
-                      src="/assets/spectrum-logo.png"
-                      alt=""
-                      fill
-                      sizes="(max-width: 640px) 320px, (max-width: 1024px) 450px, 580px"
-                      className="object-contain opacity-[0.12]"
+                return (
+                  <g key={checks[index].id}>
+                    <path
+                      d={connection.d}
+                      fill="none"
+                      stroke="#55205F"
+                      strokeWidth="2"
+                      strokeOpacity="0.1"
                     />
-                  </div>
-                </div>
+                    <path
+                      ref={(element) => {
+                        pathRefs.current[index] = element;
+                      }}
+                      d={connection.d}
+                      fill="none"
+                      stroke="#F47735"
+                      strokeWidth="2.5"
+                      strokeLinecap="round"
+                    />
+                    <circle
+                      ref={(element) => {
+                        dotRefs.current[index] = element;
+                      }}
+                      cx={connection.x}
+                      cy={connection.y}
+                      r="5"
+                      fill="#F47735"
+                      stroke="white"
+                      strokeWidth="2"
+                    />
+                  </g>
+                );
+              })}
+            </svg>
+          )}
 
-                <div className="absolute inset-8 z-0 rounded-full bg-[#F2DDF5]/60 blur-[55px]" />
-
-                <div
-                  className={`relative z-10 h-full w-full ${
-                    cardsVisible ? "lab-bottle" : ""
-                  }`}
-                >
-                  <Image
-                    src="/assets/5-amino-hero.png"
-                    alt="Spectrum Biosciences research vial"
-                    fill
-                    sizes="(max-width: 640px) 185px, (max-width: 1024px) 220px, 250px"
-                    className="object-contain drop-shadow-[0_25px_25px_rgba(85,32,95,0.18)]"
-                  />
-                </div>
-
-                <span className="bg-primary/15 pointer-events-none absolute bottom-4 left-1/2 z-0 h-5 w-36 -translate-x-1/2 rounded-full blur-xl" />
-              </div>
-
-              <div className="border-primary/10 relative z-20 mt-1 flex items-center gap-2 rounded-full border bg-white px-4 py-2 shadow-sm lg:mt-0">
-                <span className="relative flex h-2.5 w-2.5">
-                  <span className="bg-secondary/40 absolute inline-flex h-full w-full animate-ping rounded-full" />
-                  <span className="bg-secondary relative inline-flex h-2.5 w-2.5 rounded-full" />
-                </span>
-
-                <span className="text-primary font-sans text-[11px] font-semibold tracking-[0.1em] uppercase">
-                  Spectrum Biosciences
-                </span>
-              </div>
+          <div className="relative z-10 flex w-full flex-col items-center lg:absolute lg:top-1/2 lg:left-1/2 lg:w-[280px] lg:-translate-x-1/2 lg:-translate-y-1/2">
+            <div
+              ref={productRef}
+              className="relative h-[250px] w-[190px] sm:h-[300px] sm:w-[230px] lg:h-[350px] lg:w-[270px]"
+            >
+              <div className="absolute inset-5 rounded-full bg-[#F2DDF5]/70 blur-[45px]" />
+              <Image
+                src="/assets/5-amino-hero.png"
+                alt="Spectrum Biosciences research product"
+                fill
+                sizes="(max-width: 640px) 190px, (max-width: 1024px) 230px, 270px"
+                className="product-float relative object-contain drop-shadow-[0_25px_25px_rgba(85,32,95,0.2)]"
+              />
             </div>
 
-            <div className="relative z-20 mt-8 grid w-full grid-cols-1 gap-4 min-[480px]:grid-cols-2 sm:gap-5 lg:mt-0 lg:block lg:h-full">
-              {checks.map((item) => (
-                <VerificationCard
-                  key={item.id}
-                  item={item}
-                  visible={cardsVisible}
-                />
-              ))}
+            <div className="mt-3 flex items-center gap-2 rounded-full border border-[#E8DCEA] bg-white px-5 py-2.5 shadow-sm">
+              <span className="bg-secondary size-2 rounded-full" />
+              <span className="text-primary text-[12px] font-semibold">
+                Spectrum Biosciences
+              </span>
             </div>
+          </div>
+
+          <div className="relative z-10 mt-10 grid w-full grid-cols-1 gap-5 min-[560px]:grid-cols-2 lg:mt-0 lg:block lg:h-full">
+            {checks.map((item, index) => (
+              <VerificationCard
+                key={item.id}
+                item={item}
+                index={index}
+                cardRef={(element) => {
+                  cardRefs.current[index] = element;
+                }}
+              />
+            ))}
           </div>
         </div>
 
-        <div className="relative z-10 mx-auto mt-12 max-w-2xl text-center lg:mt-0">
-          <h3 className="font-heading text-primary text-[23px] font-bold tracking-[-0.04em] sm:text-[27px]">
+        <div className="mt-14 text-center lg:mt-6">
+          <h3 className="font-heading text-primary text-[25px] font-bold tracking-[-0.04em] sm:text-[30px]">
             Follow the Lot. Verify the Record.
           </h3>
+          <p className="mx-auto mt-3 max-w-xl text-[14px] leading-7 text-[#817586]">
+            Testing information varies by product and batch. Consult the
+            available certificate for specific analytical results.
+          </p>
         </div>
       </div>
-
-      <style jsx global>{`
-        @keyframes spectrum-bottle-float {
-          0%,
-          100% {
-            transform: translateY(0) rotate(-2deg);
-          }
-          50% {
-            transform: translateY(-14px) rotate(2deg);
-          }
-        }
-
-        @keyframes spectrum-card-pop {
-          0% {
-            opacity: 0;
-            transform: translateY(40px) scale(0.55) rotate(0deg);
-            filter: blur(8px);
-          }
-
-          55% {
-            opacity: 1;
-            transform: translateY(-12px) scale(1.09)
-              rotate(calc(var(--card-rotate) * 1.2));
-            filter: blur(0);
-          }
-
-          78% {
-            transform: translateY(4px) scale(0.97)
-              rotate(calc(var(--card-rotate) * 0.95));
-          }
-
-          100% {
-            opacity: 1;
-            transform: translateY(0) scale(1) rotate(var(--card-rotate));
-            filter: blur(0);
-          }
-        }
-
-        .lab-bottle {
-          animation: spectrum-bottle-float 5s ease-in-out infinite;
-        }
-
-        .lab-pop-card {
-          transform-origin: center;
-          will-change: transform, opacity;
-        }
-
-        .lab-card-hidden {
-          opacity: 0;
-          transform: translateY(30px) scale(0.6);
-          pointer-events: none;
-        }
-
-        .lab-card-visible {
-          animation: spectrum-card-pop 750ms cubic-bezier(0.22, 1, 0.36, 1)
-            var(--pop-delay) both;
-        }
-
-        @media (max-width: 1023px) {
-          .lab-card-visible {
-            animation-name: spectrum-card-pop-mobile;
-          }
-
-          @keyframes spectrum-card-pop-mobile {
-            0% {
-              opacity: 0;
-              transform: translateY(25px) scale(0.7);
-            }
-
-            65% {
-              opacity: 1;
-              transform: translateY(-5px) scale(1.03);
-            }
-
-            100% {
-              opacity: 1;
-              transform: translateY(0) scale(1);
-            }
-          }
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-          .lab-bottle,
-          .lab-card-visible {
-            animation: none;
-          }
-
-          .lab-card-visible {
-            opacity: 1;
-            transform: none;
-            filter: none;
-          }
-        }
-      `}</style>
     </section>
   );
 }

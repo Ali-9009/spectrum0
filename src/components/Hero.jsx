@@ -23,7 +23,7 @@ const features = [
 
 function HeroHeadings() {
   return (
-    <div className="relative z-10 grid grid-cols-2 gap-2 px-3 pt-8 pb-4 sm:gap-4 sm:px-8 sm:pt-12 lg:px-14 lg:pt-12">
+    <div className="relative z-10 grid grid-cols-2 gap-2 px-3 pt-8 pb-4 sm:gap-4 sm:px-8 sm:pt-12 lg:px-14 lg:pt-16">
       <div data-aos="fade-right" className="min-w-0">
         <h1 id="hero-title" className="flex flex-col items-start">
           <span className="font-heading text-text text-[clamp(17px,4vw,25px)] leading-[1.15] font-bold tracking-[-0.06em] italic lg:text-[clamp(25px,2.3vw,34px)]">
@@ -72,7 +72,7 @@ function HeroProduct({ desktop = false, product }) {
               ? "(max-width: 1280px) 250px, 300px"
               : "(max-width: 640px) 190px, (max-width: 1024px) 280px"
           }
-          className="h-auto w-full object-contain drop-shadow-[0_25px_30px_rgba(40,0,45,0.25)]"
+          className="product-float h-auto w-full object-contain drop-shadow-[0_25px_30px_rgba(40,0,45,0.25)]"
         />
       </div>
     </div>

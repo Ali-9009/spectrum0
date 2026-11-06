@@ -527,7 +527,7 @@ export default function CheckoutClient() {
                 >
                   <LockKeyhole size={16} /> Continue to secure payment
                 </button>
-                <p className="flex items-center justify-center gap-2 text-[11px] text-[#96899A]">
+                <p className="flex items-center justify-center gap-2 text-sm text-[#96899A]">
                   <ShieldCheck size={14} /> No payment is collected on this page
                 </p>
               </div>

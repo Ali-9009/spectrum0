@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { ArrowUpRight, MapPin, Truck } from "lucide-react";
 import usa from "@/data/us-map-data.json";
 
@@ -88,57 +88,48 @@ export default function USShippingCoverage() {
   const [hoveredState, setHoveredState] = useState(null);
   const [activeCity, setActiveCity] = useState(null);
   const [hoveredCity, setHoveredCity] = useState(null);
-  const mapRef = useRef(null);
 
   const selectedState = hoveredState || activeState;
   const selectedCity = hoveredCity || activeCity;
   const currentName = stateNames[selectedState] || selectedState;
 
-  useEffect(() => {
-    const map = mapRef.current;
-    if (!map || window.innerWidth >= 640) return;
-    map.scrollLeft = Math.max(0, (map.scrollWidth - map.clientWidth) / 2);
-  }, []);
-
   return (
     <section
       aria-labelledby="shipping-coverage-title"
-      className="bg-white px-4 py-10 sm:px-6 sm:py-14"
+      className="w-full overflow-hidden bg-white px-4 py-12 sm:px-6 sm:py-16 lg:px-8"
     >
       <div className="mx-auto max-w-7xl">
-        <div className="mb-7 flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
+        <header className="mb-8 flex flex-col justify-between gap-5 sm:flex-row sm:items-end">
           <div>
-            <p className="text-secondary mb-3 text-[11px] font-bold tracking-[0.16em] uppercase">
+            <p className="text-secondary mb-4 flex items-center gap-2 font-sans text-xs font-bold tracking-[0.15em] uppercase">
               Shipping Coverage
             </p>
+
             <h2 id="shipping-coverage-title" className="section-heading">
-              Across the United States.
+              Across the <span className="text-secondary">United States.</span>
             </h2>
-            <p className="text-md mt-3 max-w-xl text-[#817586]">
+
+            <p className="text-md mt-4 max-w-xl text-[#817586]">
               Explore our illustrated domestic shipping network. Select a state
               or destination to learn more.
             </p>
           </div>
 
-          <span className="text-primary inline-flex w-fit items-center gap-2 rounded-full border border-[#EADDEB] px-4 py-2 text-xs font-semibold">
-            <Truck size={15} />
+          <span className="text-primary inline-flex w-fit shrink-0 items-center gap-2 rounded-full border border-[#EADDEB] bg-[#FBF7FC] px-4 py-2.5 text-xs font-semibold">
+            <Truck size={16} />
             Domestic Shipping
           </span>
-        </div>
+        </header>
 
-        <div className="overflow-hidden rounded-[22px] border border-[#E8DCEA] bg-[#FAF6FC]">
-          <div className="relative">
-            <div
-              ref={mapRef}
-              className="w-full overflow-x-auto overflow-y-hidden overscroll-x-contain sm:overflow-visible"
-              aria-label="Scrollable United States shipping map"
-            >
+        <div className="overflow-hidden rounded-[24px] border border-[#E8DCEA] bg-[#FAF6FC]">
+          <div className="grid min-w-0 items-center gap-4 p-3 sm:p-5 lg:grid-cols-[minmax(0,1fr)_260px] lg:gap-5 lg:p-7">
+            <div className="relative flex min-w-0 items-center justify-center overflow-hidden rounded-[18px] bg-white/40 p-1 sm:p-3">
               <svg
                 viewBox="0 0 900 540"
                 role="img"
-                aria-label="Interactive United States shipping map with routes from Dallas"
-                className="block h-auto w-[680px] max-w-none sm:w-full"
+                aria-label="Interactive United States shipping map with illustrative routes from Dallas"
                 preserveAspectRatio="xMidYMid meet"
+                className="block h-auto w-full max-w-[760px] shrink-0"
               >
                 <defs>
                   <linearGradient
@@ -253,6 +244,7 @@ export default function USShippingCoverage() {
                           r="15"
                           fill="transparent"
                         />
+
                         {active && (
                           <circle
                             cx={city.x}
@@ -263,6 +255,7 @@ export default function USShippingCoverage() {
                             className="motion-safe:animate-pulse"
                           />
                         )}
+
                         <circle
                           cx={city.x}
                           cy={city.y}
@@ -271,6 +264,7 @@ export default function USShippingCoverage() {
                           stroke={active ? "#F47735" : "#55205F"}
                           strokeWidth="2"
                         />
+
                         <text
                           x={city.x + 9}
                           y={city.y - 8}
@@ -298,6 +292,7 @@ export default function USShippingCoverage() {
                   opacity="0.14"
                   className="motion-safe:animate-pulse"
                 />
+
                 <circle
                   cx={hub.x}
                   cy={hub.y}
@@ -306,51 +301,70 @@ export default function USShippingCoverage() {
                   stroke="white"
                   strokeWidth="3"
                 />
+
+                <text
+                  x={hub.x + 15}
+                  y={hub.y + 7}
+                  fontSize="15"
+                  fontWeight="700"
+                  fill="#55205F"
+                  stroke="#FFFFFF"
+                  strokeWidth="4"
+                  paintOrder="stroke"
+                  className="pointer-events-none"
+                >
+                  Dallas
+                </text>
               </svg>
             </div>
 
-            <div className="pointer-events-none absolute bottom-[13%] left-1/2 hidden -translate-x-1/2 rounded-lg bg-[#35143E] px-3 py-2 text-white shadow-lg lg:block">
-              <p className="text-[11px] font-bold">Dallas, Texas</p>
-              <p className="text-[9px] text-white/70">
-                Illustrative dispatch point
-              </p>
-            </div>
-
-            <aside className="relative mx-3 mb-3 rounded-[18px] border border-[#E8DCEA] bg-white p-5 shadow-sm sm:mx-5 sm:mb-5 lg:absolute lg:top-5 lg:right-5 lg:mx-0 lg:mb-0 lg:w-[235px] lg:p-5">
-              <p className="text-secondary text-[10px] font-bold tracking-[0.16em] uppercase">
+            <aside
+              aria-label="Shipping information"
+              className="rounded-[18px] border border-[#E8DCEA] bg-white p-5 shadow-[0_8px_25px_rgba(85,32,95,0.04)] sm:p-6"
+            >
+              <p className="text-secondary text-[11px] font-bold tracking-[0.15em] uppercase">
                 Shipping Overview
               </p>
 
-              <div className="mt-3 flex items-baseline gap-2">
-                <span className="font-heading text-primary text-4xl font-bold tracking-[-0.06em]">
+              <div className="mt-4 flex items-center gap-3">
+                <span className="font-heading text-primary text-[38px] leading-none font-bold tracking-[-0.06em]">
                   US
                 </span>
-                <span className="text-primary text-[11px] font-semibold">
+
+                <span className="text-primary text-[12px] font-semibold">
                   Domestic Delivery
                 </span>
               </div>
 
-              <div className="mt-4 border-t border-[#EEE6EF] pt-4">
-                <h3 className="font-heading text-primary text-lg font-bold">
-                  {selectedCity || currentName}
-                </h3>
-                <p className="mt-2 text-xs leading-6 text-[#817586]">
+              <div className="mt-5 border-t border-[#EEE6EF] pt-5">
+                <div className="flex items-center gap-2">
+                  <MapPin size={17} className="text-secondary shrink-0" />
+
+                  <h3 className="font-heading text-primary text-[21px] font-bold">
+                    {selectedCity || currentName}
+                  </h3>
+                </div>
+
+                <p className="mt-3 text-[13px] leading-6 text-[#817586]">
                   {selectedCity
-                    ? `Illustrative shipping route from Dallas to ${selectedCity}. Actual routing and delivery times depend on the carrier.`
-                    : `Explore shipping coverage for ${currentName}. Availability and delivery estimates are confirmed at checkout.`}
+                    ? `Illustrative shipping route from Dallas to ${selectedCity}. Actual routes and delivery times depend on the carrier.`
+                    : `Explore shipping information for ${currentName}. Availability and delivery estimates are confirmed at checkout.`}
                 </p>
               </div>
 
-              <div className="mt-4 space-y-3 border-t border-[#EEE6EF] pt-4 text-[11px]">
-                <div className="flex justify-between gap-3">
+              <div className="mt-5 space-y-3 border-t border-[#EEE6EF] pt-5">
+                <div className="flex items-center justify-between gap-3 text-[12px]">
                   <span className="text-[#817586]">Service</span>
-                  <strong className="text-primary text-right">
-                    Tracked shipping*
+
+                  <strong className="text-primary text-right font-semibold">
+                    Tracked Shipping*
                   </strong>
                 </div>
-                <div className="flex justify-between gap-3">
+
+                <div className="flex items-center justify-between gap-3 text-[12px]">
                   <span className="text-[#817586]">Coverage</span>
-                  <strong className="text-primary text-right">
+
+                  <strong className="text-primary text-right font-semibold">
                     United States
                   </strong>
                 </div>
@@ -360,21 +374,23 @@ export default function USShippingCoverage() {
                 <button
                   type="button"
                   onClick={() => setActiveCity(null)}
-                  className="text-secondary hover:text-primary mt-4 inline-flex items-center gap-1 text-[11px] font-semibold"
+                  className="text-secondary hover:text-primary mt-5 inline-flex items-center gap-2 text-[12px] font-semibold transition-colors"
                 >
-                  Show all routes <ArrowUpRight size={13} />
+                  Show all routes
+                  <ArrowUpRight size={15} />
                 </button>
               )}
             </aside>
           </div>
 
-          <div className="flex items-start gap-2 border-t border-[#E8DCEA] bg-white px-4 py-3 text-[11px] leading-5 text-[#817586]">
-            <MapPin size={14} className="text-primary mt-0.5 shrink-0" />
-            <span>
-              Tap a state or city to explore. Swipe the map horizontally on
-              mobile. Routes are illustrative, not live tracking. Confirm
-              carrier services before publishing.
-            </span>
+          <div className="flex items-start gap-2 border-t border-[#E8DCEA] bg-white px-4 py-3.5 text-[12px] leading-6 text-[#817586] sm:px-6">
+            <MapPin size={16} className="text-primary mt-1 shrink-0" />
+
+            <p>
+              Select a state or destination to explore. Routes are illustrative,
+              not live tracking. Carrier availability should be confirmed before
+              publishing.
+            </p>
           </div>
         </div>
       </div>
@@ -383,11 +399,13 @@ export default function USShippingCoverage() {
         .shipping-route {
           animation: shipping-flow 16s linear infinite;
         }
+
         @keyframes shipping-flow {
           to {
             stroke-dashoffset: -140;
           }
         }
+
         @media (prefers-reduced-motion: reduce) {
           .shipping-route {
             animation: none;
