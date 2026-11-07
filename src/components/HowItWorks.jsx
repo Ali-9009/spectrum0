@@ -358,7 +358,7 @@ export default function HowItWorks() {
     <section
       id="how-it-works"
       aria-labelledby="how-it-works-title"
-      className="relative overflow-hidden bg-white px-4 sm:px-6 lg:px-8"
+      className="relative overflow-hidden bg-white px-4 py-12 sm:px-6 lg:px-8"
     >
       <div className="relative mx-auto max-w-7xl">
         <header className="relative z-10 max-w-[720px]">
