@@ -152,11 +152,33 @@ export default function Footer() {
 
           <div
             aria-hidden="true"
-            className="pointer-events-none relative mt-6 w-full overflow-hidden select-none"
+            className="pointer-events-none mt-6 w-full select-none"
           >
-            <span className="font-heading block w-full [mask-image:linear-gradient(to_bottom,black_0%,black_15%,transparent_85%)] text-center text-[clamp(36px,13.5vw,220px)] leading-[0.95] font-extrabold tracking-[-0.095em] whitespace-nowrap text-[#E8D8EB] sm:text-[clamp(60px,14vw,220px)]">
-              SPECTRUM
-            </span>
+            <svg
+              viewBox="0 0 1000 150"
+              preserveAspectRatio="none"
+              className="block h-auto w-full"
+            >
+              <defs>
+                <linearGradient id="spectrumFade" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stopColor="#E8D8EB" />
+                  <stop offset="100%" stopColor="#E8D8EB" stopOpacity="0" />
+                </linearGradient>
+              </defs>
+              <text
+                x="500"
+                y="125"
+                textAnchor="middle"
+                textLength="980"
+                lengthAdjust="spacingAndGlyphs"
+                fill="url(#spectrumFade)"
+                fontFamily="var(--font-sora), sans-serif"
+                fontSize="145"
+                fontWeight="800"
+              >
+                SPECTRUM
+              </text>
+            </svg>
           </div>
         </div>
       </div>

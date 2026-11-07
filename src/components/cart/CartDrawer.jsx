@@ -98,7 +98,7 @@ export default function CartDrawer() {
             aria-label="Also available"
             className="hidden min-h-0 overflow-y-auto border-r border-[#e9eff5] bg-[#f5f8fc] p-3.5 lg:block"
           >
-            <p className="mb-3 px-1 text-[11px] font-bold text-[#0b1b3f]">
+            <p className="mb-3 px-1 text-sm font-semibold text-[#0b1b3f]">
               Also available
             </p>
             <CartSuggestions />
@@ -109,20 +109,17 @@ export default function CartDrawer() {
               <FreeShippingProgress compact />
               {!items.length ? (
                 <div className="flex min-h-56 flex-col items-center justify-center px-2 text-center">
-                  <span className="grid size-14 place-items-center rounded-2xl bg-[#eaf4ff] text-[#397fce]">
-                    <ShoppingBag size={25} />
-                  </span>
-                  <h3 className="font-heading mt-4 text-lg font-bold text-[#0b1b3f]">
+                  <h3 className="font-heading mt-4 text-lg font-semibold">
                     Your cart is empty
                   </h3>
-                  <p className="mt-2 max-w-xs text-xs leading-relaxed text-[#788ca5]">
+                  <p className="mt-2 max-w-xs text-sm text-[#788ca5]">
                     Explore the collection and choose a research compound to get
                     started.
                   </p>
                   <button
                     type="button"
                     onClick={closeCart}
-                    className="mt-5 rounded-full bg-[#0b1b3f] px-5 py-3 text-xs font-semibold text-white"
+                    className="mt-5 rounded-full bg-[#0b1b3f] px-5 py-3 text-sm font-semibold text-white"
                   >
                     Continue shopping
                   </button>

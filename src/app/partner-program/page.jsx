@@ -197,7 +197,7 @@ function EarningsEstimator() {
   return (
     <section
       id="earnings"
-      className="scroll-mt-24 bg-[#FCF9FD] px-5 py-16 sm:px-8 sm:py-20 lg:py-24"
+      className="scroll-mt-24 bg-[#FCF9FD] px-5 py-12 sm:px-8 md:py-16"
     >
       <div className="mx-auto max-w-7xl">
         <SectionHeading
@@ -377,6 +377,7 @@ export default function PartnerProgramPage() {
 
   return (
     <main className="min-h-screen">
+
       <section className="overflow-hidden border-b border-[#EEE6EF] px-4 py-12 sm:px-6 lg:px-10">
         <div className="mx-auto grid max-w-7xl items-center gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16">
           <div>
@@ -436,28 +437,11 @@ export default function PartnerProgramPage() {
             </div>
           </div>
         </div>
-        <div className="mx-auto mt-12 grid max-w-7xl grid-cols-2 gap-4 border-t border-[#EEE6EF] pt-7 sm:grid-cols-4">
-          {[
-            { label: "Top proposed rate", value: "18%" },
-            { label: "Example attribution", value: "45 days" },
-            { label: "Example repeat window", value: "100 days" },
-            { label: "Example joining fee", value: "$0" },
-          ].map((stat) => (
-            <div key={stat.label}>
-              <p className="font-heading text-primary text-3xl font-bold sm:text-4xl">
-                {stat.value}
-              </p>
-              <p className="mt-2 text-sm leading-6 text-[#817586]">
-                {stat.label}
-              </p>
-            </div>
-          ))}
-        </div>
       </section>
 
       <EarningsEstimator />
 
-      <section className="px-5 py-16 sm:px-8 sm:py-20 lg:py-24">
+      <section className="px-5 py-12 sm:px-8 md:py-16">
         <div className="mx-auto max-w-7xl">
           <SectionHeading
             eyebrow="A clear path to growth"
@@ -509,7 +493,7 @@ export default function PartnerProgramPage() {
         </div>
       </section>
 
-      <section className="bg-[#FCF9FD] px-5 py-16 sm:px-8 sm:py-20 lg:py-24">
+      <section className="bg-[#FCF9FD] px-5 py-12 sm:px-8 md:py-16">
         <div className="mx-auto max-w-7xl">
           <SectionHeading
             eyebrow="Simple process"
@@ -543,7 +527,7 @@ export default function PartnerProgramPage() {
         </div>
       </section>
 
-      <section className="px-5 py-16 sm:px-8 sm:py-20 lg:py-24">
+      <section className="px-5 py-12 sm:px-8 md:py-16">
         <div className="mx-auto max-w-7xl">
           <SectionHeading
             eyebrow="Partner benefits"
@@ -563,90 +547,6 @@ export default function PartnerProgramPage() {
                   {description}
                 </p>
               </article>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="border-y border-[#EEE6EF] bg-[#FCF9FD] px-5 py-16 sm:px-8 sm:py-20 lg:py-24">
-        <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:gap-20">
-          <div>
-            <SectionHeading
-              eyebrow="Program guidelines"
-              title="The terms, clearly."
-              description="A partner program should be transparent about attribution, eligible referrals, payment rules, and research-use restrictions."
-            />
-            <Link
-              href="/research-disclaimer"
-              className="text-primary decoration-primary/30 hover:text-secondary mt-7 inline-flex items-center gap-2 text-base font-semibold underline underline-offset-4"
-            >
-              Read research disclaimer <ArrowUpRight size={18} />
-            </Link>
-          </div>
-          <div className="divide-y divide-[#E9DDEA] rounded-[23px] border border-[#E9DDEA] bg-white px-5 sm:px-7">
-            {[
-              ["Attribution window", "Proposed 45 days, last click"],
-              ["Repeat orders", "Proposed 100-day eligibility window"],
-              ["Payout schedule", "Proposed monthly, net-30"],
-              ["Minimum payout", "Proposed $50 rollover"],
-              ["Eligible channels", "Subject to review and approval"],
-              [
-                "Restricted practices",
-                "No self-referrals, misleading claims, or unauthorized trademark bidding",
-              ],
-            ].map(([label, value]) => (
-              <div
-                key={label}
-                className="flex flex-col gap-2 py-4 sm:flex-row sm:items-start sm:justify-between sm:gap-6"
-              >
-                <span className="text-base text-[#746679]">{label}</span>
-                <strong className="text-primary text-base font-semibold sm:max-w-[55%] sm:text-right">
-                  {value}
-                </strong>
-              </div>
-            ))}
-          </div>
-        </div>
-        <p className="mx-auto mt-7 max-w-7xl text-sm leading-7 text-[#817586]">
-          Compliance: Partner messaging must say research use only and must not
-          encourage human consumption, injections, dosing, veterinary use, or
-          claim medical outcomes. Final contract terms take precedence over this
-          example page.
-        </p>
-      </section>
-
-      <section className="px-5 py-16 sm:px-8 sm:py-20 lg:py-24">
-        <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
-          <SectionHeading
-            eyebrow="Questions & answers"
-            title="Before you join."
-            description="A few useful answers about how this proposed program would work."
-          />
-          <div className="divide-y divide-[#E9DDEA] border-t border-[#E9DDEA]">
-            {questions.map(({ question, answer }, index) => (
-              <div key={question}>
-                <button
-                  type="button"
-                  onClick={() =>
-                    setOpenQuestion(openQuestion === index ? -1 : index)
-                  }
-                  aria-expanded={openQuestion === index}
-                  className="flex w-full items-center justify-between gap-5 py-6 text-left"
-                >
-                  <span className="font-heading text-primary text-xl font-semibold sm:text-2xl">
-                    {question}
-                  </span>
-                  <ChevronDown
-                    size={20}
-                    className={`text-primary shrink-0 transition-transform ${openQuestion === index ? "rotate-180" : ""}`}
-                  />
-                </button>
-                {openQuestion === index && (
-                  <p className="max-w-2xl pb-6 text-base leading-8 text-[#756779]">
-                    {answer}
-                  </p>
-                )}
-              </div>
             ))}
           </div>
         </div>

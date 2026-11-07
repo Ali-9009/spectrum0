@@ -77,7 +77,7 @@ export default function ContactPage() {
       </header>
 
       <section className="mx-auto grid max-w-7xl gap-10 px-4 py-12 sm:px-6 sm:py-16 lg:grid-cols-[0.7fr_1.3fr] lg:gap-20 lg:px-8">
-        <aside className="lg:pt-2">
+        <aside className="order-2 lg:order-1 lg:pt-2">
           <h2 className="font-heading text-primary text-2xl font-bold tracking-tight">
             Contact Spectrum
           </h2>
@@ -150,7 +150,7 @@ export default function ContactPage() {
         </aside>
         <section
           aria-labelledby="contact-form-heading"
-          className="rounded-[24px] border border-[#EEE6EF] p-5 sm:p-8"
+          className="order-1 rounded-[24px] border border-[#EEE6EF] p-5 sm:p-8 lg:order-2"
         >
           <h2
             id="contact-form-heading"
@@ -266,7 +266,7 @@ export default function ContactPage() {
         </section>
       </section>
 
-      <section className="border-t border-[#EEE6EF] bg-[#FCFAFC] px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
+      <section className="border-t border-[#EEE6EF] bg-[#FCFAFC] px-4 py-12 sm:px-6 md:py-16 lg:px-8">
         <div className="mx-auto max-w-7xl">
           <div className="mb-10 max-w-2xl">
             <p className="text-secondary mb-3 text-[11px] font-bold tracking-[0.16em] uppercase">
@@ -339,7 +339,7 @@ export default function ContactPage() {
         </div>
       </section>
 
-      <section className="px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
+      <section className="px-4 py-12 sm:px-6 md:py-16 lg:px-8">
         <div className="mx-auto flex max-w-7xl flex-col items-start justify-between gap-7 border-b border-[#EEE6EF] pb-12 sm:flex-row sm:items-center">
           <div>
             <p className="text-secondary mb-3 text-[11px] font-bold tracking-[0.16em] uppercase">

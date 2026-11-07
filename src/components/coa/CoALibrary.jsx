@@ -1,36 +1,20 @@
 "use client";
 
-import { useMemo, useState, useEffect } from "react";
+import { useMemo, useState } from "react";
 import Image from "next/image";
-import Link from "next/link";
-
-import { createPortal } from "react-dom";
-
 import {
-  ArrowUpRight,
   ChevronDown,
   FileCheck2,
   FileSearch,
   Search,
-  X,
   FileText,
 } from "lucide-react";
+
 import { products } from "@/data/products";
 import { coaRecords } from "@/data/coa-records";
 
-const money = (value) =>
-  new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(
-    Number(value),
-  );
-const faceStyle = {
-  backfaceVisibility: "hidden",
-  WebkitBackfaceVisibility: "hidden",
-};
-
 function CoACard({ product }) {
   const [variantIndex, setVariantIndex] = useState(product.defaultVariant ?? 0);
-  const [modalOpen, setModalOpen] = useState(false);
-  const [mounted, setMounted] = useState(false);
 
   const variants = product.variants || [];
   const variant = variants[variantIndex] || variants[0];
@@ -61,32 +45,6 @@ function CoACard({ product }) {
       { name: "Laboratory", value: "Demo laboratory", status: "Sample only" },
     ],
   };
-
-  const isDemo = Boolean(record.demo);
-  const available = Boolean(record.pdfUrl && !isDemo);
-  const results = Array.isArray(record.results) ? record.results : [];
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  useEffect(() => {
-    if (!modalOpen) return;
-
-    const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-
-    const handleEscape = (event) => {
-      if (event.key === "Escape") setModalOpen(false);
-    };
-
-    window.addEventListener("keydown", handleEscape);
-
-    return () => {
-      document.body.style.overflow = previousOverflow;
-      window.removeEventListener("keydown", handleEscape);
-    };
-  }, [modalOpen]);
 
   return (
     <>
@@ -148,188 +106,16 @@ function CoACard({ product }) {
             </span>
           </div>
 
-          <button
-            type="button"
-            onClick={() => setModalOpen(true)}
+          <a
+            href="/assets/certificate.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
             className="bg-primary mt-5 flex h-11 w-full items-center justify-center gap-2 rounded-full px-4 text-sm font-semibold text-white transition-all duration-300 hover:bg-[#35143E]"
           >
             View COA
-          </button>
+          </a>
         </div>
       </article>
-
-      {mounted &&
-        modalOpen &&
-        createPortal(
-          <div
-            className="fixed inset-0 z-[9999] flex items-center justify-center bg-[#1B1020]/65 p-3 backdrop-blur-sm sm:p-5"
-            onMouseDown={(event) => {
-              if (event.target === event.currentTarget) setModalOpen(false);
-            }}
-          >
-            <section
-              role="dialog"
-              aria-modal="true"
-              aria-labelledby="coa-modal-title"
-              className="relative max-h-[95dvh] w-full max-w-[1050px] overflow-y-auto rounded-[24px] bg-white shadow-2xl lg:overflow-hidden"
-            >
-              <button
-                type="button"
-                onClick={() => setModalOpen(false)}
-                aria-label="Close CoA details"
-                className="text-primary hover:bg-primary absolute top-4 right-4 z-20 flex size-10 items-center justify-center rounded-full bg-[#F6E5F7] transition-colors hover:text-white"
-              >
-                <X size={19} />
-              </button>
-
-              <div className="grid lg:grid-cols-[0.9fr_1.1fr]">
-                <div className="border-b border-[#EEE6EF] p-5 sm:p-7 lg:border-r lg:border-b-0">
-                  <div className="flex items-center justify-between gap-3 pr-10">
-                    <span className="text-secondary text-xs font-semibold tracking-[0.15em] uppercase">
-                      {isDemo
-                        ? "Sample Laboratory Report"
-                        : "Certificate of Analysis"}
-                    </span>
-                  </div>
-
-                  <h2
-                    id="coa-modal-title"
-                    className="font-heading text-primary mt-3 text-[25px] font-bold tracking-[-0.05em] sm:text-[30px]"
-                  >
-                    {product.name}
-                  </h2>
-
-                  <p className="mt-1 text-sm text-[#817586]">
-                    {variant?.label} · {record.testDate || "Date not published"}
-                  </p>
-
-                  <div className="mt-5 grid grid-cols-[110px_1fr] items-center gap-5 sm:grid-cols-[145px_1fr]">
-                    <div className="relative aspect-square overflow-hidden rounded-[16px] bg-[#F8F0FA]">
-                      {product.image && (
-                        <Image
-                          src={product.image}
-                          alt={product.name}
-                          fill
-                          sizes="145px"
-                          className="object-cover"
-                        />
-                      )}
-                    </div>
-
-                    <div>
-                      <p className="text-sm font-medium text-[#8A798E]">
-                        {isDemo ? "Sample Purity" : "Reported Purity"}
-                      </p>
-                      <p className="font-heading text-primary mt-2 text-[clamp(30px,3vw,43px)] leading-none font-bold tracking-[-0.06em]">
-                        {record.purity != null
-                          ? `${Number(record.purity).toFixed(2)}%`
-                          : "—"}
-                      </p>
-                      <p className="mt-3 text-sm leading-5 text-[#817586]">
-                        {isDemo
-                          ? "Illustrative data. Not verified laboratory results."
-                          : "Batch-specific analytical information."}
-                      </p>
-                    </div>
-                  </div>
-
-                  <dl className="mt-5 divide-y divide-[#EEE6EF] rounded-[16px] border border-[#EEE6EF] px-4">
-                    {[
-                      ["Lot Number", record.lot],
-                      ["Accession", record.accession],
-                      ["Test Date", record.testDate],
-                    ].map(([label, value]) => (
-                      <div
-                        key={label}
-                        className="flex items-center justify-between gap-4 py-3 text-xs"
-                      >
-                        <dt className="shrink-0 text-[#8A798E]">{label}</dt>
-                        <dd className="text-primary text-right font-semibold break-words">
-                          {value || "Not published"}
-                        </dd>
-                      </div>
-                    ))}
-                  </dl>
-
-                  <Link
-                    href={`/products/${product.slug}`}
-                    onClick={() => setModalOpen(false)}
-                    className="text-primary mt-5 inline-flex h-11 w-full items-center justify-center gap-2 rounded-full border border-[#E8DCEA] text-sm font-semibold transition-colors hover:bg-[#F6E5F7]"
-                  >
-                    View Compound
-                    <ArrowUpRight size={16} />
-                  </Link>
-                </div>
-
-                <div className="flex flex-col p-5 sm:p-7">
-                  <div className="pr-10">
-                    <p className="text-secondary text-xs font-semibold tracking-[0.15em] uppercase">
-                      Laboratory Analysis
-                    </p>
-                    <h3 className="font-heading text-primary mt-2 text-[25px] font-bold tracking-[-0.04em]">
-                      Analytical Results
-                    </h3>
-                    <p className="mt-1 text-sm text-[#817586]">
-                      {product.name} · {variant?.label}
-                    </p>
-                  </div>
-
-                  <div className="mt-5 overflow-hidden rounded-[16px] border border-[#EEE6EF]">
-                    {results.length > 0 ? (
-                      <dl className="divide-y divide-[#EEE6EF]">
-                        {results.map((result, index) => (
-                          <div
-                            key={`${result.name}-${index}`}
-                            className="flex items-center justify-between gap-4 px-4 py-3.5"
-                          >
-                            <div className="min-w-0">
-                              <dt className="text-sm font-semibold text-[#493D4D]">
-                                {result.name}
-                              </dt>
-                              {result.status && (
-                                <p className="mt-1 text-sm text-[#938698]">
-                                  {result.status}
-                                </p>
-                              )}
-                            </div>
-                            <dd className="text-primary max-w-[48%] text-right text-sm font-semibold break-words">
-                              {result.value || "—"}
-                            </dd>
-                          </div>
-                        ))}
-                      </dl>
-                    ) : (
-                      <p className="p-5 text-sm text-[#817586]">
-                        No testing information published.
-                      </p>
-                    )}
-                  </div>
-
-                  <div className="mt-auto pt-5">
-                    {available ? (
-                      <a
-                        href={record.pdfUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="bg-primary flex h-11 w-full items-center justify-center gap-2 rounded-full px-5 text-sm font-semibold text-white transition-colors hover:bg-[#35143E]"
-                      >
-                        Open CoA PDF
-                        <ArrowUpRight size={16} />
-                      </a>
-                    ) : (
-                      <div className="rounded-xl bg-[#F8F0FA] px-4 py-3 text-center text-sm text-[#817586]">
-                        {isDemo
-                          ? "Sample record — no verified CoA PDF"
-                          : "CoA PDF not available"}
-                      </div>
-                    )}
-                  </div>
-                </div>
-              </div>
-            </section>
-          </div>,
-          document.body,
-        )}
     </>
   );
 }

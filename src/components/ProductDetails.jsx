@@ -341,24 +341,6 @@ function Assurance({ product }) {
     </section>
   );
 }
-const faqs = [
-  {
-    q: "Is this product intended for human use?",
-    a: "No. Products in this research collection are intended only for scientific and laboratory research.",
-  },
-  {
-    q: "Where can I find a Certificate of Analysis?",
-    a: "Check the laboratory documentation section for available certificates, or contact our team to ask about the relevant batch.",
-  },
-  {
-    q: "How should research compounds be stored?",
-    a: "Follow product-specific documentation and your laboratory's established procedures; requirements vary by compound.",
-  },
-  {
-    q: "How do multi-bottle packs work?",
-    a: "Choose a strength, select a 2-, 5-, or 10-bottle pack, then set the number of packs. The displayed total includes the applicable pack discount.",
-  },
-];
 
 function ProductAccordion({ title, children, defaultOpen = false }) {
   return (

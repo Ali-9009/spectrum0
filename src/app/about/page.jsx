@@ -51,7 +51,7 @@ const principles = [
 export default function AboutUsPage() {
   return (
     <main className="min-h-screen">
-      <section className="px-4 py-12 sm:px-6 lg:px-10">
+      <section className="px-4 pt-12 sm:px-6 lg:px-10">
         <div className="relative mx-auto w-full max-w-7xl overflow-hidden rounded-3xl bg-[#F2E2F5]">
           <div className="relative w-full overflow-hidden">
             <Image
@@ -73,7 +73,7 @@ export default function AboutUsPage() {
 
             <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#F9ECFC]/45 via-transparent to-transparent lg:hidden" />
 
-            <div className="relative z-10 flex w-full flex-col items-start px-5 pt-8 pb-80 sm:px-10 sm:pt-12 sm:pb-[440px] md:px-12 md:pt-14 md:pb-120 lg:min-h-130 lg:justify-center lg:px-16 lg:py-12">
+            <div className="relative z-10 flex w-full flex-col items-start px-5 pt-8 pb-80 sm:px-10 sm:pt-12 sm:pb-[440px] md:px-12 md:pt-14 md:pb-120 lg:min-h-110 lg:justify-center lg:px-16 lg:py-12">
               <div className="w-full max-w-[420px]">
                 <span className="text-primary/70 mb-3 inline-block font-sans text-[10px] font-bold tracking-[0.16em] uppercase sm:text-[11px]">
                   Our Story
@@ -106,68 +106,37 @@ export default function AboutUsPage() {
         </div>
       </section>
 
-      <section className="px-5 py-16 sm:px-8 sm:py-20">
+      <section className="px-4 py-12 sm:px-6 md:py-16 lg:px-10">
         <div className="mx-auto max-w-7xl">
-          <div className="grid gap-8 lg:grid-cols-[0.85fr_1.15fr] lg:gap-20">
-            <div>
-              <h2 className="section-heading">
-                Driven by
-                <br />
-                <span className="text-secondary">Curiosity.</span>
-                <br />
-                Defined by
-                <br />
-                Research.
-              </h2>
+          <h2 className="section-heading">
+            Driven by <span className="text-secondary">Curiosity.</span> Defined
+            by Research.
+          </h2>
 
-              <div className="bg-secondary mt-8 h-[3px] w-16 rounded-full" />
-            </div>
+          <div className="bg-secondary mt-6 h-[3px] w-16 rounded-full" />
 
-            <div className="flex flex-col justify-center">
-              <div className="border-primary border-l-[3px] pl-6 sm:pl-8">
-                <p className="font-heading max-w-[700px] text-[clamp(22px,2.6vw,33px)] leading-[1.4] font-medium tracking-[-0.04em] text-[#49374E]">
-                  Every meaningful discovery starts with a question worth
-                  exploring.
-                </p>
-              </div>
+          <p className="font-heading mt-8 text-[22px] leading-[1.4] font-medium tracking-[-0.04em] text-[#49374E] sm:text-[28px]">
+            Every meaningful discovery starts with a question worth exploring.
+          </p>
 
-              <div className="mt-7 max-w-[660px] space-y-4 text-[14px] leading-[1.9] text-[#817586]">
-                <p>
-                  At Spectrum Biosciences, we believe scientific exploration
-                  deserves a clear and thoughtful approach. Our collection
-                  brings together research peptides, specialized blends, and
-                  laboratory solutions in one accessible place.
-                </p>
+          <div className="text-md mt-5 space-y-4 text-[#817586]">
+            <p>
+              At Spectrum Biosciences, we believe scientific exploration
+              deserves a clear and thoughtful approach. Our collection brings
+              together research peptides, specialized blends, and laboratory
+              solutions in one accessible place.
+            </p>
 
-                <p>
-                  We focus on helping researchers explore available compounds,
-                  compare product strengths, and review relevant information
-                  with confidence and clarity.
-                </p>
-              </div>
-
-              <div className="mt-8 grid grid-cols-3 gap-3 border-t border-[#EEE6EF] pt-6 sm:gap-6">
-                {[
-                  { number: "01", label: "Explore" },
-                  { number: "02", label: "Understand" },
-                  { number: "03", label: "Discover" },
-                ].map((item) => (
-                  <div key={item.number}>
-                    <span className="font-heading text-secondary text-[24px] font-bold tracking-[-0.05em] sm:text-[30px]">
-                      {item.number}
-                    </span>
-                    <p className="text-primary mt-1 font-sans text-[11px] font-semibold tracking-[0.04em] sm:text-[13px]">
-                      {item.label}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            </div>
+            <p>
+              We focus on helping researchers explore available compounds,
+              compare product strengths, and review relevant information with
+              confidence and clarity.
+            </p>
           </div>
         </div>
       </section>
 
-      <section className="bg-[#FCF9FC] px-5 py-20 sm:px-8 sm:py-24">
+      <section className="bg-[#FCF9FC] px-5 py-12 sm:px-8 md:py-16">
         <div className="mx-auto max-w-7xl">
           <div className="mb-11 flex flex-col justify-between gap-6 md:flex-row md:items-end">
             <div>
@@ -211,7 +180,7 @@ export default function AboutUsPage() {
         </div>
       </section>
 
-      <section className="overflow-hidden px-5 py-16 sm:px-8 sm:py-20 lg:py-24">
+      <section className="overflow-hidden px-5 py-12 sm:px-8 md:py-16">
         <div className="mx-auto grid max-w-7xl items-center gap-14 lg:grid-cols-2 lg:gap-20">
           <div className="relative mx-auto w-full max-w-[540px] pt-8 pr-8 pb-14 sm:pt-12 sm:pr-16 sm:pb-20">
             <div className="relative aspect-square w-full overflow-hidden rounded-[22px] bg-[#F3E3F6]">

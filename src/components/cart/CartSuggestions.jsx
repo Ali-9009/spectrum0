@@ -40,7 +40,7 @@ export default function CartSuggestions() {
                     alt=""
                     fill
                     sizes="48px"
-                    className="object-contain p-1"
+                    className="object-cover rounded-xl"
                   />
                 )}
               </div>
