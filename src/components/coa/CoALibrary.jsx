@@ -187,8 +187,8 @@ export default function CoALibrary() {
         className="relative px-4 py-10 sm:px-6 sm:py-14 lg:px-10"
       >
         <div className="mx-auto max-w-7xl">
-          <div className="flex min-w-0 items-center gap-2 border-b border-[#EEE6EF] pb-6 sm:gap-4">
-            <div className="relative min-w-0 flex-1 lg:max-w-[390px]">
+          <div className="flex min-w-0 flex-col gap-3 border-b border-[#EEE6EF] pb-6 sm:flex-row sm:items-center sm:gap-4">
+            <div className="relative w-full min-w-0 sm:flex-1 lg:max-w-[390px]">
               <Search
                 size={17}
                 className="text-primary/60 pointer-events-none absolute top-1/2 left-3 -translate-y-1/2 sm:left-4"
@@ -202,7 +202,7 @@ export default function CoALibrary() {
                 value={query}
                 onChange={(event) => setQuery(event.target.value)}
                 placeholder="Search compounds..."
-                className="focus:border-primary h-11 w-full min-w-0 rounded-full border border-[#E8DCEA] bg-white pr-9 pl-9 text-[12px] text-[#29232D] outline-none placeholder:text-[#A69BA9] sm:h-12 sm:pl-11 sm:text-sm [&::-webkit-search-cancel-button]:hidden"
+                className="focus:border-primary h-11 w-full min-w-0 rounded-2xl border border-[#E8DCEA] bg-white pr-9 pl-9 text-[12px] text-[#29232D] outline-none placeholder:text-[#A69BA9] sm:h-12 sm:pl-11 sm:text-sm [&::-webkit-search-cancel-button]:hidden"
               />
               {query && (
                 <button
@@ -221,7 +221,7 @@ export default function CoALibrary() {
               value={category}
               onChange={(event) => setCategory(event.target.value)}
               placeholder="Filter category"
-              className="w-[130px] shrink-0 sm:w-[190px] lg:ml-auto"
+              className="w-full sm:w-[190px] sm:shrink-0 lg:ml-auto"
               options={[
                 { value: "all", label: "All categories" },
                 ...categories.map((name) => ({
