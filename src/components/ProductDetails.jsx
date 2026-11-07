@@ -530,7 +530,7 @@ export default function ProductDetails({ product }) {
   };
 
   return (
-    <main className="min-h-screen bg-white pb-24 lg:pb-0">
+    <main className="min-h-screen bg-white pb-8 lg:pb-0">
       {/* PRODUCT DETAILS */}
 
       <section className="px-4 pt-8 pb-12 sm:px-6 lg:px-10 lg:pt-12 lg:pb-16">
