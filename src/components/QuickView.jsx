@@ -29,20 +29,33 @@ export default function QuickView({ product, onClose }) {
   const [quantity, setQuantity] = useState(1);
 
   const variant = product.variants[selectedVariant];
+
   const pack = PACK_OPTIONS.find((item) => item.quantity === selectedPack);
   const packSize = pack?.quantity ?? 1;
-  const discount = pack?.discountPercent ?? 0;
+
   const hasPrice = variant?.price != null;
   const unitPrice = hasPrice ? Number(variant.price) : 0;
-  const packPrice = getPackPrice(unitPrice, packSize, discount);
-  const totalPrice = packPrice * quantity;
-  const regularPrice = unitPrice * packSize * quantity;
-  const savings = Math.max(0, regularPrice - totalPrice);
-  const totalBottles = packSize * quantity;
-  const stock = Number(variant?.stock ?? Infinity);
-  const availablePacks = Math.floor(stock / packSize);
-  const inStock = variant?.inStock !== false && availablePacks >= quantity;
-  const canAdd = hasPrice && Number.isFinite(unitPrice) && inStock;
+
+  const bundleActive = Boolean(pack && quantity >= packSize);
+  const discount = bundleActive ? pack.discountPercent : 0;
+
+  const extraBottles = bundleActive ? quantity - packSize : 0;
+
+  const totalPrice = bundleActive
+    ? Math.round(
+        (getPackPrice(unitPrice, packSize, discount) +
+          extraBottles * unitPrice) *
+          100,
+      ) / 100
+    : Math.round(quantity * unitPrice * 100) / 100;
+
+  const stock =
+    variant?.stock == null ? Infinity : Math.max(0, Number(variant.stock));
+
+  const inStock = variant?.inStock !== false && stock > 0 && quantity <= stock;
+
+  const canAdd =
+    hasPrice && Number.isFinite(unitPrice) && unitPrice >= 0 && inStock;
 
   useEffect(() => {
     const previousOverflow = document.body.style.overflow;
@@ -61,17 +74,25 @@ export default function QuickView({ product, onClose }) {
   }, [onClose]);
 
   useEffect(() => {
-    setQuantity(1);
-  }, [selectedVariant, selectedPack]);
+    setQuantity(packSize);
+  }, [selectedVariant, packSize]);
 
   const handleAddToCart = () => {
     if (!canAdd) return;
+
     try {
       setCartError("");
-      addItem(product, variant, quantity, {
-        packSize,
-        discountPercent: discount,
-      });
+
+      if (bundleActive) {
+        addItem(product, variant, 1, { packSize });
+
+        if (extraBottles > 0) {
+          addItem(product, variant, extraBottles, { packSize: 1 });
+        }
+      } else {
+        addItem(product, variant, quantity, { packSize: 1 });
+      }
+
       onClose();
     } catch (error) {
       setCartError(error?.message || "Unable to add product to cart.");
@@ -204,7 +225,9 @@ export default function QuickView({ product, onClose }) {
                       setSelectedPack(selected ? null : item.quantity)
                     }
                     aria-pressed={selected}
-                    disabled={!inStock || item.quantity > availablePacks}
+                    disabled={
+                      variant?.inStock === false || item.quantity > stock
+                    }
                     className={`group flex min-w-0 flex-col items-center justify-center gap-2 rounded-xl border px-2 py-3 text-center transition-all duration-300 disabled:cursor-not-allowed disabled:opacity-40 sm:px-3 ${
                       selected
                         ? "border-primary bg-[#F8EFF9]"
@@ -272,16 +295,14 @@ export default function QuickView({ product, onClose }) {
                     <Minus size={15} />
                   </button>
 
-                  <span className="text-primary w-5 text-center font-sans text-[13px] font-semibold sm:w-7">
+                  <span className="text-primary w-7 text-center text-sm font-semibold">
                     {quantity}
                   </span>
 
                   <button
                     type="button"
-                    onClick={() =>
-                      setQuantity((q) => Math.min(availablePacks, q + 1))
-                    }
-                    disabled={!inStock || quantity >= availablePacks}
+                    onClick={() => setQuantity((q) => Math.min(stock, q + 1))}
+                    disabled={variant?.inStock === false || quantity >= stock}
                     aria-label="Increase quantity"
                     className="text-primary flex size-8 shrink-0 items-center justify-center rounded-full transition-colors hover:bg-[#F6E5F7] disabled:opacity-30"
                   >
@@ -295,8 +316,6 @@ export default function QuickView({ product, onClose }) {
                   disabled={!canAdd}
                   className="group bg-primary flex h-11 min-w-0 flex-1 items-center justify-center gap-1.5 rounded-full px-2 font-sans text-sm font-semibold whitespace-nowrap text-white transition-colors hover:bg-[#35143E] disabled:cursor-not-allowed disabled:opacity-50 sm:gap-2 sm:px-4"
                 >
-                  <ShoppingBag size={16} className="hidden shrink-0 sm:block" />
-
                   <span>
                     {!inStock
                       ? "Out of Stock"

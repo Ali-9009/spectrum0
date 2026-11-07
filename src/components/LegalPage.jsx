@@ -4,7 +4,7 @@ import { ChevronRight } from "lucide-react";
 export default function LegalPage({ title, description, sections }) {
   return (
     <main className="min-h-screen bg-white">
-      <section className="px-5 pt-10 sm:px-8">
+      <section className="px-5 pt-6 sm:px-8">
         <div className="mx-auto flex min-h-[180px] max-w-6xl items-center justify-center rounded-[24px] bg-[linear-gradient(115deg,#35143E_0%,#55205F_55%,#843C83_100%)] px-6 py-12 text-center">
           <h1 className="font-heading text-4xl font-bold tracking-[-0.04em] text-white sm:text-5xl">
             {title}

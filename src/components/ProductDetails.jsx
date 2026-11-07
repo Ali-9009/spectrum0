@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ChevronDown, Download, ExternalLink, FileText } from "lucide-react";
@@ -121,10 +121,6 @@ function Strengths({ variants, index, setIndex }) {
       <div className="mb-3 flex items-center justify-between">
         <span className="text-[13px] font-bold text-[#29232D]">
           Select Strength
-        </span>
-
-        <span className="text-primary text-[12px] font-semibold">
-          {variants[index]?.label}
         </span>
       </div>
 
@@ -250,20 +246,20 @@ function Packs({ product, price, selectedPack, setSelectedPack, stock }) {
   );
 }
 
-function Quantity({ value, onChange, max }) {
+function Quantity({ value, onChange, max = 99 }) {
   return (
-    <div className="flex h-[52px] w-[118px] items-center justify-between rounded-full border border-[#E6DCE8] bg-white px-1 sm:w-[142px]">
+    <div className="flex h-10 w-[100px] items-center justify-between rounded-full border border-[#E6DCE8] bg-white px-1 sm:h-13 sm:w-[112px]">
       <button
         type="button"
         aria-label="Decrease quantity"
         disabled={value <= 1}
         onClick={() => onChange(Math.max(1, value - 1))}
-        className="text-primary grid size-9 shrink-0 place-items-center rounded-full transition-colors hover:bg-[#F6E5F7] disabled:opacity-30"
+        className="text-primary grid size-7 shrink-0 place-items-center rounded-full transition-colors hover:bg-[#F6E5F7] disabled:opacity-30 sm:size-8"
       >
-        <Minus size={17} />
+        <Minus size={14} />
       </button>
 
-      <span className="font-heading text-primary text-[15px] font-bold">
+      <span className="font-heading text-primary text-[13px] font-bold">
         {value}
       </span>
 
@@ -272,9 +268,9 @@ function Quantity({ value, onChange, max }) {
         aria-label="Increase quantity"
         disabled={value >= max}
         onClick={() => onChange(Math.min(max, value + 1))}
-        className="text-primary grid size-9 shrink-0 place-items-center rounded-full transition-colors hover:bg-[#F6E5F7] disabled:opacity-30"
+        className="text-primary grid size-7 shrink-0 place-items-center rounded-full transition-colors hover:bg-[#F6E5F7] disabled:opacity-30 sm:size-8"
       >
-        <Plus size={17} />
+        <Plus size={14} />
       </button>
     </div>
   );
@@ -374,6 +370,26 @@ export default function ProductDetails({ product }) {
   const [quantity, setQuantity] = useState(1);
   const [cartMessage, setCartMessage] = useState("");
 
+  const addToCartRef = useRef(null);
+  const [showStickyCart, setShowStickyCart] = useState(false);
+
+  useEffect(() => {
+    const button = addToCartRef.current;
+    if (!button) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        const passedButton = entry.boundingClientRect.bottom <= 0;
+        setShowStickyCart(!entry.isIntersecting && passedButton);
+      },
+      { threshold: 0 },
+    );
+
+    observer.observe(button);
+
+    return () => observer.disconnect();
+  }, []);
+
   const { addItem } = useCart();
 
   useEffect(() => {
@@ -394,26 +410,36 @@ export default function ProductDetails({ product }) {
   const variant = variants[variantIndex] || variants[0];
 
   const pack = PACK_OPTIONS.find((item) => item.quantity === selectedPack);
-
   const packSize = pack?.quantity ?? 1;
-  const discountPercent = pack?.discountPercent ?? 0;
 
   const unitPrice = Number(variant?.price ?? 0);
-
   const hasPrice = variant?.price != null && Number.isFinite(unitPrice);
 
-  const packPrice = getPackPrice(unitPrice, packSize, discountPercent);
+  const bundleActive = Boolean(pack && quantity >= packSize);
+  const discountPercent = bundleActive ? pack.discountPercent : 0;
 
-  const totalPrice = Math.round(packPrice * quantity * 100) / 100;
+  const extraBottles = bundleActive ? quantity - packSize : 0;
 
-  const totalBottles = packSize * quantity;
+  const totalPrice = bundleActive
+    ? Math.round(
+        (getPackPrice(unitPrice, packSize, discountPercent) +
+          extraBottles * unitPrice) *
+          100,
+      ) / 100
+    : Math.round(quantity * unitPrice * 100) / 100;
+
+  const totalBottles = quantity;
 
   const stock =
     variant?.stock == null ? Infinity : Math.max(0, Number(variant.stock));
 
-  const maxPacks = Math.min(99, Math.floor(stock / packSize));
+  const maxQuantity = Math.min(99, stock);
 
-  const canAdd = hasPrice && variant?.inStock !== false && quantity <= maxPacks;
+  const canAdd =
+    hasPrice &&
+    variant?.inStock !== false &&
+    quantity >= 1 &&
+    quantity <= maxQuantity;
 
   // Use product-specific specifications when available.
   // These fallback values are the specifications you supplied.
@@ -473,14 +499,13 @@ export default function ProductDetails({ product }) {
 
   const changeVariant = (index) => {
     setVariantIndex(index);
-    setQuantity(1);
+    setQuantity(selectedPack ?? 1);
   };
 
   const changePack = (size) => {
     setSelectedPack(size);
-    setQuantity(1);
+    setQuantity(size ?? 1);
   };
-
   const handleAddToCart = () => {
     if (!variant || !canAdd) {
       setCartMessage("Selected quantity is unavailable.");
@@ -488,10 +513,15 @@ export default function ProductDetails({ product }) {
     }
 
     try {
-      addItem(product, variant, quantity, {
-        packSize,
-        discountPercent,
-      });
+      if (bundleActive) {
+        addItem(product, variant, 1, { packSize });
+
+        if (extraBottles > 0) {
+          addItem(product, variant, extraBottles, { packSize: 1 });
+        }
+      } else {
+        addItem(product, variant, quantity, { packSize: 1 });
+      }
 
       setCartMessage("");
     } catch (error) {
@@ -530,24 +560,9 @@ export default function ProductDetails({ product }) {
               {product.name}
             </h1>
 
-            {/* PRICE */}
-
-            <div className="mt-4">
-              <p className="font-heading text-primary text-[32px] font-semibold tracking-tight">
-                {hasPrice ? money(totalPrice) : "Unavailable"}
-              </p>
-
-              {discountPercent > 0 && (
-                <span className="mt-1 inline-flex rounded-full bg-[#E8F8F1] px-3 py-1 text-[11px] font-bold text-emerald-700">
-                  Save {discountPercent}% with this bundle
-                </span>
-              )}
-            </div>
-
             <div className="my-5 h-px bg-[#EEE7EF]" />
 
             {/* STRENGTHS */}
-
             <Strengths
               variants={variants}
               index={variantIndex}
@@ -563,40 +578,36 @@ export default function ProductDetails({ product }) {
               stock={variant?.inStock === false ? 0 : stock}
             />
 
-            {/* QUANTITY + CART */}
-            <div className="mt-6 flex w-full min-w-0 items-center gap-2 sm:gap-3">
-              <div className="shrink-0">
-                <Quantity
-                  value={quantity}
-                  onChange={setQuantity}
-                  max={Math.max(1, maxPacks)}
-                />
+            {/* QUANTITY + PRICE + CART */}
+            <div className="mt-6">
+              <div className="flex w-full min-w-0 flex-wrap items-center justify-between gap-4 lg:flex-nowrap lg:gap-3">
+                <div className="shrink-0">
+                  <Quantity
+                    value={quantity}
+                    onChange={setQuantity}
+                    max={maxQuantity}
+                  />
+                </div>
+
+                <div className="order-2 w-full lg:order-none lg:min-w-0 lg:flex-1">
+                  <button
+                    ref={addToCartRef}
+                    type="button"
+                    disabled={!canAdd}
+                    onClick={handleAddToCart}
+                    className="bg-primary flex h-10 w-full items-center justify-center gap-2 rounded-full px-4 text-sm font-semibold text-white transition-all hover:bg-[#35143E] disabled:cursor-not-allowed disabled:opacity-50 sm:h-13"
+                  >
+                    <ShoppingBag size={17} className="shrink-0" />
+                    <span>{canAdd ? "Add to Cart" : "Unavailable"}</span>
+                  </button>
+                </div>
+
+                <div className="order-1 ml-auto shrink-0 text-right lg:order-none">
+                  <p className="font-heading text-primary text-[28px] font-semibold tracking-tight whitespace-nowrap lg:text-[clamp(18px,1.8vw,28px)]">
+                    {hasPrice ? money(totalPrice) : "Unavailable"}
+                  </p>
+                </div>
               </div>
-
-              <button
-                type="button"
-                disabled={!canAdd}
-                onClick={handleAddToCart}
-                className="group bg-primary flex h-[52px] min-w-0 flex-1 items-center justify-between gap-2 rounded-full py-1 pr-1 pl-6 text-sm font-semibold text-white shadow-[0_12px_30px_rgba(85,32,95,0.2)] transition-all hover:bg-[#35143E] disabled:cursor-not-allowed disabled:opacity-50 sm:pl-5 sm:text-sm"
-              >
-                <span className="flex min-w-0 items-center gap-2 whitespace-nowrap">
-                  <ShoppingBag size={17} className="hidden shrink-0 sm:block" />
-
-                  {canAdd ? "Add to Cart" : "Unavailable"}
-                </span>
-
-                <span className="flex shrink-0 items-center gap-2">
-                  {hasPrice && (
-                    <span className="hidden whitespace-nowrap xl:inline">
-                      {money(totalPrice)}
-                    </span>
-                  )}
-
-                  <span className="text-primary grid size-10 shrink-0 place-items-center rounded-full bg-white transition-transform duration-300 group-hover:rotate-45">
-                    <ArrowUpRight size={18} />
-                  </span>
-                </span>
-              </button>
             </div>
 
             {/* CART MESSAGE */}
@@ -681,50 +692,28 @@ export default function ProductDetails({ product }) {
               </ProductAccordion>
             </div>
 
-            <div className="mt-6 overflow-hidden rounded-2xl border border-[#E9E1E9] bg-white">
-              <div className="flex items-center gap-3 border-b border-[#E9E1E9] p-4 sm:px-6">
-                <span className="text-primary flex size-11 items-center justify-center rounded-xl bg-[#F6E5F7]">
-                  <FileText size={22} />
-                </span>
-                <div>
-                  <h3 className="font-heading text-primary text-base font-bold sm:text-lg">
-                    Certificate of Analysis
-                  </h3>
-                  <p className="text-muted text-sm">{product.name}</p>
+            <div className="bg-[#FAF7FA] p-3 sm:p-6">
+              <div className="mx-auto w-full max-w-[700px] overflow-hidden rounded-lg bg-white shadow-sm">
+                {/* Mobile: Certificate Preview */}
+                <div className="relative aspect-[5/7] w-full md:hidden">
+                  <Image
+                    src="/assets/certificate-preview.png"
+                    alt={`${product.name} Certificate of Analysis`}
+                    fill
+                    sizes="(max-width: 768px) 100vw, 700px"
+                    className="object-contain"
+                  />
                 </div>
-              </div>
 
-              <div className="bg-[#FAF7FA] p-3 sm:p-6">
-                <div className="mx-auto w-full max-w-[700px] overflow-hidden rounded-lg bg-white shadow-sm">
-                  <div className="relative aspect-5/7 w-full">
-                    <iframe
-                      src={`${certificatePdf}#toolbar=0&navpanes=0&scrollbar=0&view=Fit`}
-                      title={`${product.name} Certificate of Analysis`}
-                      className="absolute inset-0 h-full w-full border-0"
-                      loading="lazy"
-                    />
-                  </div>
+                {/* Desktop: PDF Viewer */}
+                <div className="relative hidden aspect-[5/7] w-full md:block">
+                  <iframe
+                    src={`${certificatePdf}#toolbar=0&navpanes=0&scrollbar=0&view=Fit`}
+                    title={`${product.name} Certificate of Analysis`}
+                    className="absolute inset-0 h-full w-full border-0"
+                    loading="lazy"
+                  />
                 </div>
-              </div>
-
-              <div className="flex flex-wrap items-center justify-end gap-3 border-t border-[#E9E1E9] p-4 sm:px-6">
-                <a
-                  href={certificatePdf}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-primary inline-flex h-11 items-center justify-center gap-2 rounded-full border border-[#E9E1E9] px-5 text-sm font-semibold transition-colors hover:bg-[#F6E5F7]"
-                >
-                  <ExternalLink size={17} />
-                  View PDF
-                </a>
-                <a
-                  href={certificatePdf}
-                  download
-                  className="bg-primary inline-flex h-11 items-center justify-center gap-2 rounded-full px-5 text-sm font-semibold text-white transition-colors hover:bg-[#35143E]"
-                >
-                  <Download size={17} />
-                  Download PDF
-                </a>
               </div>
             </div>
           </div>
@@ -733,7 +722,13 @@ export default function ProductDetails({ product }) {
 
       <Bestsellers currentProduct={product} />
 
-      <div className="fixed inset-x-0 bottom-0 z-40 border-t border-[#EDE5EE] bg-white/95 px-4 pt-3 pb-[calc(env(safe-area-inset-bottom)+12px)] shadow-[0_-8px_30px_rgba(40,0,45,0.08)] backdrop-blur-xl lg:hidden">
+      <div
+        className={`fixed inset-x-0 bottom-0 z-40 border-t border-[#EDE5EE] bg-white/95 px-4 pt-3 pb-[calc(env(safe-area-inset-bottom)+12px)] shadow-[0_-8px_30px_rgba(40,0,45,0.08)] backdrop-blur-xl transition-all duration-300 lg:hidden ${
+          showStickyCart
+            ? "translate-y-0 opacity-100"
+            : "pointer-events-none translate-y-full opacity-0"
+        }`}
+      >
         <div className="mx-auto flex max-w-xl items-center gap-3">
           <div className="min-w-0 flex-1">
             <p className="truncate text-[11px] text-[#756B78]">

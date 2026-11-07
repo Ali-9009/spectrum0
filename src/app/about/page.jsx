@@ -51,7 +51,7 @@ const principles = [
 export default function AboutUsPage() {
   return (
     <main className="min-h-screen">
-      <section className="px-4 pt-12 sm:px-6 lg:px-10">
+      <section className="px-4 pt-6 md:pt-12 sm:px-6 lg:px-10">
         <div className="relative mx-auto w-full max-w-7xl overflow-hidden rounded-3xl bg-[#F2E2F5]">
           <div className="relative w-full overflow-hidden">
             <Image

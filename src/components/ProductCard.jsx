@@ -128,35 +128,34 @@ export default function ProductCard({ product, onQuickView }) {
         <div className="mt-auto pt-4">
           {/* VARIANT SELECTOR */}
 
-          <div className="flex flex-wrap gap-2">
-            {product.variants?.map((item, index) => {
-              const selected = selectedVariant === index;
+          <div className="flex flex-nowrap items-center gap-1.5 overflow-x-auto sm:gap-2">
+  {product.variants?.map((item, index) => {
+    const selected = selectedVariant === index;
+    const unavailable =
+      item.inStock === false ||
+      (item.stock != null && Number(item.stock) < 1);
 
-              const unavailable =
-                item.inStock === false ||
-                (item.stock != null && Number(item.stock) < 1);
-
-              return (
-                <button
-                  key={item.id}
-                  type="button"
-                  disabled={unavailable}
-                  onClick={() => {
-                    setSelectedVariant(index);
-                    setError("");
-                  }}
-                  aria-pressed={selected}
-                  className={`min-h-9 rounded-full border px-3.5 py-1.5 font-sans text-[12px] font-semibold transition-all duration-300 ${
-                    selected
-                      ? "border-primary bg-primary text-white"
-                      : "text-primary hover:border-primary border-[#E7DCE9] bg-[#FAF7FB]"
-                  } ${unavailable ? "cursor-not-allowed opacity-40" : ""}`}
-                >
-                  {item.label}
-                </button>
-              );
-            })}
-          </div>
+    return (
+      <button
+        key={item.id}
+        type="button"
+        disabled={unavailable}
+        onClick={() => {
+          setSelectedVariant(index);
+          setError("");
+        }}
+        aria-pressed={selected}
+        className={`min-h-8 shrink-0 rounded-full border px-2.5 py-1 text-[11px] font-semibold whitespace-nowrap transition-all duration-300 sm:min-h-9 sm:px-3.5 sm:py-1.5 sm:text-[12px] ${
+          selected
+            ? "border-primary bg-primary text-white"
+            : "border-[#E7DCE9] bg-[#FAF7FB] text-primary hover:border-primary"
+        } ${unavailable ? "cursor-not-allowed opacity-40" : ""}`}
+      >
+        {item.label}
+      </button>
+    );
+  })}
+</div>
 
           {/* PRICE */}
 

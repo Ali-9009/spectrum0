@@ -83,7 +83,7 @@ const groups = [
 export default function FAQsPage() {
   return (
     <main className="min-h-screen bg-white">
-      <header className="border-b border-[#EEE6EF] px-4 py-10 sm:px-6 sm:py-14 lg:px-8">
+      <header className="border-b border-[#EEE6EF] px-4 py-6 sm:px-6 md:py-12 lg:px-8">
         <div className="mx-auto max-w-7xl">
           <nav
             aria-label="Breadcrumb"

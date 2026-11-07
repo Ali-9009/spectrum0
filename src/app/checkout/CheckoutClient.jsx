@@ -137,7 +137,7 @@ export default function CheckoutClient() {
   };
 
   return (
-    <main className="min-h-svh bg-white px-4 py-10 sm:px-6 sm:py-14 lg:px-10">
+    <main className="min-h-svh bg-white px-4 py-6 sm:px-6 md:py-12 lg:px-10">
       <div className="mx-auto max-w-7xl">
         <nav
           aria-label="Breadcrumb"

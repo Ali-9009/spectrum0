@@ -703,7 +703,7 @@ export default function AccountClient({ section = "dashboard" }) {
   const active = nav.find((n) => n.slug === section) || nav[0];
   return (
     <main className="min-h-screen bg-white">
-      <header className="border-b border-[#EEE6EF] px-5 py-10 sm:px-8 sm:py-14">
+      <header className="border-b border-[#EEE6EF] px-5 py-6 sm:px-8 md:py-12">
         <div className="mx-auto max-w-7xl">
           <nav
             className="mb-5 flex items-center gap-2 text-[13px] text-[#817586]"

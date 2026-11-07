@@ -94,7 +94,7 @@ export default function OrderTracker() {
 
   return (
     <main className="">
-      <section className="px-4 py-10 sm:px-6 sm:py-14 lg:px-10 lg:py-16">
+      <section className="px-4 py-6 sm:px-6 lg:px-10 md:py-12">
         <div className="mx-auto grid max-w-7xl items-center gap-12 lg:grid-cols-[1.2fr_0.8fr] lg:gap-16">
           <div className="min-w-0">
             <h1 className="section-heading">

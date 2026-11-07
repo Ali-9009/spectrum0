@@ -89,7 +89,7 @@ function CoACard({ product }) {
             ))}
           </div>
 
-          <div className="mt-3 flex items-end justify-between gap-3 border-t border-[#EEE6EF] pt-4">
+          {/* <div className="mt-3 flex items-end justify-between gap-3 border-t border-[#EEE6EF] pt-4">
             <div>
               <strong className="font-heading text-primary group-hover/title:text-secondary text-[18px] leading-[1.35] font-semibold tracking-[-0.04em] transition-colors sm:text-[20px]">
                 {record.purity != null
@@ -98,14 +98,14 @@ function CoACard({ product }) {
               </strong>
             </div>
             <FileText size={23} strokeWidth={1.4} className="text-primary/30" />
-          </div>
+          </div> */}
 
-          <div className="mt-4 flex items-center justify-between gap-3 text-xs">
+          {/* <div className="mt-4 flex items-center justify-between gap-3 text-xs">
             <span className="text-[#8A798E]">Lot</span>
             <span className="text-primary truncate font-semibold">
               {record.lot || "Not published"}
             </span>
-          </div>
+          </div> */}
 
           <a
             href="/assets/certificate.pdf"
@@ -166,7 +166,7 @@ export default function CoALibrary() {
 
   return (
     <main className="min-h-screen bg-white">
-      <header className="border-b border-[#EEE6EF] px-4 py-12 sm:px-6 sm:py-16 lg:px-8">
+      <header className="border-b border-[#EEE6EF] px-4 py-6 sm:px-6 md:py-12 lg:px-8">
         <div className="mx-auto max-w-7xl">
           <p className="text-secondary mb-4 flex items-center gap-2 font-sans text-xs font-bold tracking-[0.15em] uppercase">
             Spectrum Biosciences

@@ -106,7 +106,7 @@ export default function CartPageClient() {
           PAGE HEADER
       ========================================== */}
 
-      <section className="px-4 py-10 sm:px-6 sm:py-14 lg:px-10">
+      <section className="px-4 py-6 sm:px-6 md:py-12 lg:px-10">
         <div className="mx-auto max-w-7xl">
           <nav aria-label="Breadcrumb" className="mb-7">
             <ol className="flex items-center gap-2 font-sans text-xs text-[#96899A]">

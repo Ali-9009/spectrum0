@@ -22,7 +22,7 @@ export default function ResearcherGate() {
     } catch {}
 
     setPhase("waiting");
-    const timer = setTimeout(() => setPhase("prompt"), 2000);
+    const timer = setTimeout(() => setPhase("prompt"), 0);
     return () => clearTimeout(timer);
   }, []);
 
@@ -48,7 +48,7 @@ export default function ResearcherGate() {
       localStorage.setItem(STORAGE_KEY, "accepted");
     } catch {}
 
-    setPhase("accepted");
+    window.location.reload();
   };
 
   if (phase === "accepted" || phase === "checking") return null;
@@ -76,12 +76,12 @@ export default function ResearcherGate() {
               width={200}
               height={70}
               priority
-              className="h-auto w-[170px] object-contain sm:w-[190px]"
+              className="h-auto w-35 object-contain sm:w-40"
             />
           </div>
           <h2
             id="verification-title"
-            className="font-heading text-primary mt-3 text-[30px] leading-tight font-semibold tracking-[-0.045em] sm:text-[36px]"
+            className="font-heading text-primary mt-3 text-[23px] leading-tight font-semibold tracking-[-0.045em] sm:text-[28px]"
           >
             Researcher Verification
           </h2>
@@ -121,7 +121,7 @@ export default function ResearcherGate() {
                 className="mt-1 size-5 shrink-0 accent-[#55205F]"
               />
 
-              <span className="text-[14px] leading-6 text-[#443849] sm:text-[15px]">
+              <span className="text-[14px] text-[#443849] sm:text-[15px]">
                 I confirm that I am a{" "}
                 <strong className="text-primary font-bold">
                   qualified researcher
@@ -139,29 +139,26 @@ export default function ResearcherGate() {
             type="button"
             onClick={handleContinue}
             disabled={!ageConfirmed || !researchConfirmed}
-            className="bg-primary mt-6 flex h-13 w-full items-center justify-center gap-3 rounded-full text-[14px] font-bold text-white transition-all duration-300 hover:bg-[#35143E] disabled:cursor-not-allowed disabled:bg-[#DDD3E0] disabled:text-[#8E8292]"
+            className="bg-primary mt-6 flex h-13 w-full items-center justify-center gap-3 rounded-full text-sm font-semibold text-white transition-all duration-300 hover:bg-[#35143E] disabled:cursor-not-allowed disabled:bg-[#DDD3E0] disabled:text-[#8E8292]"
           >
             Enter Spectrum
             <ArrowRight size={19} />
           </button>
 
-          <p className="mt-6 text-[12px] leading-6 text-[#8A7D8F]">
+          <p className="mt-6 text-[12px] text-[#8A7D8F]">
             By continuing, you confirm that these statements are accurate.
             Products are not intended for human consumption, veterinary use, or
             diagnostic procedures.
           </p>
 
-          <p className="mt-3 text-[12px] leading-6 text-[#8A7D8F]">
-            Read our{" "}
-            <Link
-              href="/research-disclaimer"
-              target="_blank"
-              rel="noopener noreferrer"
+          <p className="mt-5 text-center text-xs text-[#8A7D8F]">
+            Not a qualified researcher?{" "}
+            <a
+              href="https://www.google.com/"
               className="text-primary hover:text-secondary font-semibold underline underline-offset-4"
             >
-              Research Disclaimer
-            </Link>{" "}
-            for additional information.
+              Quit Site
+            </a>
           </p>
         </section>
       )}

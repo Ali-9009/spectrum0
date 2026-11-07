@@ -28,12 +28,12 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" className={`${headingFont.variable} ${bodyFont.variable}`}>
       <body className="antialiased">
+        <ResearcherGate />
         <CartShell>
           <Header />
           {children}
           <Footer />
         </CartShell>
-        <ResearcherGate />
       </body>
     </html>
   );

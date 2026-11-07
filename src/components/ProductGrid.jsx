@@ -25,7 +25,7 @@ export default function ProductGrid() {
   };
 
   return (
-    <section id="shop" className="bg-white px-4 md:py-16 py-12 sm:px-6 lg:px-8">
+    <section id="shop" className="bg-white px-4 py-12 sm:px-6 md:py-16 lg:px-8">
       <div className="mx-auto max-w-7xl">
         <div className="mb-10 flex flex-col justify-between gap-5 sm:flex-row sm:items-end">
           <div>
@@ -49,7 +49,7 @@ export default function ProductGrid() {
           ))}
         </div>
 
-        <div className="mt-12 flex flex-col items-center">
+        <div className="mt-3 flex flex-col items-center">
           {hasMore ? (
             <button
               type="button"

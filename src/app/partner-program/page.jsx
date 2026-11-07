@@ -377,7 +377,7 @@ export default function PartnerProgramPage() {
 
   return (
     <main className="min-h-screen">
-      <section className="overflow-hidden border-b border-[#EEE6EF] px-4 py-12 sm:px-6 lg:px-10">
+      <section className="overflow-hidden border-b border-[#EEE6EF] px-4 py-6 md:py-12 sm:px-6 lg:px-10">
         <div className="mx-auto grid max-w-7xl items-center gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16">
           <div>
             <p className="text-secondary mb-3 text-[11px] font-bold tracking-[0.16em] uppercase">

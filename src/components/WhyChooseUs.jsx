@@ -85,25 +85,25 @@ function FeatureCard({ feature, index }) {
       data-aos-delay={index * 80}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      className="group relative isolate flex flex-col rounded-[26px] p-[1.5px] transition-transform duration-300 hover:-translate-y-1"
+      className="group relative isolate flex flex-col rounded-[20px] p-[1.5px] transition-transform duration-300 hover:-translate-y-1 sm:rounded-[26px]"
     >
-      <div className="pointer-events-none absolute inset-0 overflow-hidden rounded-[26px]">
+      <div className="pointer-events-none absolute inset-0 overflow-hidden rounded-[20px] sm:rounded-[26px]">
         <div className="absolute inset-[-100%] animate-[spin_5s_linear_infinite] bg-[conic-gradient(from_0deg,transparent_0%,transparent_65%,#55205F_78%,#F47735_86%,#D69CE0_94%,transparent_100%)] motion-reduce:animate-none" />
       </div>
 
-      <div className="relative z-10 flex h-full flex-col overflow-hidden rounded-[24.5px] bg-white p-7 transition-colors duration-300 group-hover:bg-[#FCF6FD] sm:p-8">
+      <div className="relative z-10 flex h-full flex-col overflow-hidden rounded-[18.5px] bg-white p-4 transition-colors duration-300 group-hover:bg-[#FCF6FD] sm:rounded-[24.5px] sm:p-6 lg:p-8">
         <div className="flex items-start justify-between">
-          <div className="text-primary group-hover:border-primary group-hover:bg-primary flex h-14 w-14 items-center justify-center rounded-[18px] border border-[#E7D1EA] bg-[#F7ECF9] shadow-[0_5px_15px_rgba(85,32,95,0.05)] transition-all duration-500 group-hover:rotate-[-8deg] group-hover:text-white">
-            <Icon size={27} strokeWidth={1.6} />
+          <div className="text-primary group-hover:border-primary group-hover:bg-primary flex size-11 items-center justify-center rounded-[14px] border border-[#E7D1EA] bg-[#F7ECF9] shadow-[0_5px_15px_rgba(85,32,95,0.05)] transition-all duration-500 group-hover:rotate-[-8deg] group-hover:text-white sm:size-14 sm:rounded-[18px]">
+            <Icon size={23} strokeWidth={1.6} className="sm:size-[27px]" />
           </div>
         </div>
 
-        <div className="mt-6">
-          <h3 className="font-heading text-primary max-w-[270px] text-xl leading-[1.25] font-semibold tracking-[-0.045em] sm:text-[23px]">
+        <div className="mt-4 sm:mt-6">
+          <h3 className="font-heading text-primary max-w-[270px] text-[17px] leading-[1.3] font-semibold tracking-[-0.045em] sm:text-xl lg:text-[23px]">
             {feature.title}
           </h3>
 
-          <p className="text-muted mt-3 max-w-[310px] font-sans text-sm sm:text-[14px]">
+          <p className="text-muted mt-2 max-w-[310px] font-sans text-[12px] leading-relaxed sm:mt-3 sm:text-sm">
             {feature.description}
           </p>
         </div>
@@ -112,11 +112,11 @@ function FeatureCard({ feature, index }) {
           size={135}
           strokeWidth={0.8}
           aria-hidden="true"
-          className="pointer-events-none absolute -right-9 -bottom-9 rotate-[-18deg] text-[#E8C9ED]/50 transition-all duration-700 group-hover:-translate-x-3 group-hover:-translate-y-3 group-hover:rotate-0 group-hover:text-[#D9A4E2]/70"
+          className="pointer-events-none absolute -right-6 -bottom-6 size-24 rotate-[-18deg] text-[#E8C9ED]/50 transition-all duration-700 group-hover:-translate-x-3 group-hover:-translate-y-3 group-hover:rotate-0 group-hover:text-[#D9A4E2]/70 sm:-right-9 sm:-bottom-9 sm:size-[135px]"
         />
 
-        <span className="bg-primary absolute right-5 bottom-5 flex h-9 w-9 translate-y-3 items-center justify-center rounded-full text-white opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">
-          <ArrowUpRight size={18} />
+        <span className="bg-primary absolute right-3 bottom-3 flex size-8 translate-y-3 items-center justify-center rounded-full text-white opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100 sm:right-5 sm:bottom-5 sm:size-9">
+          <ArrowUpRight size={16} className="sm:size-[18px]" />
         </span>
       </div>
     </article>
