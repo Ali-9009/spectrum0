@@ -377,7 +377,6 @@ export default function PartnerProgramPage() {
 
   return (
     <main className="min-h-screen">
-
       <section className="overflow-hidden border-b border-[#EEE6EF] px-4 py-12 sm:px-6 lg:px-10">
         <div className="mx-auto grid max-w-7xl items-center gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16">
           <div>
@@ -500,19 +499,16 @@ export default function PartnerProgramPage() {
             title="Four steps to partnership."
             description="A straightforward path from first contact to sharing approved research information."
           />
-          <div className="mt-11 grid gap-8 md:grid-cols-2 lg:grid-cols-4">
+          <div className="mt-11 grid grid-cols-2 gap-8 md:grid-cols-2 lg:grid-cols-4">
             {steps.map((step, index) => (
               <article
                 key={step.number}
                 className="border-t-2 border-[#E5D2E9] pt-6"
               >
-                <span className="font-heading text-secondary text-4xl font-bold">
-                  {step.number}
-                </span>
-                <h3 className="font-heading text-primary mt-5 text-2xl font-bold">
+                <h3 className="font-heading text-primary text-2xl font-semibold">
                   {step.title}
                 </h3>
-                <p className="mt-3 text-base leading-7 text-[#76697B]">
+                <p className="mt-3 text-base text-[#76697B]">
                   {step.description}
                 </p>
                 {index < 3 && (

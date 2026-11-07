@@ -46,7 +46,7 @@ export default function ShopHero() {
   }, [paused]);
 
   return (
-    <section className="px-4 py-12 sm:px-6 lg:px-10">
+    <section className="px-4 pt-12 sm:px-6 lg:px-10">
       <div className="relative isolate mx-auto max-w-7xl overflow-hidden rounded-[24px] bg-[linear-gradient(115deg,#FCF8FD_0%,#F5E8F8_45%,#E7CCEE_100%)] sm:rounded-[30px]">
         <FlaskConical
           aria-hidden="true"

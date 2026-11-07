@@ -12,6 +12,7 @@ import {
 
 import { products } from "@/data/products";
 import { coaRecords } from "@/data/coa-records";
+import CustomSelect from "../CustomSelect";
 
 function CoACard({ product }) {
   const [variantIndex, setVariantIndex] = useState(product.defaultVariant ?? 0);
@@ -186,11 +187,11 @@ export default function CoALibrary() {
         className="relative px-4 py-10 sm:px-6 sm:py-14 lg:px-10"
       >
         <div className="mx-auto max-w-7xl">
-          <div className="flex flex-col gap-4 border-b border-[#EEE6EF] pb-6 lg:flex-row lg:items-center lg:justify-between">
-            <div className="relative w-full lg:max-w-[390px]">
+          <div className="flex min-w-0 items-center gap-2 border-b border-[#EEE6EF] pb-6 sm:gap-4">
+            <div className="relative min-w-0 flex-1 lg:max-w-[390px]">
               <Search
-                size={18}
-                className="text-primary/60 absolute top-1/2 left-4 -translate-y-1/2"
+                size={17}
+                className="text-primary/60 pointer-events-none absolute top-1/2 left-3 -translate-y-1/2 sm:left-4"
               />
               <label htmlFor="coa-search" className="sr-only">
                 Search products or batches
@@ -200,44 +201,35 @@ export default function CoALibrary() {
                 type="search"
                 value={query}
                 onChange={(event) => setQuery(event.target.value)}
-                placeholder="Search compounds, strengths, or lots..."
-                className="focus:border-primary h-12 w-full rounded-full border border-[#E8DCEA] bg-white pr-11 pl-11 text-sm text-[#29232D] outline-none [&::-webkit-search-cancel-button]:hidden"
+                placeholder="Search compounds..."
+                className="focus:border-primary h-11 w-full min-w-0 rounded-full border border-[#E8DCEA] bg-white pr-9 pl-9 text-[12px] text-[#29232D] outline-none placeholder:text-[#A69BA9] sm:h-12 sm:pl-11 sm:text-sm [&::-webkit-search-cancel-button]:hidden"
               />
               {query && (
                 <button
                   type="button"
                   aria-label="Clear search"
                   onClick={() => setQuery("")}
-                  className="text-primary absolute top-1/2 right-3 grid size-8 -translate-y-1/2 place-items-center rounded-full hover:bg-[#F6E5F7]"
+                  className="text-primary absolute top-1/2 right-2 flex size-7 -translate-y-1/2 items-center justify-center rounded-full hover:bg-[#F6E5F7]"
                 >
-                  <X size={15} />
+                  <X size={14} />
                 </button>
               )}
             </div>
-            <div className="flex flex-wrap items-center gap-3">
-              <div className="relative">
-                <label htmlFor="coa-category" className="sr-only">
-                  Filter category
-                </label>
-                <select
-                  id="coa-category"
-                  value={category}
-                  onChange={(event) => setCategory(event.target.value)}
-                  className="text-primary focus:border-primary h-11 max-w-[180px] appearance-none rounded-full border border-[#E8DCEA] bg-white pr-9 pl-4 text-xs font-semibold outline-none"
-                >
-                  <option value="all">All categories</option>
-                  {categories.map((name) => (
-                    <option key={name} value={name}>
-                      {name}
-                    </option>
-                  ))}
-                </select>
-                <ChevronDown
-                  size={14}
-                  className="text-primary pointer-events-none absolute top-3.5 right-3"
-                />
-              </div>
-            </div>
+
+            <CustomSelect
+              id="coa-category"
+              value={category}
+              onChange={(event) => setCategory(event.target.value)}
+              placeholder="Filter category"
+              className="w-[130px] shrink-0 sm:w-[190px] lg:ml-auto"
+              options={[
+                { value: "all", label: "All categories" },
+                ...categories.map((name) => ({
+                  value: name,
+                  label: name,
+                })),
+              ]}
+            />
           </div>
           {filtered.length ? (
             <div className="mt-8 grid grid-cols-2 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">

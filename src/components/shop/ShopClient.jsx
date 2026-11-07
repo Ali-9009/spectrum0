@@ -8,6 +8,7 @@ import ProductCard from "../ProductCard";
 
 import QuickView from "../QuickView";
 import { useCart } from "@/context/CartContext";
+import CustomSelect from "../CustomSelect";
 
 const catalog = products.filter((item) => item.active !== false);
 const categories = [
@@ -66,11 +67,11 @@ export default function ShopClient({ initialSearch = "" }) {
         className="relative px-4 py-10 sm:px-6 lg:px-10"
       >
         <div className="mx-auto max-w-7xl">
-          <div className="flex flex-col gap-4 border-b border-[#EEE6EF] pb-6 lg:flex-row lg:items-center lg:justify-between">
-            <div className="relative w-full lg:max-w-[380px]">
+          <div className="flex min-w-0 items-center gap-2 border-b border-[#EEE6EF] pb-6 sm:gap-4">
+            <div className="relative min-w-0 flex-1 lg:max-w-[380px]">
               <Search
-                size={18}
-                className="text-primary/60 absolute top-1/2 left-4 -translate-y-1/2"
+                size={17}
+                className="text-primary/60 pointer-events-none absolute top-1/2 left-3 -translate-y-1/2 sm:left-4"
               />
 
               <label htmlFor="shop-search" className="sr-only">
@@ -82,8 +83,8 @@ export default function ShopClient({ initialSearch = "" }) {
                 type="search"
                 value={search}
                 onChange={(event) => setSearch(event.target.value)}
-                placeholder="Search products or strengths..."
-                className="focus:border-primary h-12 w-full rounded-full border border-[#E8DCEA] bg-white pr-11 pl-11 text-sm text-[#29232D] transition-colors outline-none placeholder:text-[#A69BA9] [&::-webkit-search-cancel-button]:hidden"
+                placeholder="Search products..."
+                className="focus:border-primary h-11 w-full min-w-0 rounded-full border border-[#E8DCEA] bg-white pr-9 pl-9 text-[12px] text-[#29232D] outline-none placeholder:text-[#A69BA9] sm:h-12 sm:pl-11 sm:text-sm [&::-webkit-search-cancel-button]:hidden"
               />
 
               {search && (
@@ -91,39 +92,26 @@ export default function ShopClient({ initialSearch = "" }) {
                   type="button"
                   onClick={() => setSearch("")}
                   aria-label="Clear search"
-                  className="text-primary absolute top-1/2 right-3 grid size-8 -translate-y-1/2 place-items-center rounded-full hover:bg-[#F6E5F7]"
+                  className="text-primary absolute top-1/2 right-2 flex size-7 -translate-y-1/2 items-center justify-center rounded-full hover:bg-[#F6E5F7]"
                 >
-                  <X size={15} />
+                  <X size={14} />
                 </button>
               )}
             </div>
 
-            <div className="flex items-center justify-between gap-3 sm:justify-end">
-             
-
-              <div className="relative">
-                <label htmlFor="shop-sort" className="sr-only">
-                  Sort products
-                </label>
-
-                <select
-                  id="shop-sort"
-                  value={sort}
-                  onChange={(event) => setSort(event.target.value)}
-                  className="text-primary focus:border-primary h-11 appearance-none rounded-full border border-[#E8DCEA] bg-white pr-9 pl-4 text-sm font-semibold outline-none"
-                >
-                  <option value="featured">Featured</option>
-                  <option value="name">Name A–Z</option>
-                  <option value="price-low">Price: Low to High</option>
-                  <option value="price-high">Price: High to Low</option>
-                </select>
-
-                <ChevronDown
-                  size={14}
-                  className="text-primary pointer-events-none absolute top-3.5 right-3"
-                />
-              </div>
-            </div>
+            <CustomSelect
+              id="shop-sort"
+              value={sort}
+              onChange={(event) => setSort(event.target.value)}
+              placeholder="Sort products"
+              className="w-[125px] shrink-0 sm:w-[190px] lg:ml-auto"
+              options={[
+                { value: "featured", label: "Featured" },
+                { value: "name", label: "Name A–Z" },
+                { value: "price-low", label: "Price: Low to High" },
+                { value: "price-high", label: "Price: High to Low" },
+              ]}
+            />
           </div>
 
           {filtered.length ? (

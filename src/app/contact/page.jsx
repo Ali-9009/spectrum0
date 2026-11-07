@@ -11,6 +11,7 @@ import {
   ShieldCheck,
 } from "lucide-react";
 import { Package, FileCheck2, Headphones } from "lucide-react";
+import CustomSelect from "@/components/CustomSelect";
 
 const email = process.env.NEXT_PUBLIC_CONTACT_EMAIL || "";
 const subjects = [
@@ -208,17 +209,21 @@ export default function ContactPage() {
               >
                 What can we help with?
               </label>
-              <select
+              <CustomSelect
                 id="contact-subject"
-                name="subject"
                 value={form.subject}
-                onChange={update}
-                className="focus:border-primary h-12 w-full rounded-xl border border-[#E8DCEA] bg-white px-4 text-sm text-[#29232D] outline-none"
-              >
-                {subjects.map((subject) => (
-                  <option key={subject}>{subject}</option>
-                ))}
-              </select>
+                onChange={(event) =>
+                  update({
+                    target: { name: "subject", value: event.target.value },
+                  })
+                }
+                placeholder="Select a subject"
+                className="w-full"
+                options={subjects.map((subject) => ({
+                  value: subject,
+                  label: subject,
+                }))}
+              />
             </div>
             <div>
               <label
